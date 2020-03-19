@@ -164,13 +164,13 @@ const template = [
           sendMenuEvent({ route: '/help' })
         },
       },
-      // {
-      //   label: 'Enable Dev Tools',
-      //   accelerator: "F12",
-      //   click: () => {
-      //     mainWindow.webContents.toggleDevTools();
-      //   }
-      // },
+      {
+        label: 'Enable Dev Tools',
+        accelerator: "F12",
+        click: () => {
+          mainWindow.webContents.toggleDevTools();
+        }
+      },
       {
         label: 'About',
         role: 'about',
