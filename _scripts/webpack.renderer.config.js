@@ -92,7 +92,8 @@ const config = {
         test: /\.(png|jpe?g|gif|tif?f|bmp|webp|svg)(\?.*)?$/,
         use: {
           loader: 'url-loader',
-          query: {
+          options: {
+            esModule: false,
             limit: 10000,
             name: 'imgs/[name]--[folder].[ext]',
           },
@@ -102,7 +103,8 @@ const config = {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         use: {
           loader: 'url-loader',
-          query: {
+          options: {
+            esModule: false,
             limit: 10000,
             name: 'fonts/[name]--[folder].[ext]',
           },
