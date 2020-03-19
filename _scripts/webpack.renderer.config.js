@@ -92,7 +92,8 @@ const config = {
         test: /\.(png|jpe?g|gif|tif?f|bmp|webp|svg)(\?.*)?$/,
         use: {
           loader: 'url-loader',
-          query: {
+          options: {
+            esModule: false,
             limit: 10000,
             name: 'imgs/[name]--[folder].[ext]',
           },
@@ -102,7 +103,8 @@ const config = {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         use: {
           loader: 'url-loader',
-          query: {
+          options: {
+            esModule: false,
             limit: 10000,
             name: 'fonts/[name]--[folder].[ext]',
           },
@@ -150,13 +152,19 @@ const config = {
  */
 if (isDevMode) {
   // any dev only config
-  config.plugins.push(new webpack.HotModuleReplacementPlugin())
+  config.plugins.push(
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      __static: `"${path.join(__dirname, '../static').replace(/\\/g, '\\\\')}"`,
+    })
+  )
 } else {
   config.plugins.push(
     new CopyWebpackPlugin([
       {
         from: path.join(__dirname, '../static'),
         to: path.join(__dirname, '../dist/static'),
+        ignore: ['.*'],
       },
     ])
   )
