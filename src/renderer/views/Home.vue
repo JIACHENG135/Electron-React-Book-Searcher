@@ -1,5 +1,8 @@
 <template>
-  <div id="landing">
+  <div id="landing"
+  :class="{hovering:isHover}"
+  >
+    <md-content id="scrollBar" class="md-scrollbar" @scroll="myscroll()">
     <div class="md-layout md-gutter">
       <div class="md-layout-item md-size-15"></div>
       <div class="md-layout-item">
@@ -25,13 +28,13 @@
       <div class="md-layout-item md-size-15"></div>
     </div>
 
-    <vue-loading
-      v-if="loading"
-      type="bars"
-      color="#B3C0D1"
-      :size="{ width: '50px', height: '50px' }"
-    ></vue-loading>
-
+    <template v-if="loading">
+      <vue-loading
+        type="bars"
+        color="#B3C0D1"
+        :size="{ width: '50px', height: '50px' }"
+      ></vue-loading>
+    </template>
     <div
       v-for="(books, index) in tmp"
       :key="index"
@@ -42,27 +45,38 @@
         v-for="book in books"
         :key="book.md5"
         class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100"
+        @click="downloadBook(book.id)"
+        @mouseover="isHover=true"
+        @mouseleave="isHover=false"
       >
-        <md-card md-with-hover>
-          <md-card-media-cover md-text-scrim>
-            <md-card-media md-ratio="9:16">
-              <img :src="book.coverurl" alt="Skyscraper" />
-            </md-card-media>
-            <md-card-area>
-              <!-- <md-card-header>
-              <span class="md-title">Author: <i>{{book.author}}</i></span>
-              <span class="md-subhead">Year: <i>{{book.year}}</i></span>
-            </md-card-header> -->
+      <md-card md-with-hover 
+      >
+        <md-card-media-actions>
+          <md-card-media>
+            <el-image :src="book.coverurl" style="max-height:240px;">
+              <div slot="error" class="image-slot">
+                <img src="static/image-holder.png" style="max-height:300px;">
+              </div>
+            </el-image>
 
-              <md-card-actions>
-                <md-button @click="downloadBook(book.id)">Download</md-button>
-                <md-button>Open</md-button>
-              </md-card-actions>
-            </md-card-area>
-          </md-card-media-cover>
-        </md-card>
+
+            <!-- <img :src="book.coverurl" ref="myimg" alt="Skyscraper" style="maxHeight:240px;"/> -->
+          </md-card-media>
+          <md-card-media style="width:50%;">
+            <md-card-content>
+              <div style="font-size:0.8rem;">{{book.author}}</div>
+              <div class="md-subhead" style="font-size:0.8rem;"><i>{{book.year}}</i></div>
+            </md-card-content>
+          </md-card-media>
+
+        </md-card-media-actions>
+      </md-card>
+
       </div>
     </div>
+
+    </md-content>
+
   </div>
 </template>
 
@@ -86,8 +100,12 @@ export default Vue.extend({
       isHover: false,
       preViewPdf: '',
       loading: false,
+      bottomloading: false,
+      page: '1',
+      srcFallback: 'static/image-holder.png' 
     }
   },
+
   methods: {
     open(link) {
       this.$electron.shell.openExternal(link)
@@ -132,10 +150,11 @@ export default Vue.extend({
       this.loading = true
       this.booklist = []
       this.tmp = []
+      this.page = "1"
       this.$http
         .get(
           'https://vue-aplayer-django.herokuapp.com/index/searchBook/' +
-            this.input
+            this.input + "/"+ this.page
         )
         .then(response => {
           if (response.status === 200) {
@@ -158,17 +177,18 @@ export default Vue.extend({
               }
             }
           }
+          this.page = parseInt(this.page) + 1
           this.loading = false
         })
     },
 
     downloadBook(e) {
       this.$http
-        .get('https://vue-aplayer-django.herokuapp.com/index/downloadBook/' + e)
+        .get('https://vue-aplayer-django.herokuapp.com/index/downloadBook/' + e )
         .then(response => {
           this.preViewPdf = response.data
           console.log(this.preViewPdf)
-          window.open(this.preViewPdf, '_blank')
+          window.open(this.preViewPdf)
           return response.data
         })
     },
@@ -187,20 +207,75 @@ export default Vue.extend({
         ease: Elastic.easeOut.config(2.5, 0.5),
       })
     },
+
+    myscroll() {
+      const THIS = this;
+      let isLoading = false
+      let scrollTop = document.getElementById("scrollBar").scrollTop;
+      // windowHeight 可视区的高度
+      let windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+      // scrollHeight 滚动条的总高度
+      let scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+      let bottomOfWindow = scrollTop + windowHeight
+      if(bottomOfWindow == scrollHeight && isLoading == false){
+          isLoading = true
+          this.$http.get('https://vue-aplayer-django.herokuapp.com/index/searchBook/' +
+            this.input + "/"+ this.page).then(response => {
+              if (response.status === 200) {
+                var books = response.data
+                for (var i = 0; i < books.length; i++) {
+                  this.booklist.push({
+                    title: books[i].title,
+                    author: books[i].author,
+                    pageLink: books[i].links,
+                    coverurl: books[i].coverurl,
+                    downLink: books[i].downLink,
+                    publisher: books[i].publisher,
+                    year: books[i].year,
+                    issn: books[i].issn,
+                    id: books[i].bookID,
+                  })
+                  if ((i + 1) % 3 == 0) {
+                    this.tmp.push(this.booklist)
+                    this.booklist = []
+                  }
+                }
+              }else{
+                isLoading = false;
+                this.page = "1";
+              }
+              this.page = parseInt(this.page) + 1
+              console.log(this.page)
+            })
+      }
+
+    }
+
+  },
+  mounted () {
+    const img = this.$refs;
+    console.log(img)
+    img.onerror = () => {
+      this.imageSrc = this.srcFallback
+    }
   },
 })
 </script>
 
-<style>
-body {
-  overflow-x: hidden;
+<style lang="scss">
+.md-content {
+  height: 100vh;
+  overflow-x:hidden;
+
 }
 .hero-body {
   height: 100vh;
 }
-#landing {
-  height: 100vh;
+
+::-webkit-scrollbar-thumb{
+  background:#b3c0d1;
 }
+
 .el-header,
 .el-footer {
   background-color: #b3c0d1;
