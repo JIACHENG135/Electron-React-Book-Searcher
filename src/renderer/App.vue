@@ -17,9 +17,6 @@ export default Vue.extend({
 </script>
 
 <style>
-html{
-  background-color: transparent!important;
-  /* backdrop-filter: brightness(200%)!important; */
-}
+
 
 </style>
