@@ -10,27 +10,63 @@ process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true'
 const gotTheLock = app.requestSingleInstanceLock()
 const isDev = process.env.NODE_ENV === 'development'
 const isDebug = process.argv.includes('--debug')
+
+
+
+
+
+
+let loadingScreen;
+const createLoadingScreen = () => {
+  /// create a browser window
+  loadingScreen = new BrowserWindow(
+    Object.assign({
+      /// define width and height for the window
+      width: 200,
+      height: 400,
+      /// remove the window frame, so it will become a frameless window
+      frame: false,
+      /// and set the transparency, to remove any window background color
+      transparent: true
+    })
+  );
+  loadingScreen.setResizable(false);
+  console.log(`${__dirname}`)
+  loadingScreen.loadFile(`${__dirname}/loading.html`);
+  // loadingScreen.loadURL('loading.html')
+  loadingScreen.on('closed', () => (loadingScreen = null));
+  loadingScreen.webContents.on('did-finish-load', () => {
+    loadingScreen.show();
+  });
+};
+
+
+
+
+
+
+
 let mainWindow
 
 // only allow single instance of application
-if (!isDev) {
-  if (gotTheLock) {
-    app.on('second-instance', () => {
-      // Someone tried to run a second instance, we should focus our window.
-      if (mainWindow && mainWindow.isMinimized()) {
-        mainWindow.restore()
-      }
-      mainWindow.focus()
-    })
-  } else {
-    app.quit()
-    process.exit(0)
-  }
-} else {
-  require('electron-debug')({
-    showDevTools: !(process.env.RENDERER_REMOTE_DEBUGGING === 'true'),
-  })
-}
+// if (!isDev) {
+//   if (gotTheLock) {
+//     app.on('second-instance', () => {
+//       // Someone tried to run a second instance, we should focus our window.
+//       if (mainWindow && mainWindow.isMinimized()) {
+//         mainWindow.restore()
+//       }
+//       mainWindow.focus()
+//     })
+//   } else {
+//     app.quit()
+//     process.exit(0)
+//   }
+// } else {
+//   require('electron-debug')({
+//     showDevTools: !(process.env.RENDERER_REMOTE_DEBUGGING === 'true'),
+//   })
+// }
 
 async function installDevTools() {
   try {
@@ -48,25 +84,28 @@ function createWindow() {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    backgroundColor: '#fff',
     width: 960,
     height: 540,
     minWidth: 960,
     minHeight: 540,
-    // useContentSize: true,
+    titleBarStyle: 'hidden',
+    transparent: true,
+    vibrancy: 'selection',
     webPreferences: {
       nodeIntegration: true,
       nodeIntegrationInWorker: false,
-      webSecurity: false,
+      webSecurity: false
     },
     show: false,
   })
+
 
   // eslint-disable-next-line
   setMenu()
 
   // load root file/url
   if (isDev) {
+    // mainWindow.loadFile(`${__dirname}/index.html`)
     mainWindow.loadURL('http://localhost:9080')
   } else {
     mainWindow.loadFile(`${__dirname}/index.html`)
@@ -75,6 +114,13 @@ function createWindow() {
       .join(__dirname, '/static')
       .replace(/\\/g, '\\\\')
   }
+  mainWindow.webContents.on("did-finish-load",()=>{
+    if (loadingScreen){
+      loadingScreen.close();
+    }
+    mainWindow.show();
+  })
+
 
   // Show when loaded
   mainWindow.on('ready-to-show', () => {
@@ -88,8 +134,9 @@ function createWindow() {
 }
 
 app.on('ready', () => {
+  createLoadingScreen();
   createWindow()
-
+  // mainWindow.setVibrancy("dark")
   if (isDev) {
     installDevTools()
   }
@@ -214,3 +261,5 @@ function setMenu() {
   const menu = Menu.buildFromTemplate(template)
   Menu.setApplicationMenu(menu)
 }
+
+

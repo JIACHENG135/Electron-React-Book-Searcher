@@ -10,22 +10,16 @@
         `<%= htmlWebpackPlugin.options.nodeModules.replace(/\\/g, '\\\\') %>`
       )
     </script>
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons"
-    />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/vue-material/dist/vue-material.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/vue-material/dist/theme/default.css"
-    />
+    <style>
+    html{
+      background-color: transparent!important;
+      /* backdrop-filter: brightness(200%)!important; */
+    }
+    </style>
     <% } %>
   </head>
 
-  <body>
+  <body style="-webkit-app-region: drag;">
     <div id="app"></div>
 
     <!-- Set `__static` path to static files in production -->
@@ -38,4 +32,5 @@
 
     <!-- webpack builds are automatically injected -->
   </body>
+
 </html>

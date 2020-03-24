@@ -2,7 +2,8 @@
   <div id="landing"
   :class="{hovering:isHover}"
   >
-    <md-content id="scrollBar" class="md-scrollbar" @scroll="myscroll()">
+
+    <!-- <md-content id="scrollBar" class="md-scrollbar" @scroll="myscroll()"> -->
     <div class="md-layout md-gutter">
       <div class="md-layout-item md-size-15"></div>
       <div class="md-layout-item">
@@ -44,13 +45,13 @@
       <div
         v-for="book in books"
         :key="book.md5"
-        class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100"
-        @click="downloadBook(book.id)"
+        class="card-container md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100"
+        @click="downloadBook(book.id);shake($event)"
         @mouseover="isHover=true"
         @mouseleave="isHover=false"
       >
       <md-card md-with-hover 
-      >
+      style="backgroundColor:transparent">
         <md-card-media-actions>
           <md-card-media>
             <el-image :src="book.coverurl" style="max-height:240px;">
@@ -60,7 +61,6 @@
             </el-image>
 
 
-            <!-- <img :src="book.coverurl" ref="myimg" alt="Skyscraper" style="maxHeight:240px;"/> -->
           </md-card-media>
           <md-card-media style="width:50%;">
             <md-card-content>
@@ -75,7 +75,7 @@
       </div>
     </div>
 
-    </md-content>
+    <!-- </md-content> -->
 
   </div>
 </template>
@@ -117,7 +117,22 @@ export default Vue.extend({
       var classList = e.currentTarget.classList.remove('hovering')
       console.log(classList)
     },
-
+    shake(e){
+      var book = e.currentTarget;
+      const timeline = new TimelineLite()
+      timeline.to(book,0.2,{
+        rotation: 16,
+        ease: Back.easeOut.config(1.6),
+      })
+      timeline.to(book,0.2,{
+        rotation:-16,
+        
+      })
+      timeline.to(book,0.2,{
+        rotation:0,
+        
+      })
+    },
     jumpOver() {
       const { bubble } = this.$refs
       const timeline = new TimelineLite()
@@ -263,6 +278,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
+
 .md-content {
   height: 100vh;
   overflow-x:hidden;
@@ -271,63 +287,17 @@ export default Vue.extend({
 .hero-body {
   height: 100vh;
 }
+.card-container{
+  background-color: transparent!important;
+  border: none;
+}
+// ::-webkit-scrollbar-thumb{
+//   background:#b3c0d1;
+// }
 
-::-webkit-scrollbar-thumb{
-  background:#b3c0d1;
-}
-
-.el-header,
-.el-footer {
-  background-color: #b3c0d1;
-  color: #333;
-  text-align: center;
-  /* line-height: 60px; */
-}
-
-.el-main {
-  background-color: transparent;
-  color: #333;
-  /* text-align: center; */
-  /* line-height: 60px; */
-}
-
-body > .el-container {
-  height: 100vh !important;
-  margin-bottom: 40px;
-}
-
-.el-container:nth-child(5) .el-aside,
-.el-container:nth-child(6) .el-aside {
-  line-height: 260px;
-}
-
-.el-container:nth-child(7) .el-aside {
-  line-height: 320px;
-}
-.el-card {
-  padding: 10px;
-  background-color: black;
-}
-.el-icon-download {
-  font-size: 2em;
-}
-
-.el-row {
-  margin-bottom: 40px;
-  max-height: 100px;
-  background-color: black;
-  flex-wrap: wrap !important;
-}
-
-#particles {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-}
-
-.hovering {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
+// .hovering {
+//   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+// }
 
 .col-md {
   font-size: 0.1rem;
