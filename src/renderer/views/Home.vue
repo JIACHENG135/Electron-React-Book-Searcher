@@ -20,21 +20,79 @@
       <div style="height:30%">
 
       </div>
-      <div class = "sidebar-item"> 
+
+      <div 
+      class = "sidebar-item"
+      @click="searchCate('国学')"
+      > 
         <md-icon
-          md-src="static/wenhua.svg" 
+          md-src="static/guoxue.svg" 
           class="sidebar-icon">
         </md-icon>
         <span class="side-bar-text">  culture </span>
       </div>
-      <div class = "sidebar-item"> 
+
+
+      <div 
+      class = "sidebar-item"
+      @click="searchCate('知乎')"
+      > 
+        <md-icon
+          md-src="static/zhihu.svg" 
+          class="sidebar-icon">
+        </md-icon>
+        <span class="side-bar-text">  zhihu </span>
+      </div>
+
+      <div 
+      class = "sidebar-item"
+      @click="searchCate('漫画')"
+      > 
+        <md-icon
+          md-src="static/manhua.svg" 
+          class="sidebar-icon">
+        </md-icon>
+        <span class="side-bar-text">  comic </span>
+      </div>
+
+
+      <div 
+      class = "sidebar-item"
+      @click="searchCate('计算机')"
+      > 
+        <md-icon
+          md-src="static/jisuanji.svg" 
+          class="sidebar-icon">
+        </md-icon>
+        <span class="side-bar-text">  computer </span>
+      </div>
+
+      <div 
+      class = "sidebar-item"
+      @click="searchCate('小说')"
+      > 
+        <md-icon
+          md-src="static/novel.svg" 
+          class="sidebar-icon">
+        </md-icon>
+        <span class="side-bar-text">  novels </span>
+      </div>
+
+      <div 
+      class = "sidebar-item"
+      @click="searchCate('文化')"
+      > 
         <md-icon 
           md-src="static/wenxue.svg" 
           class="sidebar-icon"
           />
           <span class="side-bar-text">  literature </span>
       </div>
-      <div class = "sidebar-item"> 
+
+      <div 
+      class = "sidebar-item"
+      @click="searchCate('生活')"
+      > 
         <md-icon 
           md-src="static/shenghuo.svg" 
           class="sidebar-icon"
@@ -42,7 +100,10 @@
           <span class="side-bar-text">  life </span>
       </div>
 
-      <div class = "sidebar-item"> 
+      <div 
+      class = "sidebar-item"
+      @click="searchCate('科技')"
+      > 
         <md-icon 
           md-src="static/keji.svg" 
           class="sidebar-icon"
@@ -50,8 +111,11 @@
           <span class="side-bar-text">  technology </span>
       </div>
 
-      <div class = "sidebar-item"> 
-        <md-icon 
+      <div 
+      class = "sidebar-item"
+      @click="searchCate('金融')"
+      > 
+        <md-icon
           md-src="static/jinrong.svg" 
           class="sidebar-icon"
           />
@@ -59,9 +123,6 @@
       </div>
 
       <div style="height:30%">
-
-
-
         <span 
         class="fixed-bottom"
         style=
@@ -70,7 +131,6 @@
         font-size: 15px;
         font-bold:400;
         "
-
         >        
         <img 
         src="static/kitty-opt-1.gif" 
@@ -189,8 +249,8 @@
                   <img
                   :src="book.coverurl" 
                   @error="imgUrlAlt"
-                  
-                  style="height:228px!important;width:200px!important;"/>
+                  rel="noreferrer"
+                  style="max-width:180px;height:228px!important;width:200px!important;"/>
 
                     <div slot="error" class="image-slot">
 
@@ -371,6 +431,59 @@ export default Vue.extend({
         })
       }
     },
+    // Search Category books
+    searchCate(cate) {
+      this.loading = true
+      this.nothing = false
+      this.booklist = []
+      this.tmp = []
+      console.log("cate")
+
+      this.$http
+        .get(
+          'https://vue-aplayer-django.herokuapp.com/index/dbdlp/cate/' + 
+          cate
+          
+          // 'https://vue-aplayer-django.herokuapp.com/index/searchBook/' +
+          //   this.input + "/"+ this.page
+
+        )
+        .then(response => {
+          console.log(response)
+          if (response.status === 200) {
+            var books = response.data
+            if(books.length == 0){
+              this.nothing = true;
+            }else{
+              for (var i = 0; i < books.length; i++) {
+                this.booklist.push({
+                  title: books[i].book_title,
+                  author: books[i].book_author,
+                  pageLink: books[i].links,
+                  coverurl: books[i].book_pic,
+                  downLink: books[i].downLink,
+                  publisher: books[i].book_publisher,
+                  year: books[i].book_year,
+                  issn: books[i].issn,
+                  id: books[i].bookID,
+                })
+                if ((i + 1) % 3 == 0) {
+                  this.tmp.push(this.booklist)
+                  this.booklist = []
+                }
+              }
+            }
+          }
+          this.page = parseInt(this.page) + 1
+          this.loading = false
+        })
+      .catch(error => {
+        if (error.response) {
+          this.loading = false;
+          this.nothing = true;
+        }
+      })
+    },
     // Searchbook: call search API display books
     searchWord() {
       this.loading = true
@@ -527,7 +640,7 @@ export default Vue.extend({
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Baloo+2&display=swap');
-@import url('bootstrap.min.css');
+// @import url('bootstrap.min.css');
 html{
   background-color: transparent!important;
 }

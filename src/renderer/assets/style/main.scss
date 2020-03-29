@@ -1,5 +1,8 @@
 html {
-  overflow: auto;
+  overflow: hidden!important;
+  padding:0!important;
+  margin:0!important;
+  background-color: transparent!important;
 }
 
 body {
@@ -7,6 +10,11 @@ body {
   -moz-user-select: -moz-none;
   -ms-user-select: none;
   user-select: none;
+  overflow: hidden!important;
+  margin:0!important;
+  padding: 0!important;
+  background-color: transparent!important;
+
 }
 
 img {
@@ -42,7 +50,10 @@ span + .material-icons {
   width: 10px !important;
   height: 10px !important;
 }
-
+#app{
+  margin:0!important;
+  padding:0!important;
+}
 // ::-webkit-scrollbar-track {
 //   background: #f0f0f0;
 // }
