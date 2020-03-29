@@ -22,22 +22,21 @@ const createLoadingScreen = () => {
   loadingScreen = new BrowserWindow(
     Object.assign({
       /// define width and height for the window
-      width: 200,
-      height: 400,
+      width: 1260,
+      height: 540,
       /// remove the window frame, so it will become a frameless window
-      frame: false,
+      // frame: false,
       /// and set the transparency, to remove any window background color
-      transparent: true
+      // transparent: true
     })
   );
-  loadingScreen.setResizable(false);
-  console.log(`${__dirname}`)
-  loadingScreen.loadFile(`${__dirname}/loading.html`);
-  // loadingScreen.loadURL('loading.html')
-  loadingScreen.on('closed', () => (loadingScreen = null));
-  loadingScreen.webContents.on('did-finish-load', () => {
-    loadingScreen.show();
-  });
+  // loadingScreen.setResizable(false);
+  loadingScreen.loadURL(`file://./loading.html`);
+  // loadingScreen.loadURL('${__dirname}/loading.html')
+  // loadingScreen.on('closed', () => (loadingScreen = null));
+  // loadingScreen.webContents.on('did-finish-load', () => {
+    // loadingScreen.show();
+  // });
 };
 
 
@@ -84,12 +83,12 @@ function createWindow() {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    width: 960,
+    width: 1260,
     height: 540,
-    minWidth: 960,
+    minWidth: 1260,
     minHeight: 540,
     titleBarStyle: 'hidden',
-    transparent: true,
+    // transparent: true,
     vibrancy: 'selection',
     webPreferences: {
       nodeIntegration: true,
@@ -134,7 +133,7 @@ function createWindow() {
 }
 
 app.on('ready', () => {
-  createLoadingScreen();
+  // createLoadingScreen();
   createWindow()
   // mainWindow.setVibrancy("dark")
   if (isDev) {
