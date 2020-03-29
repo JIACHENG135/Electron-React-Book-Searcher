@@ -19,6 +19,18 @@ import 'vue-material/dist/theme/default.css'
 // import 'static/bootstrap.min.css'
 import 'mdbvue/lib/css/mdb.min.css'
 import '@fortawesome/fontawesome-free/css/all.min.css'
+
+
+import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
+
+
+Vue.use(BootstrapVue)
+Vue.use(BootstrapVueIcons)
+
+
+
+
+
 Vue.use(ElementUI)
 Vue.use(VueMaterial)
 Vue.use(VueLoading)

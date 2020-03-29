@@ -154,6 +154,11 @@
         </template>
 
         <template v-else-if="tmp.length > 0 && !nothing">
+
+          <div style="padding-bottom:30px;z-index:100;">
+          </div>
+
+          
           <div
             v-for="(books, index) in tmp"
             :key="index"
@@ -221,6 +226,7 @@
 
             </div>
 
+
           </div>
 
         </template>
@@ -268,9 +274,11 @@
 import Vue from 'vue'
 // import $ from 'jquery'
 import { TimelineLite, TimelineMax, Back, Elastic, Bounce, Power4, TweenMax, Linear, Circ, Sine, Draggable } from 'gsap'
-
 export default Vue.extend({
   name: 'Home',
+  props: [{
+    page: '1',
+  }],
   data() {
     this.tableConfig = [
       { prop: 'title', label: 'Title' },
@@ -289,12 +297,17 @@ export default Vue.extend({
       loading: false,
       bottomloading: false,
       nothing: false,
-      page: '1',
       srcFallback: 'static/image-holder.png',
       bouncing: false,
+      counter: this.page,
+      
     }
   },
-
+  computed:{
+    computedCounter(){
+      return this.counter
+    }
+  },
   methods: {
     imgUrlAlt(event) {
         event.target.src = this.srcFallback
@@ -367,8 +380,8 @@ export default Vue.extend({
       this.page = 1
       this.$http
         .get(
-          'https://vue-aplayer-django.herokuapp.com/index/dbdlp/' + 
-          this.input + "/" + this.page
+          'https://vue-aplayer-django.herokuapp.com/index/dbdlp/name/' + 
+          this.input
           
           // 'https://vue-aplayer-django.herokuapp.com/index/searchBook/' +
           //   this.input + "/"+ this.page
