@@ -153,7 +153,7 @@
 
         </template>
 
-        <template v-if="tmp.length > 0">
+        <template v-else-if="tmp.length > 0 && !nothing">
           <div
             v-for="(books, index) in tmp"
             :key="index"
@@ -183,7 +183,8 @@
 
                   <img
                   :src="book.coverurl" 
-                  @click="downloadBook(book.id)"
+                  @error="imgUrlAlt"
+                  
                   style="height:228px!important;width:200px!important;"/>
 
                     <div slot="error" class="image-slot">
@@ -197,10 +198,14 @@
                 <md-card-media style="width:50%;overflow-y:auto">
 
                   <md-card-content>
+                    
+                    <div style="font-size:0.8rem;">{{book.title}}</div>
 
                     <div style="font-size:0.8rem;">{{book.author}}</div>
 
                     <div class="md-subhead" style="font-size:0.8rem;"><i>{{book.year}}</i></div>
+
+                    <div class="md-subhead" style="font-size:0.8rem;"><i>{{book.category}}</i></div>
 
                     <template v-if='bouncing'>
                       <div>bouncing</div>
@@ -220,12 +225,20 @@
 
         </template>
 
-
-        <template v-else>
+        <template v-else-if="!nothing">
           <div class ="fixed-bottom" style="margin-left:20%;margin-bottom:100px;">
             <img src="static/background.png" width='400px;' class="back-img" alt="">
           </div>
         </template>
+
+        <template v-else>
+          <div class ="fixed-bottom" style="margin-left:22%;margin-bottom:100px;">
+            <img src="static/NothingFound.png" width='100px;' class="back-img" alt="">
+            <div class='nothing-text'>Nothing Found</div>
+          </div>
+        </template>
+
+
 
         <template v-if="bottomloading">
 
@@ -283,6 +296,9 @@ export default Vue.extend({
   },
 
   methods: {
+    imgUrlAlt(event) {
+        event.target.src = this.srcFallback
+    },
     open(link) {
       this.$electron.shell.openExternal(link)
     },
@@ -351,8 +367,12 @@ export default Vue.extend({
       this.page = 1
       this.$http
         .get(
-          'https://vue-aplayer-django.herokuapp.com/index/searchBook/' +
-            this.input + "/"+ this.page
+          'https://vue-aplayer-django.herokuapp.com/index/dbdlp/' + 
+          this.input + "/" + this.page
+          
+          // 'https://vue-aplayer-django.herokuapp.com/index/searchBook/' +
+          //   this.input + "/"+ this.page
+
         )
         .then(response => {
           console.log(response)
@@ -363,13 +383,13 @@ export default Vue.extend({
             }else{
               for (var i = 0; i < books.length; i++) {
                 this.booklist.push({
-                  title: books[i].title,
-                  author: books[i].author,
+                  title: books[i].book_title,
+                  author: books[i].book_author,
                   pageLink: books[i].links,
-                  coverurl: books[i].coverurl,
+                  coverurl: books[i].book_pic,
                   downLink: books[i].downLink,
-                  publisher: books[i].publisher,
-                  year: books[i].year,
+                  publisher: books[i].book_publisher,
+                  year: books[i].book_year,
                   issn: books[i].issn,
                   id: books[i].bookID,
                 })
@@ -451,6 +471,7 @@ export default Vue.extend({
                     year: books[i].year,
                     issn: books[i].issn,
                     id: books[i].bookID,
+                    category : books[i].category,
                   })
                   if ((i + 1) % 3 == 0) {
                     this.tmp.push(this.booklist)
@@ -476,277 +497,10 @@ export default Vue.extend({
 
   },
   mounted () {
-    
-// var sun = $("#sun_3_"), 
-//     cloud1 = $("#cloud1"),
-//     cloud2 = $("#cloud2"),
-//     cloud3 = $("#cloud3"),
-//     gauge = $("#gauge"),
-//     wheel = $("#wheel"),
-//     city = $(".city path"),
-//     tTog = $("#top-toggle"),
-//     sTog = $("#side-toggle"),
-//     bkFar = $("#bk-far"),
-//     bkMid = $("#bk-mid"),
-//     but1 = $("#button1"),
-//     but2 = $("#button2"),
-//     controls = $("#controls path"),
-//     mult = [controls, bkFar, bkMid, city, extras],
-//     body = $("body"),
-//     extras = $(".extras path");
-
-// TweenMax.set(wheel, {
-//   transformOrigin: "50% 50%"
-// });
-
-// TweenMax.set(city, {
-//   visibility: "visible"
-// });
-
-// //animation that's repeated for all of the sections
-// function revolve() {
-//   var tl = new TimelineMax({
-//     repeat1: -1
-//   });
-
-//   tl.add("begin");
-//   tl.to(sun, 15, {
-//       transformOrigin: "50% 50%",
-//       rotation: 360,
-//       repeat: -1,
-//       ease: Linear.easeNone
-//     }, "begin");
-//   tl.to(cloud1, 10, {
-//       x: -110,
-//       repeat: -1,
-//       yoyo: true,
-//       ease: Linear.easeNone
-//     }, "begin");
-//   tl.to(cloud2, 10, {
-//       x: -70,
-//       repeat: -1,
-//       yoyo: true,
-//       ease: Linear.easeNone
-//     }, "begin");
-//   tl.to(cloud3, 10, {
-//       x: -50,
-//       repeat: -1,
-//       yoyo: true,
-//       ease: Linear.easeNone
-//     }, "begin");
-
-//   return tl;
-// }
-
-// var repeat = revolve();
-
-// //bring it in
-// function cityIn() {
-//   var tl = new TimelineMax({
-//     paused: true
-//   });
-
-//   tl.add("in");
-//   tl.from(tTog, 3, {
-//       rotation: -30,
-//       transformOrigin: "50% 100%",
-//       ease: Circ.easeInOut
-//     }, "in");
-//   tl.staggerFrom(city, 0.75, {
-//       y: -50,
-//       scale: 0,
-//       cycle:{
-//         x:[300, 100, 200],
-//         opacity:[0.5, 0.3, 0.2, 0.8],
-//         rotation:[50, 100, 150],
-//       }, 
-//       transformOrigin: "50% 50%",
-//       ease: Back.easeOut
-//     }, 0.02, "in");
-//   tl.staggerFrom(extras, 2.5, {
-//       x: 300,
-//       scale: 0,
-//       transformOrigin: "50% 50%",
-//       rotation: -30,
-//       ease: Elastic.easeOut
-//     }, 0.1, "in");
-//   tl.from(bkFar, 2.5, {
-//       scaleY: 0,
-//       opacity: 0.7,
-//       transformOrigin: "50% 100%",
-//       ease: Circ.easeOut
-//     }, "in");
-//   tl.from(bkMid, 2.5, {
-//       scaleY: 0,
-//       opacity: 0.7,
-//       transformOrigin: "50% 100%",
-//       ease: Circ.easeOut
-//     }, "in+=1");
-//   tl.from(gauge, 2, {
-//       rotation: 180,
-//       transformOrigin: "50% 50%",
-//       ease: Bounce.easeInOut
-//     }, "in");
-//   tl.from(gauge, 1, {
-//       rotation: 0,
-//       transformOrigin: "50% 50%",
-//       ease: Sine.easeIn
-//     }, "in+=3");
-
-//   return tl;
-// }
-
-// var fullIn = cityIn();
-
-// //side toggle perspective
-// function perspective() {
-//   var tl = new TimelineMax({
-//     paused: true
-//   });
-
-//   tl.add("per");
-//   tl.from(sTog, 1, {
-//       rotation: -30,
-//       transformOrigin: "100% 50%",
-//       ease: Circ.easeInOut
-//     }, "per");
-//   tl.to(bkFar, 1, {
-//       y: -30,
-//       scaleY: 0.8,
-//       opacity: 0.4,
-//       transformOrigin: "50% 100%",
-//       ease: Circ.easeInOut
-//     }, "per");
-//   tl.to(bkMid, 1, {
-//       scaleY: 1.6,
-//       transformOrigin: "50% 100%",
-//       ease: Circ.easeInOut
-//     }, "per");
-//   tl.from(gauge, 0.5, {
-//       rotation: 60,
-//       transformOrigin: "50% 50%",
-//       ease: Bounce.easeInOut
-//     }, "per");
-//   tl.from(gauge, 1, {
-//       rotation: 0,
-//       transformOrigin: "50% 50%",
-//       ease: Sine.easeIn
-//     }, "per+=0.5");
-
-//   return tl;
-// }
-
-// var side = perspective();
-
-// //button hue
-// function hued() {
-//   var ch1 = "hsl(+=110%, +=0%, +=0%)", 
-//   tl = new TimelineMax({
-//     paused: true
-//   });
-
-//   tl.add("hu");
-//   tl.to(mult, 1.25, {
-//       fill: ch1
-//     }, "hu");
-//   tl.from(gauge, 2, {
-//       rotation: "-=70",
-//       transformOrigin: "50% 50%",
-//       ease: Bounce.easeOut
-//     }, "hu");
-//   tl.to(body, 1.25, {
-//       backgroundColor: ch1
-//     }, "hu");
-
-//   return tl;
-// }
-
-// var hue = hued();
-
-// //button saturation
-// function saturation() {
-//   var ch2 = "hsl(+=5%, +=2%, -=10%)",
-//   tl = new TimelineMax({
-//     paused: true
-//   });
-
-//   tl.add("sated");
-//   tl.to(body, 1, {
-//       backgroundColor:ch2
-//     }, "sated");
-//   tl.from(gauge, 2, {
-//       rotation: "-=100",
-//       transformOrigin: "50% 50%",
-//       ease: Bounce.easeOut
-//     }, "sated");
-//   tl.to(mult, 2, {
-//       fill:ch2
-//     }, "sated");
-
-//   return tl;
-// }
-
-// var sat = saturation();
-
-// $(document).ready(function() {
-//   Draggable.create(wheel, {
-//     type: "rotation",
-//     bounds: {
-//       minRotation: 0,
-//       maxRotation: 360
-//     },
-//     onDrag: function() {
-//       fullIn.progress((this.rotation)/360 );
-//       fullIn.pause();
-//     }
-//   });
-
-//   $(tTog).on('click', function(e) {
-//     e.preventDefault();
-//     $(this).toggleClass('inTo');
-//     if ($(this).hasClass('inTo')) {
-//       fullIn.progress(0);
-//       fullIn.restart();
-//     } else {
-//       fullIn.reverse();
-//     }
-//   });
-
-//   $(sTog).on('click', function(e) {
-//     e.preventDefault();
-//     $(this).toggleClass('s-pers');
-//     if ($(this).hasClass('s-pers')) {
-//       side.restart();
-//     } else {
-//       side.reverse();
-//     }
-//   });
-
-//   $(but1).on('click', function(e) {
-//     e.preventDefault();
-//     $(this).toggleClass('a-s');
-//     if ($(this).hasClass('a-s')) {
-//       sat.restart();
-//     } else {
-//       sat.reverse();
-//     }
-//   });
-
-//   $(but2).on('click', function(e) {
-//     e.preventDefault();
-//     $(this).toggleClass('a-h');
-//     if ($(this).hasClass('a-h')) {
-//       hue.restart();
-//     } else {
-//       hue.reverse();
-//     }
-//   });
-// });
-
-      // const img = this.$refs;
-    // img.onerror = () => {
-    //   this.imageSrc = this.srcFallback
-    // }
+    const img = this.$refs;
+    img.onerror = () => {
+      this.imageSrc = this.srcFallback
+    }
     window.addEventListener("keypress", function(e) {
       if(e.key === 'Enter'){
         this.searchWord()
@@ -758,11 +512,15 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css?family=Lobster&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Baloo+2&display=swap');
 @import url('bootstrap.min.css');
 html{
   background-color: transparent!important;
+}
+body{
+  overflow-y:hidden!important;
+  overflow-x:hidden!important;
 }
 .md-content {
   height: 100vh;
@@ -812,7 +570,7 @@ html{
   margin-left:0px;
   padding-left:5px;
   font-weight:500;
-  font-family: 'Lobster', cursive;
+  font-family: 'Lato', sans-serif;
   letter-spacing: 2px;;
 }
 .nothing-text{
