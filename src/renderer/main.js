@@ -20,19 +20,15 @@ import 'vue-material/dist/theme/default.css'
 // import 'static/bootstrap.min.css'
 import 'mdbvue/lib/css/mdb.min.css'
 import '@fortawesome/fontawesome-free/css/all.min.css'
-
 import VueClipboard  from 'vue-clipboard2'
-
-Vue.use( VueClipboard )
+import Notifications from 'vue-notification'
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 
 
+Vue.use( VueClipboard )
+Vue.use( Notifications )
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
-
-
-
-
 
 Vue.use(ElementUI)
 Vue.use(VueMaterial)
@@ -51,6 +47,8 @@ new Vue({
   el: '#app',
   router,
   store,
+  components:{
+  },
   render: h => h(App),
 })
 

@@ -7,13 +7,17 @@
   :class="{hovering:isHover}"
   >
 
-    <el-container>
+    <el-container
+    
+    
+    >
 
       <el-aside 
       width="280px"
       style=
       "
-      padding-top:20px
+      padding-top:20px;
+      overflow-y: hidden;
       "
       >
 
@@ -240,6 +244,7 @@
             <notifications group="foo" />
             <md-card 
             md-with-hover 
+            class = "rounded-lg"
             style="backgroundColor:transparent;height:260px;!important"            
             >
 
@@ -274,6 +279,17 @@
 
                     <div class="md-subhead" style="font-size:0.6rem;">{{book.author}}</div>
 
+
+                    <template v-if="book.rating!='1'">
+                      <star-rating v-bind:increment="0.1"
+                                  v-bind:rating="book.rating/2"
+                                  v-bind:max-rating="5"
+                                  inactive-color="#000"
+                                  active-color="#f00"
+                                  read-only='true'
+                                  v-bind:star-size="10">
+                      </star-rating>
+                    </template>
 
                     <template v-if='bouncing'>
                       <div>bouncing</div>
@@ -337,8 +353,14 @@
 import Vue from 'vue'
 // import $ from 'jquery'
 import { TimelineLite, TimelineMax, Back, Elastic, Bounce, Power3, TweenMax, Linear, Circ, Sine, Draggable } from 'gsap'
+import StarRating from 'vue-star-rating'
+
 export default Vue.extend({
   name: 'Home',
+  components :{
+    'star-rating': StarRating,
+    // 'notifications': Notifications,
+  },
   props: [{
     page: '1',
   }],
@@ -493,6 +515,7 @@ export default Vue.extend({
                   year: books[i].book_year,
                   issn: books[i].issn,
                   id: books[i].bookID,
+                  rating: books[i].book_rating,
                   pan: books[i].book_pan_1,
                   patch: books[i].book_pan_pass
                 })
@@ -545,6 +568,7 @@ export default Vue.extend({
                   coverurl: books[i].book_pic,
                   downLink: books[i].downLink,
                   publisher: books[i].book_publisher,
+                  rating: books[i].book_rating,
                   year: books[i].book_year,
                   issn: books[i].issn,
                   id: books[i].bookID,
@@ -623,16 +647,18 @@ export default Vue.extend({
                 var books = response.data
                 for (var i = 0; i < books.length; i++) {
                   this.booklist.push({
-                    title: books[i].title,
-                    author: books[i].author,
+                    title: books[i].book_title,
+                    author: books[i].book_author,
                     pageLink: books[i].links,
-                    coverurl: books[i].coverurl,
+                    coverurl: books[i].book_pic,
                     downLink: books[i].downLink,
-                    publisher: books[i].publisher,
-                    year: books[i].year,
+                    publisher: books[i].book_publisher,
+                    rating: books[i].book_rating,
+                    year: books[i].book_year,
                     issn: books[i].issn,
                     id: books[i].bookID,
-                    category : books[i].category,
+                    pan: books[i].book_pan_1,
+                    patch: books[i].book_pan_pass
                   })
                   if ((i + 1) % 3 == 0) {
                     this.tmp.push(this.booklist)
