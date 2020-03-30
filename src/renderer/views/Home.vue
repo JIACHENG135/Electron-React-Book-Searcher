@@ -17,7 +17,7 @@
       "
       >
 
-      <div style="height:30%">
+      <div style="-webkit-app-region: drag;height: 30%;">
 
       </div>
 
@@ -232,25 +232,31 @@
               class="card-container md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100"
               @click="
               shake($event);
+              doCopy(book.pan,book.patch)
               "
-              
               @mouseover="isHover=true"
               @mouseleave="isHover=false"
             >
-
+            <notifications group="foo" />
             <md-card 
             md-with-hover 
-            style="backgroundColor:transparent;height:260px;!important">
+            style="backgroundColor:transparent;height:260px;!important"            
+            >
 
-              <md-card-media-actions>
+              <md-card-media-actions
+              style="padding-left:0!important;padding-right:0!important;"
+              >
 
-                <md-card-media>
+                <md-card-media
+                style="padding-left:0!important;padding-right:0!important;max-width:250px!important;"
+                
+                >
 
                   <img
                   :src="book.coverurl" 
                   @error="imgUrlAlt"
                   rel="noreferrer"
-                  style="max-width:180px;height:228px!important;width:200px!important;"/>
+                  style="max-width:180px;height:228px!important;width:150px!important;"/>
 
                     <div slot="error" class="image-slot">
 
@@ -264,13 +270,10 @@
 
                   <md-card-content>
                     
-                    <div style="font-size:0.8rem;">{{book.title}}</div>
+                    <div style="font-size:0.8rem;text-align: left;font-weight:400;">{{book.title}}</div>
 
-                    <div style="font-size:0.8rem;">{{book.author}}</div>
+                    <div class="md-subhead" style="font-size:0.6rem;">{{book.author}}</div>
 
-                    <div class="md-subhead" style="font-size:0.8rem;"><i>{{book.year}}</i></div>
-
-                    <div class="md-subhead" style="font-size:0.8rem;"><i>{{book.category}}</i></div>
 
                     <template v-if='bouncing'>
                       <div>bouncing</div>
@@ -298,7 +301,7 @@
         </template>
 
         <template v-else>
-          <div class ="fixed-bottom" style="margin-left:22%;margin-bottom:100px;">
+          <div class ="fixed-bottom" style="margin-left:17%;margin-bottom:100px;">
             <img src="static/NothingFound.png" width='100px;' class="back-img" alt="">
             <div class='nothing-text'>Nothing Found</div>
           </div>
@@ -333,7 +336,7 @@
 <script>
 import Vue from 'vue'
 // import $ from 'jquery'
-import { TimelineLite, TimelineMax, Back, Elastic, Bounce, Power4, TweenMax, Linear, Circ, Sine, Draggable } from 'gsap'
+import { TimelineLite, TimelineMax, Back, Elastic, Bounce, Power3, TweenMax, Linear, Circ, Sine, Draggable } from 'gsap'
 export default Vue.extend({
   name: 'Home',
   props: [{
@@ -372,6 +375,21 @@ export default Vue.extend({
     imgUrlAlt(event) {
         event.target.src = this.srcFallback
     },
+    doCopy(link,code) {
+      const THIS = this
+      this.$copyText(link).then(function (e) {
+        // alert('The passward is '+ code)
+        THIS.$notify({
+          group: 'foo',
+          title: 'Baidu netdisk url has been copied to clipboard, password is ' + code,
+          type: 'success'
+        });
+        console.log(e)
+      }, function (e) {
+        alert('Can not copy')
+        console.log(e)
+      })
+    },
     open(link) {
       this.$electron.shell.openExternal(link)
     },
@@ -386,23 +404,34 @@ export default Vue.extend({
       
       var book = e.currentTarget;
       const THIS = this;
-      if(THIS.bouncing==false){
-        this.bouncing = true;
-        const timeline = new TimelineLite()
-        timeline.to(book,0.3,{
-          // rotation: 16,
-          scale:1.5,
-          ease: Power4.easeOut,
-        })
-      }else{
-        this.bouncing = false;
-        const timeline = new TimelineLite()
-        timeline.to(book,0.3,{
-          // rotation: 16,
-          scale:1,
-          ease: Elastic.easeOut.config(1,.8),
-        })
-      }
+      const timeline = new TimelineLite()
+      timeline.to(book,0.15,{
+        // rotation: 16,
+        scale:1.2,
+        ease: Power3.easeOut,
+      })
+      timeline.to(book,0.15,{
+        // rotation: 16,
+        scale:1,
+        ease: Power3.easeOut,
+      })
+      // if(THIS.bouncing==false){
+      //   this.bouncing = true;
+      //   const timeline = new TimelineLite()
+      //   timeline.to(book,0.3,{
+      //     // rotation: 16,
+      //     scale:1.2,
+      //     ease: Power4.easeOut,
+      //   })
+      // }else{
+      //   this.bouncing = false;
+      //   const timeline = new TimelineLite()
+      //   timeline.to(book,0.3,{
+      //     // rotation: 16,
+      //     scale:1,
+      //     ease: Elastic.easeOut.config(1,.8),
+      //   })
+      // }
     },
     jumpOver() {
       const { bubble } = this.$refs
@@ -466,6 +495,8 @@ export default Vue.extend({
                   year: books[i].book_year,
                   issn: books[i].issn,
                   id: books[i].bookID,
+                  pan: books[i].book_pan_1,
+                  patch: books[i].book_pan_pass
                 })
                 if ((i + 1) % 3 == 0) {
                   this.tmp.push(this.booklist)
@@ -504,6 +535,7 @@ export default Vue.extend({
           console.log(response)
           if (response.status === 200) {
             var books = response.data
+            console.log(books)
             if(books.length == 0){
               this.nothing = true;
             }else{
@@ -523,6 +555,9 @@ export default Vue.extend({
                   this.tmp.push(this.booklist)
                   this.booklist = []
                 }
+              }
+              if(this.booklist.length>0){
+                this.tmp.push(this.booklist)
               }
             }
           }
@@ -705,6 +740,8 @@ body{
   font-family:'Baloo 2', cursive;
 
 }
-
+.md-subhead{
+  text-align: left;
+}
 
 </style>

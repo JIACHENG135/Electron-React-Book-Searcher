@@ -21,7 +21,9 @@ import 'vue-material/dist/theme/default.css'
 import 'mdbvue/lib/css/mdb.min.css'
 import '@fortawesome/fontawesome-free/css/all.min.css'
 
+import VueClipboard  from 'vue-clipboard2'
 
+Vue.use( VueClipboard )
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 
 
