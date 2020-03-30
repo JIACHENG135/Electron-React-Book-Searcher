@@ -2,128 +2,130 @@
 
 
 
-  <div 
+  <div
   id="landing"
   :class="{hovering:isHover}"
   >
 
     <el-container>
 
-      <el-aside 
+      <el-aside
       width="280px"
       style=
       "
-      padding-top:20px
+      padding-top:20px;
+      overflow-y:hidden;
+      backdrop-filter: brightness(200%)!important;
       "
       >
 
-      <div style="-webkit-app-region: drag;height: 30%;">
+      <div style="-webkit-app-region: drag;height: 20%;">
 
       </div>
 
-      <div 
+      <div
       class = "sidebar-item"
       @click="searchCate('国学')"
-      > 
+      >
         <md-icon
-          md-src="static/guoxue.svg" 
+          md-src="static/guoxue.svg"
           class="sidebar-icon">
         </md-icon>
         <span class="side-bar-text">  culture </span>
       </div>
 
 
-      <div 
+      <div
       class = "sidebar-item"
       @click="searchCate('知乎')"
-      > 
+      >
         <md-icon
-          md-src="static/zhihu.svg" 
+          md-src="static/zhihu.svg"
           class="sidebar-icon">
         </md-icon>
         <span class="side-bar-text">  zhihu </span>
       </div>
 
-      <div 
+      <div
       class = "sidebar-item"
       @click="searchCate('漫画')"
-      > 
+      >
         <md-icon
-          md-src="static/manhua.svg" 
+          md-src="static/manhua.svg"
           class="sidebar-icon">
         </md-icon>
         <span class="side-bar-text">  comic </span>
       </div>
 
 
-      <div 
+      <div
       class = "sidebar-item"
       @click="searchCate('计算机')"
-      > 
+      >
         <md-icon
-          md-src="static/jisuanji.svg" 
+          md-src="static/jisuanji.svg"
           class="sidebar-icon">
         </md-icon>
         <span class="side-bar-text">  computer </span>
       </div>
 
-      <div 
+      <div
       class = "sidebar-item"
       @click="searchCate('小说')"
-      > 
+      >
         <md-icon
-          md-src="static/novel.svg" 
+          md-src="static/novel.svg"
           class="sidebar-icon">
         </md-icon>
         <span class="side-bar-text">  novels </span>
       </div>
 
-      <div 
+      <div
       class = "sidebar-item"
       @click="searchCate('文化')"
-      > 
-        <md-icon 
-          md-src="static/wenxue.svg" 
+      >
+        <md-icon
+          md-src="static/wenxue.svg"
           class="sidebar-icon"
           />
           <span class="side-bar-text">  literature </span>
       </div>
 
-      <div 
+      <div
       class = "sidebar-item"
       @click="searchCate('生活')"
-      > 
-        <md-icon 
-          md-src="static/shenghuo.svg" 
+      >
+        <md-icon
+          md-src="static/shenghuo.svg"
           class="sidebar-icon"
           />
           <span class="side-bar-text">  life </span>
       </div>
 
-      <div 
+      <div
       class = "sidebar-item"
       @click="searchCate('科技')"
-      > 
-        <md-icon 
-          md-src="static/keji.svg" 
+      >
+        <md-icon
+          md-src="static/keji.svg"
           class="sidebar-icon"
           />
           <span class="side-bar-text">  technology </span>
       </div>
 
-      <div 
+      <div
       class = "sidebar-item"
       @click="searchCate('金融')"
-      > 
+      >
         <md-icon
-          md-src="static/jinrong.svg" 
+          md-src="static/jinrong.svg"
           class="sidebar-icon"
           />
           <span class="side-bar-text">  economic </span>
       </div>
 
       <div style="height:30%">
-        <span 
+        <span
         class="fixed-bottom"
         style=
         "
@@ -131,10 +133,10 @@
         font-size: 15px;
         font-bold:400;
         "
-        >        
-        <img 
-        src="static/kitty-opt-1.gif" 
-        alt="" 
+        >
+        <img
+        src="static/kitty-opt-1.gif"
+        alt=""
         style="background-color:transparent!important;width:60px;height:auto;"
 
         >
@@ -144,15 +146,15 @@
 
       </div>
       </el-aside>
-      
+
       <el-main>
-        <md-content 
-        id="scrollBar"  
+        <md-content
+        id="scrollBar"
         class="md-scrollbar"
         @scroll="myscroll()"
         >
 
-        <div 
+        <div
         class="md-layout md-gutter"
         style="-webkit-app-region: drag;"
         >
@@ -161,9 +163,9 @@
 
           <div class="md-layout-item">
 
-            <md-icon 
-            class="md-size-5x" 
-            md-src="static/index.svg" 
+            <md-icon
+            class="md-size-5x"
+            md-src="static/index.svg"
             style="padding-top:20px;padding-bottom:20px;"/>
 
           </div>
@@ -178,8 +180,8 @@
 
           <div class="md-layout-item" >
 
-            <el-input 
-            v-model="input" 
+            <el-input
+            v-model="input"
             placeholder="Please input searching keyword"
             draggable="false"
             >
@@ -218,7 +220,7 @@
           <div style="padding-bottom:30px;z-index:100;">
           </div>
 
-          
+
           <div
             v-for="(books, index) in tmp"
             :key="index"
@@ -238,9 +240,9 @@
               @mouseleave="isHover=false"
             >
             <notifications group="foo" />
-            <md-card 
-            md-with-hover 
-            style="backgroundColor:transparent;height:260px;!important"            
+            <md-card
+            md-with-hover
+            style="backgroundColor:transparent;height:260px;!important"
             >
 
               <md-card-media-actions
@@ -249,11 +251,11 @@
 
                 <md-card-media
                 style="padding-left:0!important;padding-right:0!important;max-width:250px!important;"
-                
+
                 >
 
                   <img
-                  :src="book.coverurl" 
+                  :src="book.coverurl"
                   @error="imgUrlAlt"
                   rel="noreferrer"
                   style="max-width:180px;height:228px!important;width:150px!important;"/>
@@ -269,7 +271,7 @@
                 <md-card-media style="width:50%;overflow-y:auto">
 
                   <md-card-content>
-                    
+
                     <div style="font-size:0.8rem;text-align: left;font-weight:400;">{{book.title}}</div>
 
                     <div class="md-subhead" style="font-size:0.6rem;">{{book.author}}</div>
@@ -311,7 +313,7 @@
 
         <template v-if="bottomloading">
 
-          <div class="fixed-bottom"> 
+          <div class="fixed-bottom">
 
             <vue-loading
               type="bars"
@@ -363,7 +365,7 @@ export default Vue.extend({
       srcFallback: 'static/image-holder.png',
       bouncing: false,
       counter: this.page,
-      
+
     }
   },
   computed:{
@@ -401,7 +403,7 @@ export default Vue.extend({
       console.log(classList)
     },
     shake(e){
-      
+
       var book = e.currentTarget;
       const THIS = this;
       const timeline = new TimelineLite()
@@ -470,9 +472,9 @@ export default Vue.extend({
 
       this.$http
         .get(
-          'https://vue-aplayer-django.herokuapp.com/index/dbdlp/cate/' + 
+          'https://vue-aplayer-django.herokuapp.com/index/dbdlp/cate/' +
           cate
-          
+
           // 'https://vue-aplayer-django.herokuapp.com/index/searchBook/' +
           //   this.input + "/"+ this.page
 
@@ -524,9 +526,9 @@ export default Vue.extend({
       this.page = 1
       this.$http
         .get(
-          'https://vue-aplayer-django.herokuapp.com/index/dbdlp/name/' + 
+          'https://vue-aplayer-django.herokuapp.com/index/dbdlp/name/' +
           this.input
-          
+
           // 'https://vue-aplayer-django.herokuapp.com/index/searchBook/' +
           //   this.input + "/"+ this.page
 
@@ -652,7 +654,7 @@ export default Vue.extend({
           }
 
       }
-      
+
 
     }
 
