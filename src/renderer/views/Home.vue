@@ -466,8 +466,6 @@ export default Vue.extend({
       this.nothing = false
       this.booklist = []
       this.tmp = []
-      console.log("cate")
-
       this.$http
         .get(
           'https://vue-aplayer-django.herokuapp.com/index/dbdlp/cate/' + 
@@ -550,6 +548,8 @@ export default Vue.extend({
                   year: books[i].book_year,
                   issn: books[i].issn,
                   id: books[i].bookID,
+                  pan: books[i].book_pan_1,
+                  patch: books[i].book_pan_pass
                 })
                 if ((i + 1) % 3 == 0) {
                   this.tmp.push(this.booklist)
