@@ -4,11 +4,11 @@
 
 <div align="center">
 
-  <img width='30px;' height="30px;" src=https://github.com/JIACHENG135/Electron-Vue-Book-Searcher/blob/pr/1/static/index.svg)>
+  <img width='30px;' height="30px;" src='https://github.com/JIACHENG135/Electron-Vue-Book-Searcher/blob/pr/1/static/index.svg'>
   
 </div>
 
-Swifty is a lightweight, fast and free book searching and sharing tool for MacOS, Windows and Linux.
+LibGen Desktop is a lightweight, fast and free book searching and sharing engine for MacOS, Windows and Linux.
 
 ## Features
 finished:
@@ -35,11 +35,19 @@ Check [Latest Releases](https://github.com/alchaplinsky/swifty/releases) page fo
 
 Alternatively you can build app yourself:
 
+- for Mac OS
 ```
 git clone https://github.com/JIACHENG135/Electron-Vue-Book-Searcher.git
 yarn install
 yarn run build
 ```
+- for Windows
+```
+git clone https://github.com/JIACHENG135/Electron-Vue-Book-Searcher.git
+npm install
+npm run build
+```
+
 
 ## Contributors
 
