@@ -5,10 +5,6 @@
       v-model="currentPage"
       :total-rows="rows"
       :per-page="perPage"
-      first-text="First"
-      prev-text="Prev"
-      next-text="Next"
-      last-text="Last"
     ></b-pagination>
 
     <!-- Use emojis in props -->

@@ -220,6 +220,7 @@
         <template v-else-if="tmp.length > 0 && !nothing">
 
           <div style="padding-bottom:30px;z-index:100;">
+            <page-counter></page-counter>
           </div>
 
           
@@ -354,11 +355,12 @@ import Vue from 'vue'
 // import $ from 'jquery'
 import { TimelineLite, TimelineMax, Back, Elastic, Bounce, Power3, TweenMax, Linear, Circ, Sine, Draggable } from 'gsap'
 import StarRating from 'vue-star-rating'
-
+import PageCounter from '../components/Pagination'
 export default Vue.extend({
   name: 'Home',
   components :{
     'star-rating': StarRating,
+    'page-counter': PageCounter
     // 'notifications': Notifications,
   },
   props: [{

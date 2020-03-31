@@ -13,7 +13,7 @@ const {
 
 const externals = Object.keys(dependencies).concat(Object.keys(devDependencies))
 const isDevMode = process.env.NODE_ENV === 'development'
-const whiteListedModules = ['vue']
+const whiteListedModules = ['vue','bootstrap-vue']
 
 const config = {
   name: 'renderer',
