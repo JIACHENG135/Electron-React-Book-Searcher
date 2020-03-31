@@ -1,10 +1,10 @@
 # LibGen
 
-![](https://github.com/JIACHENG135/Electron-Vue-Book-Searcher/blob/pr/1/static/index.svg)
+
 
 <div align="center">
 
-  ![GitHub All Releases](https://img.shields.io/github/downloads/swiftyapp/swifty/total?label=Downloads)
+  <img width='30px;' height="30px;" src=https://github.com/JIACHENG135/Electron-Vue-Book-Searcher/blob/pr/1/static/index.svg)>
   
 </div>
 
