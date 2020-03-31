@@ -2,17 +2,17 @@
 
 
 
-  <div 
+  <div
   id="landing"
   :class="{hovering:isHover}"
   >
 
     <el-container
-    
-    
+
+
     >
 
-      <el-aside 
+      <el-aside
       width="280px"
       style=
       "
@@ -25,109 +25,109 @@
 
       </div>
 
-      <div 
+      <div
       class = "sidebar-item"
       @click="searchCate('国学')"
-      > 
+      >
         <md-icon
-          md-src="static/guoxue.svg" 
+          md-src="static/guoxue.svg"
           class="sidebar-icon">
         </md-icon>
         <span class="side-bar-text">  culture </span>
       </div>
 
 
-      <div 
+      <div
       class = "sidebar-item"
       @click="searchCate('知乎')"
-      > 
+      >
         <md-icon
-          md-src="static/zhihu.svg" 
+          md-src="static/zhihu.svg"
           class="sidebar-icon">
         </md-icon>
         <span class="side-bar-text">  zhihu </span>
       </div>
 
-      <div 
+      <div
       class = "sidebar-item"
       @click="searchCate('漫画')"
-      > 
+      >
         <md-icon
-          md-src="static/manhua.svg" 
+          md-src="static/manhua.svg"
           class="sidebar-icon">
         </md-icon>
         <span class="side-bar-text">  comic </span>
       </div>
 
 
-      <div 
+      <div
       class = "sidebar-item"
       @click="searchCate('计算机')"
-      > 
+      >
         <md-icon
-          md-src="static/jisuanji.svg" 
+          md-src="static/jisuanji.svg"
           class="sidebar-icon">
         </md-icon>
         <span class="side-bar-text">  computer </span>
       </div>
 
-      <div 
+      <div
       class = "sidebar-item"
       @click="searchCate('小说')"
-      > 
+      >
         <md-icon
-          md-src="static/novel.svg" 
+          md-src="static/novel.svg"
           class="sidebar-icon">
         </md-icon>
         <span class="side-bar-text">  novels </span>
       </div>
 
-      <div 
+      <div
       class = "sidebar-item"
       @click="searchCate('文化')"
-      > 
-        <md-icon 
-          md-src="static/wenxue.svg" 
+      >
+        <md-icon
+          md-src="static/wenxue.svg"
           class="sidebar-icon"
           />
           <span class="side-bar-text">  literature </span>
       </div>
 
-      <div 
+      <div
       class = "sidebar-item"
       @click="searchCate('生活')"
-      > 
-        <md-icon 
-          md-src="static/shenghuo.svg" 
+      >
+        <md-icon
+          md-src="static/shenghuo.svg"
           class="sidebar-icon"
           />
           <span class="side-bar-text">  life </span>
       </div>
 
-      <div 
+      <div
       class = "sidebar-item"
       @click="searchCate('科技')"
-      > 
-        <md-icon 
-          md-src="static/keji.svg" 
+      >
+        <md-icon
+          md-src="static/keji.svg"
           class="sidebar-icon"
           />
           <span class="side-bar-text">  technology </span>
       </div>
 
-      <div 
+      <div
       class = "sidebar-item"
       @click="searchCate('金融')"
-      > 
+      >
         <md-icon
-          md-src="static/jinrong.svg" 
+          md-src="static/jinrong.svg"
           class="sidebar-icon"
           />
           <span class="side-bar-text">  economic </span>
       </div>
 
       <div style="height:30%">
-        <span 
+        <span
         class="fixed-bottom"
         style=
         "
@@ -135,10 +135,10 @@
         font-size: 15px;
         font-bold:400;
         "
-        >        
-        <img 
-        src="static/kitty-opt-1.gif" 
-        alt="" 
+        >
+        <img
+        src="static/kitty-opt-1.gif"
+        alt=""
         style="background-color:transparent!important;width:60px;height:auto;"
 
         >
@@ -148,16 +148,16 @@
 
       </div>
       </el-aside>
-      
+
       <el-main>
-        <md-content 
-        id="scrollBar"  
+        <md-content
+        id="scrollBar"
         class="md-scrollbar"
         :class=" tmp.length>0 ? 'with-bar':'not-with-bar'"
 
         >
-        
-        <div 
+
+        <div
         class="md-layout md-gutter"
         style="-webkit-app-region: drag;"
         >
@@ -166,9 +166,9 @@
 
           <div class="md-layout-item">
 
-            <md-icon 
-            class="md-size-5x" 
-            md-src="static/index.svg" 
+            <md-icon
+            class="md-size-5x"
+            md-src="static/index.svg"
             style="padding-top:20px;padding-bottom:20px;"/>
 
           </div>
@@ -183,8 +183,8 @@
 
           <div class="md-layout-item" >
 
-            <el-input 
-            v-model="input" 
+            <el-input
+            v-model="input"
             placeholder="Please input searching keyword"
             draggable="false"
             >
@@ -209,7 +209,7 @@
         </div>
         <div style="display:inline-block;padding-left:10px;padding-top:15px;padding-bottom:5px;z-index:100;" @click=" searchState=='cate' ?  searchCate(cate):searchWord()">
 
-          <b-pagination :total-rows="totalPage" v-model="counter" :per-page="10" :limit="10" align="center"></b-pagination>
+          <b-pagination v-model="counter" :total-rows="totalPage" :per-page="10" :limit="10" align="center"></b-pagination>
 
         </div>
         <template v-if="loading">
@@ -226,7 +226,7 @@
 
 
         <template v-else-if="tmp.length > 0 && !nothing">
-          
+
           <div
             v-for="(books, index) in tmp"
             :key="index"
@@ -246,10 +246,10 @@
               @mouseleave="isHover=false"
             >
             <notifications group="foo" />
-            <md-card 
-            md-with-hover 
+            <md-card
+            md-with-hover
             class = "rounded-lg"
-            style="backgroundColor:transparent;height:260px;!important"            
+            style="backgroundColor:transparent;height:260px;!important"
             >
 
               <md-card-media-actions
@@ -258,14 +258,14 @@
 
                 <md-card-media
                 style="padding-left:0!important;padding-right:0!important;max-width:250px!important;"
-                
+
                 >
 
                   <img
-                  :src="book.coverurl" 
-                  @error="imgUrlAlt"
+                  :src="book.coverurl"
                   rel="noreferrer"
-                  style="max-width:180px;height:228px!important;width:150px!important;"/>
+                  style="max-width:180px;height:228px!important;width:150px!important;"
+                  @error="imgUrlAlt"/>
 
                     <div slot="error" class="image-slot">
 
@@ -278,20 +278,20 @@
                 <md-card-media style="width:50%;overflow-y:auto">
 
                   <md-card-content>
-                    
+
                     <div style="font-size:0.8rem;text-align: left;font-weight:400;">{{book.title}}</div>
 
                     <div class="md-subhead" style="font-size:0.6rem;">{{book.author}}</div>
 
 
                     <template v-if="book.rating!='1'">
-                      <star-rating v-bind:increment="0.1"
-                                  v-bind:rating="book.rating/2"
-                                  v-bind:max-rating="5"
+                      <star-rating :increment="0.1"
+                                  :rating="book.rating/2"
+                                  :max-rating="5"
                                   inactive-color="#000"
                                   active-color="#f00"
                                   read-only= readOnly
-                                  v-bind:star-size="10">
+                                  :star-size="10">
                       </star-rating>
                     </template>
 
@@ -331,7 +331,7 @@
 
         <template v-if="bottomloading">
 
-          <div class="fixed-bottom"> 
+          <div class="fixed-bottom">
 
             <vue-loading
               type="bars"
@@ -356,16 +356,15 @@
 <script>
 import Vue from 'vue'
 // import $ from 'jquery'
-import { TimelineLite, TimelineMax, Back, Elastic, Bounce, Power3, TweenMax, Linear, Circ, Sine, Draggable } from 'gsap'
+import { TimelineLite, Back, Elastic, Power3 } from 'gsap'
 import StarRating from 'vue-star-rating'
-import PageCounter from '../components/Pagination'
 export default Vue.extend({
   name: 'Home',
   components :{
     'star-rating': StarRating,
-    'page-counter': PageCounter
     // 'notifications': Notifications,
   },
+  // eslint-disable-next-line vue/require-prop-types
   props: [{
     page: '1',
   }],
@@ -394,13 +393,25 @@ export default Vue.extend({
       searchState: 'cate',
       totalPage: 0,
       readOnly: true,
-      
+
     }
   },
   computed:{
     computedCounter(){
       return this.counter
     }
+  },
+  mounted () {
+    const img = this.$refs;
+    img.onerror = () => {
+      this.imageSrc = this.srcFallback
+    }
+    window.addEventListener("keypress", function(e) {
+      if(e.key === 'Enter'){
+        this.searchWord()
+        this.jumpOver()
+      }
+    }.bind(this));
   },
   methods: {
     getData(val){
@@ -435,9 +446,8 @@ export default Vue.extend({
       console.log(classList)
     },
     shake(e){
-      
+
       var book = e.currentTarget;
-      const THIS = this;
       const timeline = new TimelineLite()
       timeline.to(book,0.15,{
         // rotation: 16,
@@ -504,7 +514,7 @@ export default Vue.extend({
       this.cate = cate
       this.$http
         .get(
-          'https://vue-aplayer-django.herokuapp.com/index/dbdlp/' + 'cate/' + 
+          'https://vue-aplayer-django.herokuapp.com/index/dbdlp/' + 'cate/' +
           cate + "/" + this.counter
 
         )
@@ -562,7 +572,7 @@ export default Vue.extend({
       this.tmp = []
       this.$http
         .get(
-          'https://vue-aplayer-django.herokuapp.com/index/dbdlp/' + 'name/' + 
+          'https://vue-aplayer-django.herokuapp.com/index/dbdlp/' + 'name/' +
           this.input + "/" + this.counter
         )
         .then(response => {
@@ -693,22 +703,10 @@ export default Vue.extend({
           }
 
       }
-      
+
 
     }
 
-  },
-  mounted () {
-    const img = this.$refs;
-    img.onerror = () => {
-      this.imageSrc = this.srcFallback
-    }
-    window.addEventListener("keypress", function(e) {
-      if(e.key === 'Enter'){
-        this.searchWord()
-        this.jumpOver()
-      }
-    }.bind(this));
   },
 })
 </script>
