@@ -4,7 +4,7 @@
 
 <div align="center">
 
-  [![](https://img.shields.io/badge/PayPal-Buy%20me%20a%20Coffee-blue)](https://www.paypal.me/alchaplinsky)
+  [![](https://github.com/JIACHENG135/Electron-Vue-Book-Searcher/blob/pr/1/static/index.svg)
   ![GitHub All Releases](https://img.shields.io/github/downloads/swiftyapp/swifty/total?label=Downloads)
   
 </div>
