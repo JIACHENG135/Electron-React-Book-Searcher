@@ -1,10 +1,9 @@
 # LibGen
 
-![](https://alchaplinsky.com/images/misc/swifty_banner_alpha.png?v=1)
+![](https://github.com/JIACHENG135/Electron-Vue-Book-Searcher/blob/pr/1/static/index.svg)
 
 <div align="center">
 
-  [![](https://github.com/JIACHENG135/Electron-Vue-Book-Searcher/blob/pr/1/static/index.svg)
   ![GitHub All Releases](https://img.shields.io/github/downloads/swiftyapp/swifty/total?label=Downloads)
   
 </div>
