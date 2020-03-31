@@ -4,7 +4,7 @@
 
 <div align="center">
 
-  <img width='30px;' height="30px;" src='https://github.com/JIACHENG135/Electron-Vue-Book-Searcher/blob/pr/1/static/index.svg'>
+  <img width='80px;' height="80px;" src='https://github.com/JIACHENG135/Electron-Vue-Book-Searcher/blob/pr/1/static/index.svg'>
   
 </div>
 
