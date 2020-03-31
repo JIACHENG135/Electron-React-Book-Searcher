@@ -1,11 +1,11 @@
 <template>
   <div class="overflow-auto" @click="emitData">
     <!-- Use text in props -->
-    <b-pagination
+    <!-- <b-pagination
       v-model="currentPage"
       :total-rows="rows"
       :per-page="perPage"
-    ></b-pagination>
+    ></b-pagination> -->
 
     <!-- Use emojis in props -->
     <!-- <b-pagination
@@ -20,7 +20,7 @@
     ></b-pagination> -->
 
     <!-- Use HTML and sub-components in slots -->
-    <!-- <b-pagination
+    <b-pagination
       v-model="currentPage"
       :total-rows="rows"
       :per-page="perPage"
@@ -39,7 +39,7 @@
         <b v-if="active">{{ page }}</b>
         <i v-else>{{ page }}</i>
       </template>
-    </b-pagination> -->
+    </b-pagination>
   </div>
 </template>
 
@@ -47,18 +47,12 @@
   
   export default {
     name: 'PageCounter',
-   props: {
-      //...
-      initialPage: {
-         type: Number,
-         default: 1
-      }
-   },
+    props: {rows:Number,perPage:Number,currentPage:Number},
     data() {
       return {
-        rows: 100,
-        perPage: 10,
-        currentPage: 1
+        rows,
+        perPage,
+        currentPage,
       }
     },
     computed:{

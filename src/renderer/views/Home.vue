@@ -153,9 +153,10 @@
         <md-content 
         id="scrollBar"  
         class="md-scrollbar"
-        @scroll="myscroll()"
-        >
+        :class=" tmp.length>0 ? 'with-bar':'not-with-bar'"
 
+        >
+        
         <div 
         class="md-layout md-gutter"
         style="-webkit-app-region: drag;"
@@ -194,7 +195,7 @@
                 class="el-input__icon el-icon-search bubble-wrapper"
                 @click="
                   jumpOver()
-                  searchWord()
+                  searchCate(input)
                 "
                 @keyup.enter="searchWord"
               ></i>
@@ -206,7 +207,11 @@
           <div class="md-layout-item md-size-5"></div>
 
         </div>
+        <div style="display:inline-block;padding-left:10px;padding-top:15px;padding-bottom:5px;z-index:100;" @click=" searchState=='cate' ?  searchCate(cate):searchWord()">
 
+          <b-pagination :total-rows="totalPage" v-model="counter" :per-page="10" :limit="10" align="center"></b-pagination>
+
+        </div>
         <template v-if="loading">
 
           <vue-loading
@@ -217,12 +222,10 @@
 
         </template>
 
+
+
+
         <template v-else-if="tmp.length > 0 && !nothing">
-
-          <div style="padding-bottom:30px;z-index:100;">
-            <page-counter></page-counter>
-          </div>
-
           
           <div
             v-for="(books, index) in tmp"
@@ -287,7 +290,7 @@
                                   v-bind:max-rating="5"
                                   inactive-color="#000"
                                   active-color="#f00"
-                                  read-only='true'
+                                  read-only= readOnly
                                   v-bind:star-size="10">
                       </star-rating>
                     </template>
@@ -386,7 +389,11 @@ export default Vue.extend({
       nothing: false,
       srcFallback: 'static/image-holder.png',
       bouncing: false,
-      counter: this.page,
+      counter: 1,
+      cate: "知乎",
+      searchState: 'cate',
+      totalPage: 0,
+      readOnly: true,
       
     }
   },
@@ -396,6 +403,9 @@ export default Vue.extend({
     }
   },
   methods: {
+    getData(val){
+      this.counter = val;
+    },
     imgUrlAlt(event) {
         event.target.src = this.srcFallback
     },
@@ -486,25 +496,26 @@ export default Vue.extend({
     },
     // Search Category books
     searchCate(cate) {
+      console.log(cate + "is called")
       this.loading = true
       this.nothing = false
       this.booklist = []
       this.tmp = []
+      this.cate = cate
       this.$http
         .get(
-          'https://vue-aplayer-django.herokuapp.com/index/dbdlp/cate/' + 
-          cate
-          
-          // 'https://vue-aplayer-django.herokuapp.com/index/searchBook/' +
-          //   this.input + "/"+ this.page
+          'https://vue-aplayer-django.herokuapp.com/index/dbdlp/' + 'cate/' + 
+          cate + "/" + this.counter
 
         )
         .then(response => {
           console.log(response)
           if (response.status === 200) {
-            var books = response.data
+            var books = response.data.data
+            this.totalPage = response.data.totalPage
             if(books.length == 0){
               this.nothing = true;
+              this.counter = 1
             }else{
               for (var i = 0; i < books.length; i++) {
                 this.booklist.push({
@@ -528,39 +539,40 @@ export default Vue.extend({
               }
             }
           }
-          this.page = parseInt(this.page) + 1
+          else{
+            this.counter = 1
+          }
           this.loading = false
         })
       .catch(error => {
         if (error.response) {
           this.loading = false;
           this.nothing = true;
+          this.counter = 1
         }
       })
+      this.searchState = 'cate'
     },
     // Searchbook: call search API display books
     searchWord() {
+
       this.loading = true
       this.nothing = false
       this.booklist = []
       this.tmp = []
-      this.page = 1
       this.$http
         .get(
-          'https://vue-aplayer-django.herokuapp.com/index/dbdlp/name/' + 
-          this.input
-          
-          // 'https://vue-aplayer-django.herokuapp.com/index/searchBook/' +
-          //   this.input + "/"+ this.page
-
+          'https://vue-aplayer-django.herokuapp.com/index/dbdlp/' + 'name/' + 
+          this.input + "/" + this.counter
         )
         .then(response => {
           console.log(response)
           if (response.status === 200) {
-            var books = response.data
-            console.log(books)
+            var books = response.data.data
+            this.totalPage = response.data.totalPage
             if(books.length == 0){
               this.nothing = true;
+              this.counter = 1
             }else{
               for (var i = 0; i < books.length; i++) {
                 this.booklist.push({
@@ -570,10 +582,10 @@ export default Vue.extend({
                   coverurl: books[i].book_pic,
                   downLink: books[i].downLink,
                   publisher: books[i].book_publisher,
-                  rating: books[i].book_rating,
                   year: books[i].book_year,
                   issn: books[i].issn,
                   id: books[i].bookID,
+                  rating: books[i].book_rating,
                   pan: books[i].book_pan_1,
                   patch: books[i].book_pan_pass
                 })
@@ -582,20 +594,21 @@ export default Vue.extend({
                   this.booklist = []
                 }
               }
-              if(this.booklist.length>0){
-                this.tmp.push(this.booklist)
-              }
             }
           }
-          this.page = parseInt(this.page) + 1
+          else{
+            this.counter = 1
+          }
           this.loading = false
         })
       .catch(error => {
         if (error.response) {
           this.loading = false;
           this.nothing = true;
+          this.counter = 1
         }
       })
+      this.searchState = 'name'
     },
 
     downloadBook(e) {
@@ -716,6 +729,13 @@ body{
   // background-color: transparent!important;
   overflow-x:hidden;
 }
+
+.with-bar{
+  overflow-y: scroll;
+}
+.not-with-bar{
+  overflow-y: hidden;
+}
 .scrolling::-webkit-scrollbar{
   color: transparent;
 }
@@ -771,5 +791,14 @@ body{
 .md-subhead{
   text-align: left;
 }
-
+.p-pagination{
+  padding-left:30%!important;
+}
+.hidden{
+  display:none;
+}
+.disp{
+  display:inline-block;
+  padding-left:30px;
+}
 </style>
