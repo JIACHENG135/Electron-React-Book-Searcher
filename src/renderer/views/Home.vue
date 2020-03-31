@@ -15,7 +15,7 @@
       "
       padding-top:20px;
       overflow-y:hidden;
-      backdrop-filter: brightness(200%)!important;
+      background: hsla(0, 0%, 100%, .85);
       "
       >
 
@@ -256,9 +256,9 @@
 
                   <img
                   :src="book.coverurl"
-                  @error="imgUrlAlt"
                   rel="noreferrer"
-                  style="max-width:180px;height:228px!important;width:150px!important;"/>
+                  style="max-width:180px;height:228px!important;width:150px!important;"
+                  @error="imgUrlAlt"/>
 
                     <div slot="error" class="image-slot">
 
@@ -338,9 +338,10 @@
 <script>
 import Vue from 'vue'
 // import $ from 'jquery'
-import { TimelineLite, TimelineMax, Back, Elastic, Bounce, Power3, TweenMax, Linear, Circ, Sine, Draggable } from 'gsap'
+import { TimelineLite, Back, Elastic, Power3 } from 'gsap'
 export default Vue.extend({
   name: 'Home',
+  // eslint-disable-next-line vue/require-prop-types
   props: [{
     page: '1',
   }],
@@ -373,6 +374,18 @@ export default Vue.extend({
       return this.counter
     }
   },
+  mounted () {
+    const img = this.$refs;
+    img.onerror = () => {
+      this.imageSrc = this.srcFallback
+    }
+    window.addEventListener("keypress", function(e) {
+      if(e.key === 'Enter'){
+        this.searchWord()
+        this.jumpOver()
+      }
+    }.bind(this));
+  },
   methods: {
     imgUrlAlt(event) {
         event.target.src = this.srcFallback
@@ -403,9 +416,7 @@ export default Vue.extend({
       console.log(classList)
     },
     shake(e){
-
       var book = e.currentTarget;
-      const THIS = this;
       const timeline = new TimelineLite()
       timeline.to(book,0.15,{
         // rotation: 16,
@@ -552,6 +563,8 @@ export default Vue.extend({
                   year: books[i].book_year,
                   issn: books[i].issn,
                   id: books[i].bookID,
+                  pan: books[i].book_pan_1,
+                  patch: books[i].book_pan_pass
                 })
                 if ((i + 1) % 3 == 0) {
                   this.tmp.push(this.booklist)
@@ -658,18 +671,6 @@ export default Vue.extend({
 
     }
 
-  },
-  mounted () {
-    const img = this.$refs;
-    img.onerror = () => {
-      this.imageSrc = this.srcFallback
-    }
-    window.addEventListener("keypress", function(e) {
-      if(e.key === 'Enter'){
-        this.searchWord()
-        this.jumpOver()
-      }
-    }.bind(this));
   },
 })
 </script>

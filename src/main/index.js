@@ -88,7 +88,8 @@ function createWindow() {
     minWidth: 1560,
     minHeight: 540,
     titleBarStyle: 'hidden',
-    // transparent: true,
+    transparent: true,
+    frame: false,
     vibrancy: 'selection',
     webPreferences: {
       nodeIntegration: true,

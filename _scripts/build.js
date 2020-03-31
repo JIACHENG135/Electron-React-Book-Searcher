@@ -55,7 +55,7 @@ const config = {
     type: 'distribution',
   },
   win: {
-    icon: '_icons/icon.ico',
+    icon: '_icons/libgen.png',
     target: ['nsis', 'zip', 'portable'],
   },
   nsis: {
