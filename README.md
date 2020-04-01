@@ -34,13 +34,22 @@ Incoming
 Check [Latest Releases](https://github.com/alchaplinsky/swifty/releases) page for recent version of packaged app for MacOS, Windows or Linux.
 
 Alternatively you can build app yourself:
+Please!!!Please!!!Switch to the branch pr1, then build and dev.
 
 - for Mac OS
-```
-git clone https://github.com/JIACHENG135/Electron-Vue-Book-Searcher.git
-yarn install
-yarn run build
-```
+  - build
+    ```
+    git clone https://github.com/JIACHENG135/Electron-Vue-Book-Searcher.git
+    yarn install
+    yarn run build
+    ```
+  - dev
+    ```
+    git clone https://github.com/JIACHENG135/Electron-Vue-Book-Searcher.git
+    yarn install
+    yarn run dev
+    ```
+Windows version is not quite assemble...
 - for Windows
 ```
 git clone https://github.com/JIACHENG135/Electron-Vue-Book-Searcher.git
