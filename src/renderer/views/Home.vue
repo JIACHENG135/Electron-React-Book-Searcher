@@ -18,6 +18,7 @@
       "
       padding-top:20px;
       overflow-y: hidden;
+      background-color:transparent!;
       "
       >
 
@@ -207,11 +208,14 @@
           <div class="md-layout-item md-size-5"></div>
 
         </div>
-        <div style="display:inline-block;padding-left:10px;padding-top:15px;padding-bottom:5px;z-index:100;" @click=" searchState=='cate' ?  searchCate(cate):searchWord()">
+        <template v-if="totalPage!=0">
+          <div style="display:inline-block;padding-left:10px;padding-top:15px;padding-bottom:5px;z-index:100;" @click=" searchState=='cate' ?  searchCate(cate):searchWord()">
 
-          <b-pagination v-model="counter" :total-rows="totalPage" :per-page="10" :limit="10" align="center"></b-pagination>
+            <b-pagination v-model="counter" :total-rows="totalPage" :per-page="1" :limit="10" align="center"></b-pagination>
 
-        </div>
+          </div>
+
+        </template>
         <template v-if="loading">
 
           <vue-loading
@@ -275,7 +279,7 @@
 
                 </md-card-media>
 
-                <md-card-media style="width:50%;overflow-y:auto">
+                <md-card-media style="width:50%;overflow-y:auto;max-height:232px;">
 
                   <md-card-content>
 
@@ -290,10 +294,13 @@
                                   :max-rating="5"
                                   inactive-color="#000"
                                   active-color="#f00"
-                                  read-only= readOnly
+                                  :read-only = 'true'
+                                  :text-class = "'rate-text'"
                                   :star-size="10">
                       </star-rating>
                     </template>
+
+                    <div class="md-subhead" style="font-size:0.6rem;">{{book.infos}}</div>
 
                     <template v-if='bouncing'>
                       <div>bouncing</div>
@@ -540,7 +547,8 @@ export default Vue.extend({
                   id: books[i].bookID,
                   rating: books[i].book_rating,
                   pan: books[i].book_pan_1,
-                  patch: books[i].book_pan_pass
+                  patch: books[i].book_pan_pass,
+                  infos: books[i].book_infos,
                 })
                 if ((i + 1) % 3 == 0) {
                   this.tmp.push(this.booklist)
@@ -683,7 +691,7 @@ export default Vue.extend({
                     issn: books[i].issn,
                     id: books[i].bookID,
                     pan: books[i].book_pan_1,
-                    patch: books[i].book_pan_pass
+                    patch: books[i].book_pan_pass,
                   })
                   if ((i + 1) % 3 == 0) {
                     this.tmp.push(this.booklist)
@@ -730,9 +738,11 @@ body{
 
 .with-bar{
   overflow-y: scroll;
+  padding-right:0!important;
 }
 .not-with-bar{
   overflow-y: hidden;
+  padding-right:10px!important;
 }
 .scrolling::-webkit-scrollbar{
   color: transparent;
@@ -798,5 +808,10 @@ body{
 .disp{
   display:inline-block;
   padding-left:30px;
+}
+
+.rate-text{
+  font-weight:500;
+  font-size:0.6rem;
 }
 </style>
