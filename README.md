@@ -17,7 +17,7 @@ finished:
 - Download book from baidu netdisk. I'm not a pirate lover. If you think this project hurts your copyright plz contact me. I will revoke any information related to your copyright.
 
 Incoming
-- User register and ligin:
+- User register and login:
   - Only logged in user can get pass code
   - User can collect books
   - User can make ratings of a book
