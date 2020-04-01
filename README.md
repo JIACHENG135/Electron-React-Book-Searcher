@@ -14,7 +14,7 @@ LibGen Desktop is a lightweight, fast and free book searching and sharing engine
 finished:
 - Searching book name 
 - Get rating from www.douban.com
-- Download book from baidu netdisk. I'm not a fan of privacy. If you think this project hurts your copyright plz contact me. I will revoke any information related to your copyright.
+- Download book from baidu netdisk. I'm not a fan of piracy. If you think this project hurts your copyright plz contact me. I will revoke any information related to your copyright.
 
 Incoming
 - User register and login:
