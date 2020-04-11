@@ -168,9 +168,9 @@
           <div class="md-layout-item">
 
             <md-icon
-            class="md-size-5x"
+            class="md-size-4x"
             md-src="static/index.svg"
-            style="padding-top:20px;padding-bottom:20px;"/>
+            style="padding-top:20px;margin-bottom:30px;"/>
 
           </div>
 
@@ -202,12 +202,33 @@
               ></i>
 
             </el-input>
-
           </div>
 
           <div class="md-layout-item md-size-5"></div>
 
         </div>
+
+        <div class="md-layout md-gutter" style="padding-top:10px;">
+
+          <div class="md-layout-item md-size-1"></div>
+
+          <div class="md-layout-item" >
+
+            <b-form-radio-group
+              v-model="selected"
+              :options="options"
+              class="mb-3"
+              value-field="item"
+              text-field="name"
+              disabled-field="notEnabled"
+            ></b-form-radio-group>
+            <!-- <div class="mt-3">Selected: <strong>{{ selected }}</strong></div> -->
+          </div>
+
+          <div class="md-layout-item md-size-1"></div>
+
+        </div>
+            
         <template v-if="totalPage!=0">
           <div style="display:inline-block;padding-left:10px;padding-top:15px;padding-bottom:5px;z-index:100;" @click=" searchState=='cate' ?  searchCate(cate):searchWord()">
 
@@ -216,6 +237,7 @@
           </div>
 
         </template>
+
         <template v-if="loading">
 
           <vue-loading
@@ -400,6 +422,11 @@ export default Vue.extend({
       searchState: 'cate',
       totalPage: 0,
       readOnly: true,
+      selected: 'A',
+      options: [
+        { item: 'A', name: '中文' },
+        { item: 'B', name: 'English' },
+      ]
 
     }
   },
@@ -578,9 +605,15 @@ export default Vue.extend({
       this.nothing = false
       this.booklist = []
       this.tmp = []
+      var BASE_URL = ''
+      if(this.selected=="A"){
+        BASE_URL = 'https://vue-aplayer-django.herokuapp.com/index/dbdlp/' + 'name/'
+      }else{
+        BASE_URL = 'https://vue-aplayer-django.herokuapp.com/index/searchBook/'
+      }
       this.$http
         .get(
-          'https://vue-aplayer-django.herokuapp.com/index/dbdlp/' + 'name/' +
+          BASE_URL + 
           this.input + "/" + this.counter
         )
         .then(response => {
@@ -759,7 +792,7 @@ body{
   padding-right:0px!important;
   margin-top:0px;
   text-align: center;
-  line-height: 60px;
+  // line-height: 60px;
 }
 
 .col-md {
