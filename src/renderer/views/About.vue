@@ -7,10 +7,10 @@
           <div class="content">
             <div>
               <h2 class="subtitle is-6">Developed By:</h2>
-              <strong>Muhammad Ubaid Raza</strong>
+              <strong>Developed by Jiacheng</strong>
               <br />
               <a href="//github.com/mubaidr" target="_blank"
-                >mubaidr@gmail.com</a
+                >jiachengliu@tamu.edu</a
               >
             </div>
           </div>

@@ -157,6 +157,7 @@
         :class=" tmp.length>0 ? 'with-bar':'not-with-bar'"
 
         >
+        <!-- <sakura-canvas style="position:fixed"></sakura-canvas> -->
 
         <div
         class="md-layout md-gutter"
@@ -387,10 +388,12 @@ import Vue from 'vue'
 // import $ from 'jquery'
 import { TimelineLite, Back, Elastic, Power3 } from 'gsap'
 import StarRating from 'vue-star-rating'
+import  SakuraCanvas  from '../components/blog.vue'
 export default Vue.extend({
   name: 'Home',
   components :{
     'star-rating': StarRating,
+    'sakura-canvas': SakuraCanvas
     // 'notifications': Notifications,
   },
   // eslint-disable-next-line vue/require-prop-types

@@ -6,12 +6,9 @@
     <!-- <h1 style="position:absolute;height:100px;">This is a test</h1> -->
   </div>
 </template>
-
-
-
 <script>
 export default {
-  name: 'About',
+  name: 'SakuraCanvas',
   data: () => ({
     menuVisible: false
   }),
@@ -207,8 +204,9 @@ export default {
         vec2 tmpv = texCoord * vec2(0.8, 1.0) - vec2(0.95, 1.0);
         c = exp(-pow(length(tmpv) * 1.8, 2.0));
         col = mix(vec3(0.02, 0.0, 0.03), vec3(0.96, 0.98, 1.0) * 1.5, c);
-        gl_FragColor = vec4(col * 0.5, 1.0);
+        gl_FragColor = vec4(col*0.1, 0.6);
     }`;
+    // gl_FragColor = vec4(col * 0.3, 0.8);
     let fx_brightbuf_fsh   = `
     #ifdef GL_ES
     //precision mediump float;
@@ -1287,6 +1285,6 @@ export default {
   }
 }
 </script>
-<style lang="less" scoped>
+<style lang="scss" scoped>
 
 </style>

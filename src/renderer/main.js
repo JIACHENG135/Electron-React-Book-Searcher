@@ -23,10 +23,11 @@ import '@fortawesome/fontawesome-free/css/all.min.css'
 import VueClipboard  from 'vue-clipboard2'
 import Notifications from 'vue-notification'
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
-
+import  SakuraCanvas from './components/blog.vue'
 
 Vue.use( VueClipboard )
 Vue.use( Notifications )
+Vue.use( SakuraCanvas)
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 
@@ -48,6 +49,7 @@ new Vue({
   router,
   store,
   components:{
+    'sakura-canvas':SakuraCanvas
   },
   render: h => h(App),
 })
