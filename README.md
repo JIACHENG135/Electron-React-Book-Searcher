@@ -27,7 +27,7 @@ Incoming
 
 ![img](https://github.com/JIACHENG135/Electron-Vue-Book-Searcher/blob/pr/1/static/demo.png)
 
-![img](https://github.com/JIACHENG135/Electron-Vue-Book-Searcher/blob/pr/1/static/result1.png)
+![img](https://github.com/JIACHENG135/Electron-Vue-Book-Searcher/blob/master/demo.gif)
 
 ![img](https://github.com/JIACHENG135/Electron-Vue-Book-Searcher/blob/pr/1/static/result2.png)
 
