@@ -26,7 +26,7 @@ Incoming
 ## Screenshots
 
 
-![img](https://github.com/JIACHENG135/Electron-Vue-Book-Searcher/blob/master/demo.gif)
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-5-6-demo-home.jpg)
 
 
 ## Install
