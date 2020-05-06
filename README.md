@@ -39,20 +39,20 @@ Please!!!Please!!!Switch to the branch pr1, then build and dev.
 - for Mac OS
   - build
     ```
-    git clone https://github.com/JIACHENG135/Electron-Vue-Book-Searcher.git
+    git clone https://github.com/JIACHENG135/Electron-React-Book-Searcher.git
     yarn install
     yarn run build
     ```
   - dev
     ```
-    git clone https://github.com/JIACHENG135/Electron-Vue-Book-Searcher.git
+    git clone https://github.com/JIACHENG135/Electron-React-Book-Searcher.git
     yarn install
     yarn run dev
     ```
 Windows version is not quite assemble...
 - for Windows
 ```
-git clone https://github.com/JIACHENG135/Electron-Vue-Book-Searcher.git
+git clone https://github.com/JIACHENG135/Electron-React-Book-Searcher.git
 npm install
 npm run build
 ```
