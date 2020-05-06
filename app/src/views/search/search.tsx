@@ -2,10 +2,13 @@ import * as React from 'react'
 // import { Button, Input, Spin, Card } from 'antd'
 import { withStore } from '@/src/components'
 
-import { Layout, Menu, Breadcrumb } from 'antd'
+import { Layout, Input, Row, Col, Radio, Menu, Breadcrumb } from 'antd'
+import CountUp from 'react-countup'
+
 import { shell } from 'electron'
 import './search.less'
-const { Header, Content, Footer, Sider } = Layout
+const { Header, Content, Footer } = Layout
+const { Search } = Input
 
 interface DemoProps extends PageProps, StoreProps {
   count: StoreStates['count']
@@ -17,6 +20,7 @@ declare interface DemoState {
   loading: boolean
   createWindowLoading: boolean
   asyncDispatchLoading: boolean
+  value: number
 }
 
 /**
@@ -33,6 +37,7 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
     loading: false,
     createWindowLoading: false,
     asyncDispatchLoading: false,
+    value: 1,
   }
 
   // 构造函数
@@ -43,31 +48,67 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
   componentDidMount() {
     console.log(this)
   }
-
+  setInputValue(e: any) {
+    this.setState({
+      value: e,
+    })
+  }
   render() {
     const { resData, loading, createWindowLoading, asyncDispatchLoading } = this.state
     const { count: reduxCount, countAlias } = this.props
     return (
       <Layout className="demo-container">
-        <Sider className="sider">Sider</Sider>
-        <Layout className="layout">
-          <Header>Header</Header>
-          <Content>Content</Content>
-          <Footer>
-            Footer
-            <p className="fs-12 text-gray">
-              Copyright © {new Date().getFullYear()}{' '}
-              <a
-                onClick={() => {
-                  shell.openExternal('https://github.com/JIACHENG135?tab=repositories')
-                }}
-              >
-                JIACHENG35.
-              </a>{' '}
-              All rights deserved
-            </p>
-          </Footer>
-        </Layout>
+        <Header></Header>
+        <Content>
+          <Row gutter={[0, 10]}>
+            <Col span={11}></Col>
+            <Col span={2}>
+              <img width="60" src={$tools.APP_SVG} className="svg-image" />
+            </Col>
+            <Col span={11}></Col>
+          </Row>
+          <Row gutter={[0, 20]}>
+            <Col span={8}></Col>
+            <Col span={8}>
+              <Row>
+                <Col span={8}>
+                  <CountUp className="book-counter" start={0} end={2330367} duration={1.0} />
+                  <span>Books</span>
+                </Col>
+                <Col span={8}>
+                  <CountUp className="book-counter" start={0} end={533572} duration={1.0} />
+                  <span>Comics</span>
+                </Col>
+                <Col span={8}>
+                  <CountUp className="book-counter" start={0} end={2791901} duration={1.0} />
+                  <span>Aritcles</span>
+                </Col>
+              </Row>
+            </Col>
+            <Col span={8}></Col>
+          </Row>
+          <Row gutter={[0, 20]}>
+            <Col span={6}></Col>
+            <Col span={12}>
+              <Search
+                placeholder="input search loading with enterButton"
+                loading={loading}
+                enterButton
+                allowClear
+              />
+            </Col>
+            <Col span={6}></Col>
+          </Row>
+          <div className="mid-item">
+            <Radio.Group
+              onChange={(ev: any): void => this.setInputValue(ev.target.value)}
+              value={this.state.value}
+            >
+              <Radio value={1}>搜中文</Radio>
+              <Radio value={2}>Search English</Radio>
+            </Radio.Group>
+          </div>
+        </Content>
       </Layout>
     )
   }

@@ -82,7 +82,6 @@ export function createWindow(key: RouterKey, options: CreateWindowOptions = {}):
       const lastBounds = $tools.settings.windowBounds.get(key)
       if (lastBounds) win.setBounds(lastBounds)
     }
-
     if (createConfig.hideMenus) win.setMenuBarVisibility(false)
     if (createConfig.created) createConfig.created(win)
 

@@ -13,7 +13,7 @@ import Carousel from 'react-multi-carousel'
 import ItemList from './ItemList'
 import 'react-multi-carousel/lib/styles.css'
 
-const { Content } = Layout
+const { Content, Footer } = Layout
 
 interface DemoProps extends PageProps, StoreProps {
   count: StoreStates['count']
@@ -258,62 +258,65 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
               <Divider orientation="left" style={{ color: '#333', fontWeight: 'normal' }}>
                 【科学】
               </Divider>
+
+              <Skeleton loading={loading} key="Skeleton1" active className="skeleton-holder"></Skeleton>
+
+              {itemlist}
               <Row>
                 <Col span={24}>
                   <span className="sync-icon" onClick={this.requestRandomTest.bind(this, 'book/科学', 1)}>
-                    换一批{loading ? nosyncicon : syncicon}
+                    {loading ? nosyncicon : syncicon}
                   </span>
                 </Col>
               </Row>
-              <Skeleton loading={loading} key="Skeleton1" active className="skeleton-holder"></Skeleton>
-              {itemlist}
             </section>
             <section id="lishi" ref={this.scrollDivHistory}>
               <Divider orientation="left" style={{ color: '#333', fontWeight: 'normal' }}>
                 【历史】
               </Divider>
-              <Row>
-                <Col span={24}>
-                  <span className="sync-icon" onClick={this.requestRandomTest.bind(this, 'book/历史', 2)}>
-                    换一批{loading2 ? nosyncicon2 : syncicon2}
-                  </span>
-                </Col>
-              </Row>
 
               <Skeleton loading={loading2} key="Skeleton2" active className="skeleton-holder"></Skeleton>
               {itemlist2}
+              <Row>
+                <Col span={24}>
+                  <span className="sync-icon" onClick={this.requestRandomTest.bind(this, 'book/历史', 2)}>
+                    {loading2 ? nosyncicon2 : syncicon2}
+                  </span>
+                </Col>
+              </Row>
             </section>
             <section id="文学" ref={this.scrollDivWenxue}>
               <Divider orientation="left" style={{ color: '#333', fontWeight: 'normal' }}>
                 【文学】
               </Divider>
+
+              <Skeleton loading={loading3} key="Skeleton3" active className="skeleton-holder"></Skeleton>
+              {itemlist3}
               <Row>
                 <Col span={24}>
                   <span className="sync-icon" onClick={this.requestRandomTest.bind(this, 'category/文学', 3)}>
-                    换一批{loading3 ? nosyncicon3 : syncicon3}
+                    {loading3 ? nosyncicon3 : syncicon3}
                   </span>
                 </Col>
               </Row>
-              <Skeleton loading={loading3} key="Skeleton3" active className="skeleton-holder"></Skeleton>
-              {itemlist3}
             </section>
             <section id="传记" ref={this.scrollDivBio}>
               <Divider orientation="left" style={{ color: '#333', fontWeight: 'normal' }}>
                 【传记】
               </Divider>
-              <Row>
-                <Col span={24}>
-                  <span className="sync-icon" onClick={this.requestRandomTest.bind(this, 'category/传记', 4)}>
-                    换一批{loading4 ? nosyncicon4 : syncicon4}
-                  </span>
-                </Col>
-              </Row>
 
               <Skeleton loading={loading4} key="Skeleton4" active className="skeleton-holder"></Skeleton>
               {itemlist4}
+              <Row>
+                <Col span={24}>
+                  <span className="sync-icon" onClick={this.requestRandomTest.bind(this, 'category/传记', 4)}>
+                    {loading4 ? nosyncicon4 : syncicon4}
+                  </span>
+                </Col>
+              </Row>
             </section>
           </Content>
-          <Affix offsetBottom={10}>
+          {/* <Affix offsetBottom={10}>
             <p className="fs-12 text-gray">
               Copyright © {new Date().getFullYear()}{' '}
               <a
@@ -325,7 +328,20 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
               </a>{' '}
               All rights deserved
             </p>
-          </Affix>
+          </Affix> */}
+          {/* <Footer>
+            <p className="fs-12 text-gray">
+              Copyright © {new Date().getFullYear()}{' '}
+              <a
+                onClick={() => {
+                  shell.openExternal('https://github.com/JIACHENG135?tab=repositories')
+                }}
+              >
+                JIACHENG35.
+              </a>{' '}
+              All rights deserved
+            </p>
+          </Footer> */}
         </Layout>
       </Layout>
     )

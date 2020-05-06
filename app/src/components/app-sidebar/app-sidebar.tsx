@@ -37,7 +37,7 @@ export class AppSidebar extends React.Component<{}, State> {
         </div>
 
         <div className="flex column side-menu">{AppSideMenus.map(this.renderMenuItem)}</div>
-        <img src={$tools.CAT_GIF} width="80" style={{ position: 'fixed', bottom: '0', paddingLeft: '-1' }} />
+        {/* <img src={$tools.CAT_GIF} width="80" style={{ position: 'fixed', bottom: '0', paddingLeft: '-1' }} /> */}
       </div>
     )
   }

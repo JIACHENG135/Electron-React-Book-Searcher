@@ -42,12 +42,12 @@ export const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
     nodeIntegration: true,
     scrollBounce: true,
   },
-  // titleBarStyle: 'hidden', // 隐藏标题栏, 但显示窗口控制按钮
+  titleBarStyle: 'hidden', // 隐藏标题栏, 但显示窗口控制按钮
   // frame: process.platform === 'darwin' ? true : false, // 无边框窗口
   // frame: false, // 无边框窗口
   // skipTaskbar: false, // 是否在任务栏中隐藏窗口
-  // backgroundColor: '#fff',
-  // transparent: true, // 窗口是否透明
+  backgroundColor: '#fff',
+  transparent: true, // 窗口是否透明
   // titleBarStyle: 'default',
   vibrancy: 'selection', // 毛玻璃效果
 }
@@ -58,4 +58,5 @@ export const DEFAULT_INITIAL_CONFIG: CreateConfig = {
   autoShow: true,
   delayToShow: 10,
   single: true,
+  hideMenus: true,
 }
