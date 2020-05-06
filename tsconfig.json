@@ -1,21 +1,49 @@
 {
   "compilerOptions": {
-    // Target latest version of ECMAScript.
-    "target": "esnext",
-    // Search under node_modules for non-relative imports.
-    "moduleResolution": "node",
-    // Process & infer types from .js files.
-    "allowJs": true,
-    // Don't emit; allow Babel to transform files.
-    "noEmit": true,
-    // Enable strictest settings like strictNullChecks & noImplicitAny.
+    "target": "es6",
+    "module": "CommonJS",
     "strict": true,
-    // Disallow features that require cross-file information for emit.
-    "isolatedModules": true,
-    // Import non-ES modules as default imports.
+    "jsx": "react",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
     "esModuleInterop": true,
-    // enable json modules import
-    "resolveJsonModule": true
+    "allowSyntheticDefaultImports": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "sourceMap": true,
+    "locale": "zh-CN",
+    "baseUrl": ".",
+    "types": [
+      "webpack-env",
+      "node"
+    ],
+    "paths": {
+      "@/*": [
+        "app/*"
+      ],
+      "@root/*": [
+        "*"
+      ]
+    },
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost",
+      "es5"
+    ]
   },
-  "include": ["src/utilities"]
+  "include": [
+    "app/typescript",
+    "app/**/*.ts",
+    "app/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    "dist",
+    "release",
+    "assets"
+  ]
 }

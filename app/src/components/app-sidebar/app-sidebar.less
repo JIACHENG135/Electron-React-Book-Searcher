@@ -1,0 +1,26 @@
+@import '~@/src/styles/_var.less';
+
+.app-sidebar {
+  -webkit-app-region: drag;
+  width: @sidebar_width;
+  height: 100vh;
+  background-color: @sidebar_background;
+  color: fade(@color_light, 75);
+  user-select: none;
+  .side-menu {
+    margin-top: @padding;
+    .side-menu-item {
+      width: 100%;
+      text-align: center;
+      padding: @padding;
+      color: fade(@color_light, 65);
+      &:hover,
+      &.active {
+        color: @color_white;
+      }
+    }
+  }
+  .svg-image {
+    fill-rule: white !important;
+  }
+}
