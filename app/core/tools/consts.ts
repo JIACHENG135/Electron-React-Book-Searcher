@@ -25,6 +25,7 @@ export const WENXUE = asAssetsPath('tools-icon/wenxue.jpg')
 export const SHEKE = asAssetsPath('tools-icon/sheke.jpg')
 export const BIO = asAssetsPath('tools-icon/biography.jpg')
 export const SCIENCE = asAssetsPath('tools-icon/science.jpg')
+export const SIGN_UP = asAssetsPath('demo-jpg/sign-up.jpg')
 
 /** 暗色风格托盘图标 (仅 macOS) */
 export const TRAY_ICON_DARK = asAssetsPath('tray-icon/tray-icon-dark.png')
@@ -46,7 +47,7 @@ export const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
   // frame: process.platform === 'darwin' ? true : false, // 无边框窗口
   // frame: false, // 无边框窗口
   // skipTaskbar: false, // 是否在任务栏中隐藏窗口
-  backgroundColor: '#fff',
+  // backgroundColor: '#fff',
   transparent: true, // 窗口是否透明
   // titleBarStyle: 'default',
   vibrancy: 'selection', // 毛玻璃效果

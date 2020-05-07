@@ -12,7 +12,9 @@ export const About = import('./views/about/about')
 
 export const NoMatch = import('./views/no-match/no-match')
 
-export const Search = import('./views/search/search')
+export const SearchPage = import('./views/search/SearchPage')
+
+export const Register = import('./views/register/Register')
 
 // 同步引用，注意这不会出发 beforeRouter
 export { default as AlertModal } from './views/modals/alert-modal'

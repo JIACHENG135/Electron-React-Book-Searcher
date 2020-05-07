@@ -1,6 +1,6 @@
 const routes: RouteConfig[] = [
   {
-    key: 'Search',
+    key: 'SearchPage',
     path: '/search',
     createConfig: {
       single: false,

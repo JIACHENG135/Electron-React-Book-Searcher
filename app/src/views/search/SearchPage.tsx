@@ -5,17 +5,17 @@ import { withStore } from '@/src/components'
 import { Layout, Input, Row, Col, Radio, Menu, Breadcrumb } from 'antd'
 import CountUp from 'react-countup'
 
-import { shell } from 'electron'
+import { BrowserWindow, shell } from 'electron'
 import './search.less'
 const { Header, Content, Footer } = Layout
 const { Search } = Input
 
-interface DemoProps extends PageProps, StoreProps {
+interface SearchProps extends PageProps, StoreProps {
   count: StoreStates['count']
   countAlias: StoreStates['count']
 }
 
-declare interface DemoState {
+declare interface SearchState {
   resData: queryTestInfoUsingGET.Response | {}
   loading: boolean
   createWindowLoading: boolean
@@ -24,15 +24,15 @@ declare interface DemoState {
 }
 
 /**
- * DemoProps 是组件的 props 类型声明
- * DemoState 是组件的 state 类型声明
+ * SearchProps 是组件的 props 类型声明
+ * SearchState 是组件的 state 类型声明
  * props 和 state 的默认值需要单独声明
  */
 
 @withStore(['count', { countAlias: 'count' }])
-export default class Demo extends React.Component<DemoProps, DemoState> {
+export default class SearchPage extends React.Component<SearchProps, SearchState> {
   // state 初始化
-  state: DemoState = {
+  state: SearchState = {
     resData: {},
     loading: false,
     createWindowLoading: false,
@@ -41,10 +41,9 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
   }
 
   // 构造函数
-  constructor(props: DemoProps) {
+  constructor(props: SearchProps) {
     super(props)
   }
-
   componentDidMount() {
     console.log(this)
   }
@@ -53,9 +52,15 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
       value: e,
     })
   }
+  async handlesearch() {
+    await $tools.createWindow('Register', {
+      windowOptions: { modal: true, parent: undefined, title: 'Register' },
+    })
+  }
   render() {
     const { resData, loading, createWindowLoading, asyncDispatchLoading } = this.state
     const { count: reduxCount, countAlias } = this.props
+
     return (
       <Layout className="demo-container">
         <Header></Header>
@@ -95,6 +100,7 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
                 loading={loading}
                 enterButton
                 allowClear
+                onSearch={this.handlesearch}
               />
             </Col>
             <Col span={6}></Col>

@@ -74,6 +74,7 @@ export class AppRouter extends React.Component<AppRouterProps, AppRouterState> {
 
   creatRoute = (routeConfig: RouteConfig, key: string) => {
     const { path, exact = true, redirect, ...params } = routeConfig
+    console.log(params)
     const routeProps: any = { key, name: key, path, exact }
 
     if (redirect) {

@@ -9,6 +9,7 @@ const routes: RouteConfig[] = [
       height: 800,
       minWidth: 800,
       minHeight: 600,
+      backgroundColor: '#fffff',
     },
     createConfig: {
       showSidebar: true,
