@@ -22,6 +22,10 @@ Incoming
   - Only logged in user can get pass code
   - User can collect books
   - User can make ratings of a book ...
+- Reading tools which support mouse hover translate
+- Download quota for non-registered user
+
+
 
 ## Screenshots
 
