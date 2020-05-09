@@ -16,5 +16,7 @@ export const SearchPage = import('./views/search/SearchPage')
 
 export const Register = import('./views/register/Register')
 
+export const Login = import('./views/login/Login')
+
 // 同步引用，注意这不会出发 beforeRouter
 export { default as AlertModal } from './views/modals/alert-modal'

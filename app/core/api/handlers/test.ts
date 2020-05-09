@@ -27,3 +27,11 @@ export function queryTestInfoError(
 ): Promise<queryTestInfoUsingGET.Response> {
   return $api.request('/demo/demo-test-error', params, options)
 }
+
+export function UserRegisterPost(
+  path: string,
+  params?: UserRegisterInfo.Params,
+  options?: RequestOptions
+): any {
+  return $api.request(path, params, options)
+}

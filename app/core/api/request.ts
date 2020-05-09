@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import path from 'path'
-import { errorAction } from './handle-response'
+import { errorAction, ejectDialog, successAction } from './handle-response'
+import { MessageBoxOptions } from 'electron'
 
 // axios 跨域请求携带 cookie
 axios.defaults.withCredentials = true
@@ -54,11 +55,21 @@ export async function request(apiPath: string, params?: RequestParams, optionsSo
 
   return axios(sendData)
     .then(res => {
-      const data: any = res.data
-      if (!checkStatus || res.status == 200) {
-        return data
+      const resData: any = res.data
+      if (method == 'POST') {
+        console.log(resData)
+      }
+      if (method == 'GET' && (!checkStatus || res.status == 200)) {
+        return resData
+      }
+      if (resData.status != 'Success') {
+        const errorstring: string = resData
+        // resData.message.username || resData.message.password1 || resData.message.password2
+        errorAction(errorstring, sendData, options)
+        return Promise.reject(resData)
       } else {
-        return Promise.reject(data)
+        successAction('Success', 'Wait to be confirmed')
+        return resData
       }
     })
     .catch(async err => {

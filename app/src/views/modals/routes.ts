@@ -5,8 +5,10 @@ const routes: RouteConfig[] = [
     windowOptions: {
       title: 'Alert',
       width: 460,
-      height: 240,
+      height: 300,
       resizable: false,
+      vibrancy: 'titlebar',
+      transparent: true,
     },
     createConfig: {
       showTitlebar: false,

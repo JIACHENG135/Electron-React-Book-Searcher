@@ -53,8 +53,8 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
     })
   }
   async handlesearch() {
-    await $tools.createWindow('Register', {
-      windowOptions: { modal: true, parent: undefined, title: 'Register' },
+    await $tools.createWindow('Login', {
+      windowOptions: { modal: true, parent: undefined, title: 'Login' },
     })
   }
   render() {

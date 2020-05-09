@@ -31,8 +31,9 @@ const devConfig = {
     // },
     dev: {
       variables: {
-        API_PROTOCOL: 'https://',
-        API_HOST: 'vue-aplayer-django.herokuapp.com',
+        API_PROTOCOL: 'http://',
+        // API_HOST: 'vue-aplayer-django.herokuapp.com',
+        API_HOST: '127.0.0.1:8000',
         API_BASE_PATH: '/api',
       },
     },

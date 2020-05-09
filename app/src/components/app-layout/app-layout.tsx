@@ -4,6 +4,7 @@ import $c from 'classnames'
 import { AppTitlebar, AppSidebar } from '../'
 
 import './app-layout.less'
+import './app-layout.css'
 
 interface AppLayoutProps {
   createConfig: CreateConfig

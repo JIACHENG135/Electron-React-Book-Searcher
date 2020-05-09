@@ -15,11 +15,12 @@ interface RegisterProps extends PageProps, StoreProps {
 }
 
 declare interface RegisterState {
-  resData: queryTestInfoUsingGET.Response | {}
+  resData: UserRegisterInfo.Response | {}
   loading: boolean
   createWindowLoading: boolean
   asyncDispatchLoading: boolean
   value: number
+  userprofile: UserRegisterInfo.Params
 }
 
 /**
@@ -37,33 +38,45 @@ export default class Register extends React.Component<RegisterProps, RegisterSta
     createWindowLoading: false,
     asyncDispatchLoading: false,
     value: 1,
+    userprofile: { first_name: 'Liu', last_name: 'Jiacheng' },
   }
 
   // 构造函数
   constructor(props: RegisterProps) {
     super(props)
   }
-
+  postoption: RequestOptions = {
+    formData: false,
+    method: 'POST',
+    errorType: 'modal',
+  }
   componentDidMount() {}
-  onFinish() {}
+  onFinish(data: any) {
+    Object.assign(this.state.userprofile, data)
+    $api.UserRegisterPost('/signup/', this.state.userprofile, this.postoption).then((resData: any) => {
+      this.setState({
+        resData: resData,
+      })
+    })
+  }
   render() {
     const { resData, loading, createWindowLoading, asyncDispatchLoading } = this.state
     const { count: reduxCount, countAlias } = this.props
     return (
-      <Layout className="demo-container">
+      <Layout className="demo-register-container">
         <Sider width="50%">
           <img src={$tools.SIGN_UP} width="100%" alt="sign" />
         </Sider>
         <Layout>
           <Content>
-            <div className="form-container">
+            <div className="register-container">
               <Form
                 name="normal_login"
                 className="login-form"
                 initialValues={{
                   remember: true,
                 }}
-                onFinish={this.onFinish}
+                onFinish={this.onFinish.bind(this)}
               >
                 <Form.Item
                   name="username"
@@ -74,41 +87,67 @@ export default class Register extends React.Component<RegisterProps, RegisterSta
                     },
                   ]}
                 >
-                  <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                  <Input placeholder="Username" />
                 </Form.Item>
-
                 <Form.Item
-                  name="password"
+                  name="email"
                   rules={[
                     {
                       required: true,
-                      message: 'Please input your Password!',
+                      message: 'Please input your E-mail!',
                     },
                   ]}
                 >
-                  <Input
-                    prefix={<LockOutlined className="site-form-item-icon" />}
-                    type="password"
-                    placeholder="Password"
-                  />
+                  <Input placeholder="E-mail" />
+                </Form.Item>
+                <Form.Item
+                  name="password1"
+                  label=""
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your password!',
+                    },
+                  ]}
+                  hasFeedback
+                >
+                  <Input.Password placeholder="Please input your password" />
+                </Form.Item>
+
+                <Form.Item
+                  name="password2"
+                  label=""
+                  dependencies={['password']}
+                  hasFeedback
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please confirm your password!',
+                    },
+                    ({ getFieldValue }) => ({
+                      validator(rule, value) {
+                        if (!value || getFieldValue('password1') === value) {
+                          return Promise.resolve()
+                        }
+                        return Promise.reject('The two passwords that you entered do not match!')
+                      },
+                    }),
+                  ]}
+                >
+                  <Input.Password placeholder="Please confirm your password" />
                 </Form.Item>
                 <Form.Item>
                   <Form.Item name="remember" valuePropName="checked" noStyle>
-                    <Checkbox>Remember me</Checkbox>
+                    <Checkbox>Accept user agreement</Checkbox>
                   </Form.Item>
-
                   <div>
-                    <a className="login-form-forgot" href="">
-                      Forgot password
-                    </a>
+                    Already have an account? <a href="#/login">Login now!</a>
                   </div>
-
-                  <a href="">Register now!</a>
                 </Form.Item>
 
                 <Form.Item>
                   <Button type="primary" htmlType="submit" className="login-form-button">
-                    Log in
+                    Sign Up
                   </Button>
                 </Form.Item>
               </Form>

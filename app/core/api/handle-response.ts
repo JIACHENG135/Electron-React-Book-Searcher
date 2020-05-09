@@ -1,4 +1,4 @@
-import { Notification, BrowserWindow } from 'electron'
+import { Notification, BrowserWindow, dialog, remote, MessageBoxOptions } from 'electron'
 /**
  * 发生接口发生错误时的处理
  * 注意这是运行在主进程中的方法,请不要使用 document api
@@ -37,11 +37,27 @@ export async function errorAction(err: any, sendData: any, options: RequestOptio
           windowOptions: { modal: true, parent: BrowserWindow.getFocusedWindow() || undefined, title },
           query: {
             type: 'error',
-            title,
-            message,
+            title: 'User information is not valid',
+            message: message.username || message.password1 || message.password2 || message.email || message,
           },
         })
+        console.log()
       }
       break
   }
+}
+
+export async function ejectDialog(messageBoxOptions: MessageBoxOptions) {
+  console.log(messageBoxOptions)
+  await dialog.showMessageBox(remote.getCurrentWindow(), messageBoxOptions)
+}
+
+export async function successAction(title: string, message: string) {
+  const n = new Notification({
+    icon: $tools.APP_ICON,
+    title,
+    body: message,
+    sound: 'Purr',
+  })
+  n.show()
 }
