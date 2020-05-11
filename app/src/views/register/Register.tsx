@@ -2,12 +2,12 @@ import * as React from 'react'
 // import { Button, Input, Spin, Card } from 'antd'
 import { withStore } from '@/src/components'
 
-import { Layout, Form, Input, Button, Checkbox, Row, Col } from 'antd'
+import { Layout, Form, Input, Button, Checkbox } from 'antd'
 import './register.less'
 
-import { UserOutlined, LockOutlined } from '@ant-design/icons'
+// import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
-const { Header, Content, Sider } = Layout
+const { Content, Sider } = Layout
 
 interface RegisterProps extends PageProps, StoreProps {
   count: StoreStates['count']

@@ -1,7 +1,7 @@
 import React from 'react'
 import $c from 'classnames'
 
-import { AppTitlebar, AppSidebar } from '../'
+import { AppSidebar } from '../'
 
 import './app-layout.less'
 import './app-layout.css'

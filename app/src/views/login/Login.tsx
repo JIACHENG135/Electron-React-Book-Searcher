@@ -2,12 +2,12 @@ import * as React from 'react'
 // import { Button, Input, Spin, Card } from 'antd'
 import { withStore } from '@/src/components'
 
-import { Layout, Form, Input, Button, Checkbox, Row, Col } from 'antd'
+import { Layout, Form, Input, Button, Checkbox } from 'antd'
 import './login.module.less'
 
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
-const { Header, Content, Sider } = Layout
+const { Content, Sider } = Layout
 
 interface LoginProps extends PageProps, StoreProps {
   count: StoreStates['count']
@@ -47,8 +47,8 @@ export default class Login extends React.Component<LoginProps, LoginState> {
   componentDidMount() {}
   onFinish() {}
   render() {
-    const { resData, loading, createWindowLoading, asyncDispatchLoading } = this.state
-    const { count: reduxCount, countAlias } = this.props
+    // const { resData, loading, createWindowLoading, asyncDispatchLoading } = this.state
+    // const { count: reduxCount, countAlias } = this.props
     return (
       <Layout className="demo-login-container">
         <Sider width="50%">

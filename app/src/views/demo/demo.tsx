@@ -3,7 +3,7 @@ import * as React from 'react'
 import { shell } from 'electron'
 // import { Button, Input, Spin, Card } from 'antd'
 import { withStore } from '@/src/components'
-import { Layout, Button, Card, Skeleton, Avatar, Row, Col, Divider, Affix } from 'antd'
+import { Layout, Skeleton, Row, Col, Divider } from 'antd'
 import { SyncOutlined } from '@ant-design/icons'
 import './demo.less'
 // import 'antd/dist/antd.css'
@@ -13,7 +13,7 @@ import Carousel from 'react-multi-carousel'
 import ItemList from './ItemList'
 import 'react-multi-carousel/lib/styles.css'
 
-const { Content, Footer } = Layout
+const { Content } = Layout
 
 interface DemoProps extends PageProps, StoreProps {
   count: StoreStates['count']
@@ -77,7 +77,7 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
     this.requestTest('category/传记', 4)
   }
 
-  componentDidMount() {}
+  // componentDidMount() {}
   scrollSmoothHandlerScience = () => {
     this.scrollDivScience.current.scrollIntoView({ behavior: 'smooth' })
   }
@@ -184,18 +184,7 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
       })
   }
   render() {
-    const {
-      resData,
-      resData2,
-      resData3,
-      resData4,
-      loading,
-      loading2,
-      loading3,
-      loading4,
-      createWindowLoading,
-      asyncDispatchLoading,
-    } = this.state
+    const { resData, resData2, resData3, resData4, loading, loading2, loading3, loading4 } = this.state
 
     const { count: reduxCount, countAlias } = this.props
 

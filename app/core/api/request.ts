@@ -1,7 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import path from 'path'
-import { errorAction, ejectDialog, successAction } from './handle-response'
-import { MessageBoxOptions } from 'electron'
+import { errorAction, successAction } from './handle-response'
 
 // axios 跨域请求携带 cookie
 axios.defaults.withCredentials = true
