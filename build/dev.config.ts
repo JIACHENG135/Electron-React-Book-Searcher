@@ -16,8 +16,8 @@ const devConfig = {
     mock: {
       variables: {
         API_PROTOCOL: 'http://',
-        API_HOST: 'yapi.demo.qunar.com',
-        API_BASE_PATH: '/mock/55986',
+        API_HOST: '127.0.0.1:8000',
+        API_BASE_PATH: '/api',
       },
     },
 
@@ -32,8 +32,8 @@ const devConfig = {
     dev: {
       variables: {
         API_PROTOCOL: 'http://',
-        API_HOST: 'vue-aplayer-django.herokuapp.com',
-        // API_HOST: '127.0.0.1:8000',
+        // API_HOST: 'vue-aplayer-django.herokuapp.com',
+        API_HOST: '127.0.0.1:8000',
         API_BASE_PATH: '/api',
       },
     },

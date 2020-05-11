@@ -1,25 +1,27 @@
 import * as React from 'react'
+import axios from 'axios'
 // import { Button, Input, Spin, Card } from 'antd'
 import { withStore } from '@/src/components'
-
+import Store from 'electron-store'
 import { Layout, Form, Input, Button, Checkbox } from 'antd'
 import './login.module.less'
 
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
 const { Content, Sider } = Layout
-
+const store = new Store<any>()
 interface LoginProps extends PageProps, StoreProps {
   count: StoreStates['count']
   countAlias: StoreStates['count']
 }
 
 declare interface LoginState {
-  resData: queryTestInfoUsingGET.Response | {}
+  resData: UserLoginInfo.Response | {}
   loading: boolean
   createWindowLoading: boolean
   asyncDispatchLoading: boolean
   value: number
+  userprofile: UserLoginInfo.Params
 }
 
 /**
@@ -37,15 +39,37 @@ export default class Login extends React.Component<LoginProps, LoginState> {
     createWindowLoading: false,
     asyncDispatchLoading: false,
     value: 1,
+    userprofile: {
+      username: '',
+      password: '',
+    },
   }
 
   // 构造函数
   constructor(props: LoginProps) {
     super(props)
   }
-
+  postoption: RequestOptions = {
+    formData: false,
+    method: 'POST',
+    errorType: 'modal',
+  }
   componentDidMount() {}
-  onFinish() {}
+  onFinish(data: any) {
+    this.handleLogin(data)
+  }
+  handleLogin(data: any) {
+    Object.assign(this.state.userprofile, data)
+    $api.UserLoginPost('/login/', this.state.userprofile, this.postoption).then((resData: any) => {
+      this.setState({
+        resData: resData,
+      })
+      if (data.remember) {
+        store.set('user', resData.Token)
+      }
+      this.props.closeWindow()
+    })
+  }
   render() {
     // const { resData, loading, createWindowLoading, asyncDispatchLoading } = this.state
     // const { count: reduxCount, countAlias } = this.props
@@ -63,7 +87,7 @@ export default class Login extends React.Component<LoginProps, LoginState> {
                 initialValues={{
                   remember: true,
                 }}
-                onFinish={this.onFinish}
+                onFinish={this.onFinish.bind(this)}
               >
                 <Form.Item
                   name="username"
@@ -96,7 +120,6 @@ export default class Login extends React.Component<LoginProps, LoginState> {
                   <Form.Item name="remember" valuePropName="checked" noStyle>
                     <Checkbox>Remember me</Checkbox>
                   </Form.Item>
-
                   <div>
                     <a className="login-form-forgot" href="">
                       Forgot password

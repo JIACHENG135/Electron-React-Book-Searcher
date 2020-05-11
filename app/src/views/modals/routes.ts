@@ -9,6 +9,7 @@ const routes: RouteConfig[] = [
       resizable: false,
       vibrancy: 'titlebar',
       transparent: true,
+      frame: true,
     },
     createConfig: {
       showTitlebar: false,

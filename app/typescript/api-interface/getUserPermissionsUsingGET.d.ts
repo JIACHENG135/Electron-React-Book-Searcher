@@ -32,3 +32,22 @@ declare namespace UserRegisterInfo {
     results: Array<any>
   }
 }
+
+declare namespace UserLoginInfo {
+  interface Params {
+    username?: string
+    email?: string
+    password?: string
+    remember?: boolean
+  }
+
+  interface Response {
+    code: number
+    status: boolean
+    message: string
+    profile?: any
+    token?: string
+    username: string
+    Token: string
+  }
+}

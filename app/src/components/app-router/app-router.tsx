@@ -5,11 +5,13 @@ import { Provider } from 'react-redux'
 import { asyncImport } from '../async-import'
 import { beforeRouter } from './router-hooks'
 import * as pageResource from '@/src/page-resource'
+import { CSSTransition } from 'react-transition-group'
 
 interface AppRouterProps {
   routes: Map<string, RouteConfig>
   store: AppStore
 }
+import './app-router.less'
 
 interface AppRouterState {
   readyToClose: boolean
@@ -46,10 +48,12 @@ export class AppRouter extends React.Component<AppRouterProps, AppRouterState> {
     return (
       <Provider store={store}>
         <Router>
-          <Switch>
-            {this.routeElements}
-            {this.noMatch ?? null}
-          </Switch>
+          <CSSTransition in={true} timeout={300} classNames="page" unmountOnExit>
+            <Switch>
+              {this.routeElements}
+              {this.noMatch ?? null}
+            </Switch>
+          </CSSTransition>
         </Router>
       </Provider>
     )

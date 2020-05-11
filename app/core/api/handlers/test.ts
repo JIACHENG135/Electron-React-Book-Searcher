@@ -35,3 +35,12 @@ export function UserRegisterPost(
 ): any {
   return $api.request(path, params, options)
 }
+
+export function UserLoginPost(path: string, params?: UserLoginInfo.Params, options?: RequestOptions): any {
+  return $api.request(path, params, options)
+}
+
+export function SearchGet(path: string, params?: queryTestInfoUsingGET.Params, options?: RequestOptions): any {
+  const newpath = encodeURI(path)
+  return $api.request(newpath, params, options)
+}

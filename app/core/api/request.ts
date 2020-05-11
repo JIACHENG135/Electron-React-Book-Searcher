@@ -54,7 +54,7 @@ export async function request(apiPath: string, params?: RequestParams, optionsSo
 
   return axios(sendData)
     .then(res => {
-      const resData: any = res.data
+      const resData: UserLoginInfo.Response | any = res.data
       if (method == 'POST') {
         console.log(resData)
       }
@@ -67,13 +67,13 @@ export async function request(apiPath: string, params?: RequestParams, optionsSo
         errorAction(errorstring, sendData, options)
         return Promise.reject(resData)
       } else {
-        successAction('Success', 'Wait to be confirmed')
+        successAction('Success', resData.message)
         return resData
       }
     })
     .catch(async err => {
       await errorAction(err, sendData, options)
-      return Promise.reject({ ...err, path: apiPath, sendData, resData: err })
+      return Promise.reject(sendData)
     })
 }
 

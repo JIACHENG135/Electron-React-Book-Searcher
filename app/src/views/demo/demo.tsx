@@ -3,6 +3,7 @@ import * as React from 'react'
 import { shell } from 'electron'
 // import { Button, Input, Spin, Card } from 'antd'
 import { withStore } from '@/src/components'
+import Store from 'electron-store'
 import { Layout, Skeleton, Row, Col, Divider } from 'antd'
 import { SyncOutlined } from '@ant-design/icons'
 import './demo.less'
@@ -14,7 +15,7 @@ import ItemList from './ItemList'
 import 'react-multi-carousel/lib/styles.css'
 
 const { Content } = Layout
-
+const store = new Store<any>()
 interface DemoProps extends PageProps, StoreProps {
   count: StoreStates['count']
   countAlias: StoreStates['count']
@@ -122,7 +123,7 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
       })
     }
     $api
-      .queryTestInfo(bookname, { page: 2 })
+      .queryTestInfo(bookname, { page: 2 }, { headers: { Authorization: `Token ${store.get('user')}` } })
       .then(resData => {
         if (keyword == 1) this.setState({ resData: resData })
         else if (keyword == 2) this.setState({ resData2: resData })
@@ -138,7 +139,6 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
   }
 
   requestRandomTest(bookname: string, keyword: number) {
-    console.log('You called this function')
     if (keyword == 1) {
       this.setState({
         loading: true,
@@ -169,7 +169,11 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
       })
     }
     $api
-      .queryTestInfo(bookname, { page: Math.floor(Math.random() * Math.floor(4)) + 1 })
+      .queryTestInfo(
+        bookname,
+        { page: Math.floor(Math.random() * Math.floor(4)) + 1 },
+        { headers: { Authorization: `Token ${store.get('user')}` } }
+      )
       .then(resData => {
         if (keyword == 1) this.setState({ resData: resData })
         else if (keyword == 2) this.setState({ resData2: resData })

@@ -5,7 +5,7 @@
   "buildVersion": "0001",
   "private": false,
   "main": "dist/main/main.js",
-  "author": "lanten",
+  "author": "Jiacheng",
   "scripts": {
     "ts:dev": "ts-node -P build/tsconfig.json build/tasks/dev-server.ts",
     "ts:build": "ts-node -P build/tsconfig.json build/tasks/build.ts",
@@ -41,6 +41,7 @@
     "electron": "^8.0.3",
     "electron-builder": "^22.3.6",
     "electron-log": "^4.0.7",
+    "electron-store": "^5.1.1",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-loader": "^3.0.3",
@@ -59,6 +60,7 @@
     "react-dom": "^16.13.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
+    "react-transition-group": "^4.4.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "remixicon": "^2.3.0",
@@ -76,13 +78,14 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lanten/electron-antd.git"
+    "url": "git+https://github.com/Jiacheng/electron-antd.git"
   },
   "bugs": {
-    "url": "https://github.com/lanten/electron-antd/issues"
+    "url": "https://github.com/Jiacheng/electron-antd/issues"
   },
-  "homepage": "https://github.com/lanten/electron-antd#readme",
+  "homepage": "https://github.com/Jiacheng/electron-antd#readme",
   "dependencies": {
+    "@types/react-transition-group": "^4.2.4",
     "element-theme-default": "^1.4.13",
     "react-countup": "^4.3.3",
     "react-hot-loader": "^4.12.20",
