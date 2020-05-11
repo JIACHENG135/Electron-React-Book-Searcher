@@ -72,13 +72,15 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
   // 构造函数
   constructor(props: DemoProps) {
     super(props)
-    this.requestTest('book/科学', 1)
-    this.requestTest('book/历史', 2)
-    this.requestTest('category/文学', 3)
-    this.requestTest('category/传记', 4)
   }
-
-  // componentDidMount() {}
+  componentDidMount() {
+    try {
+      this.requestTest('book/科学', 1)
+      this.requestTest('book/历史', 2)
+      this.requestTest('category/文学', 3)
+      this.requestTest('category/传记', 4)
+    } catch (err) {}
+  }
   scrollSmoothHandlerScience = () => {
     this.scrollDivScience.current.scrollIntoView({ behavior: 'smooth' })
   }
@@ -130,6 +132,11 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
         else if (keyword == 3) this.setState({ resData3: resData })
         else if (keyword == 4) this.setState({ resData4: resData })
       })
+      .catch(err => {
+        $tools.createWindow('Login', {
+          windowOptions: { modal: true, parent: undefined, title: 'Login' },
+        })
+      })
       .finally(() => {
         if (keyword == 1) this.setState({ loading: false })
         else if (keyword == 2) this.setState({ loading2: false })
@@ -179,6 +186,11 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
         else if (keyword == 2) this.setState({ resData2: resData })
         else if (keyword == 3) this.setState({ resData3: resData })
         else if (keyword == 4) this.setState({ resData4: resData })
+      })
+      .catch(err => {
+        $tools.createWindow('Login', {
+          windowOptions: { modal: true, parent: undefined, title: 'Login' },
+        })
       })
       .finally(() => {
         if (keyword == 1) this.setState({ loading: false })

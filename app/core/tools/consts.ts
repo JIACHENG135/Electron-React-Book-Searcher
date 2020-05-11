@@ -14,6 +14,8 @@ export const APP_TITLE = 'Electron Antd'
 export const APP_ICON = asAssetsPath('app-icon/app-icon@256.png')
 export const APP_SVG = asAssetsPath('tools-icon/index-svg-white.svg')
 export const APP_TEXT = asAssetsPath('app-icon/text-libgen.svg')
+export const FLUID_JS = asAssetsPath('app-js/fuild.js')
+export const GUI_JS = asAssetsPath('app-js/gat.gui.min.js')
 
 /** 亮色风格托盘图标 标准尺寸 16*16, 系统会自动载入 @2x 和 @3x */
 export const TRAY_ICON_LIGHT = asAssetsPath('tray-icon/tray-icon-light.png')

@@ -57,6 +57,7 @@ export default class Register extends React.Component<RegisterProps, RegisterSta
         resData: resData,
       })
     })
+    this.props.closeWindow()
   }
   render() {
     const { resData, loading, createWindowLoading, asyncDispatchLoading } = this.state

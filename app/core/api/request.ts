@@ -72,7 +72,8 @@ export async function request(apiPath: string, params?: RequestParams, optionsSo
       }
     })
     .catch(async err => {
-      await errorAction(err, sendData, options)
+      console.log(err)
+      // await errorAction(err, sendData, options)
       return Promise.reject(sendData)
     })
 }
