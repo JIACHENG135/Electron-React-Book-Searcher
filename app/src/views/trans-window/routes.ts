@@ -1,14 +1,13 @@
 const routes: RouteConfig[] = [
   {
-    key: 'Login',
-    path: '/login',
+    key: 'Trans',
+    path: '/trans',
     windowOptions: {
-      title: 'User login',
+      title: 'transparent window',
       width: 600,
       height: 400,
-      // minWidth: 600,
-      // minHeight: 400,
-
+      minWidth: 600,
+      minHeight: 400,
       frame: true,
       transparent: true,
     },

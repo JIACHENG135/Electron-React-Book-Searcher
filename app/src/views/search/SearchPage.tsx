@@ -8,6 +8,7 @@ import CountUp from 'react-countup'
 
 import { BrowserWindow, shell } from 'electron'
 import './search.less'
+// import './canvas.less'
 const { Header, Content, Footer } = Layout
 const { Search } = Input
 
@@ -22,6 +23,7 @@ declare interface SearchState {
   createWindowLoading: boolean
   asyncDispatchLoading: boolean
   value: number
+  canv: boolean
 }
 const store = new Store<any>()
 /**
@@ -39,6 +41,7 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
     createWindowLoading: false,
     asyncDispatchLoading: false,
     value: 1,
+    canv: false,
   }
 
   // 构造函数
@@ -53,6 +56,9 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
       value: e,
     })
   }
+  sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms))
+  }
   async handlesearch(value: any) {
     // console.log(value)
     try {
@@ -63,20 +69,33 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
       )
       console.log(resData)
     } catch (err) {
-      console.log(err)
-      await $tools.createWindow('Login', {
-        windowOptions: { modal: true, parent: undefined, title: 'Login' },
+      await $tools.createWindow('Trans', {
+        windowOptions: { modal: false, parent: undefined, title: 'Login', transparent: true, frame: false },
+      })
+      this.setState({
+        canv: true,
+      })
+      await this.sleep(3000)
+      this.setState({
+        canv: false,
       })
     }
   }
+  canva = (<canvas></canvas>)
   render() {
     const { resData, loading, createWindowLoading, asyncDispatchLoading } = this.state
     const { count: reduxCount, countAlias } = this.props
-
+    // const script1 = document.createElement('script')
+    // script1.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/transparent.js'
+    // const script2 = document.createElement('script')
+    // script2.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/gat.gui.min.js'
+    // document.body.appendChild(script2)
+    // document.body.appendChild(script1)
     return (
       <Layout className="demo-container">
         <Header></Header>
         <Content>
+          {this.state.canv ? this.canva : ''}
           <Row gutter={[0, 10]}>
             <Col span={1}></Col>
             <Col span={22}>

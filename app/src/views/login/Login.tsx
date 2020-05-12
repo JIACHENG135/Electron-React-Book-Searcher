@@ -5,7 +5,7 @@ import { withStore } from '@/src/components'
 import Store from 'electron-store'
 import { Layout, Form, Input, Button, Checkbox } from 'antd'
 import './login.module.less'
-
+import './canvas.less'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
 const { Content, Sider } = Layout
@@ -58,32 +58,49 @@ export default class Login extends React.Component<LoginProps, LoginState> {
   onFinish(data: any) {
     this.handleLogin(data)
   }
-  handleLogin(data: any) {
+  sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms))
+  }
+  async handleLogin(data: any) {
     Object.assign(this.state.userprofile, data)
+    const script1 = document.createElement('script')
+    script1.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/transparent.js'
+    const script2 = document.createElement('script')
+    script2.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/gat.gui.min.js'
+    document.body.appendChild(script2)
+    document.body.appendChild(script1)
+
+    // await this.sleep(200)
+    this.setState({ loading: true })
     $api.UserLoginPost('/login/', this.state.userprofile, this.postoption).then((resData: any) => {
       this.setState({
         resData: resData,
       })
+
       if (data.remember) {
         store.set('user', resData.Token)
       }
-      this.props.closeWindow()
     })
+    await this.sleep(2000)
+    this.setState({ loading: false })
+    this.props.closeWindow()
   }
+  canva = (<canvas></canvas>)
+  image = (<img src={$tools.SIGN_UP} width="100%" alt="sign" />)
   render() {
     // const { resData, loading, createWindowLoading, asyncDispatchLoading } = this.state
     // const { count: reduxCount, countAlias } = this.props
     return (
       <Layout className="demo-login-container">
-        <Sider width="50%">
-          <img src={$tools.SIGN_UP} width="100%" alt="sign" />
+        <Sider width="50%" className="side-bar">
+          {this.state.loading ? this.canva : this.image}
         </Sider>
         <Layout>
           <Content>
             <div className="login-container">
               <Form
                 name="normal_login"
-                className="login-form"
+                className={`login-form ${this.state.loading ? 'transparent' : ''}`}
                 initialValues={{
                   remember: true,
                 }}
