@@ -56,7 +56,6 @@ export async function request(apiPath: string, params?: RequestParams, optionsSo
     .then(res => {
       const resData: UserLoginInfo.Response | any = res.data
       if (method == 'POST') {
-        console.log(resData)
       }
       if (method == 'GET' && (!checkStatus || res.status == 200)) {
         return resData
@@ -72,7 +71,6 @@ export async function request(apiPath: string, params?: RequestParams, optionsSo
       }
     })
     .catch(async err => {
-      console.log(err)
       // await errorAction(err, sendData, options)
       return Promise.reject(sendData)
     })

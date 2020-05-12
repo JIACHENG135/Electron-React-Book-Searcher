@@ -41,14 +41,12 @@ export async function errorAction(err: any, sendData: any, options: RequestOptio
             message: message.username || message.password1 || message.password2 || message.email || message,
           },
         })
-        console.log()
       }
       break
   }
 }
 
 export async function ejectDialog(messageBoxOptions: MessageBoxOptions) {
-  console.log(messageBoxOptions)
   await dialog.showMessageBox(remote.getCurrentWindow(), messageBoxOptions)
 }
 

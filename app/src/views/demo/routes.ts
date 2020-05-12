@@ -2,6 +2,10 @@ const routes: RouteConfig[] = [
   {
     key: 'Demo',
     path: '/demo',
+    windowOptions: {
+      frame: true,
+      titleBarStyle: 'default',
+    },
     createConfig: {
       single: false,
     },

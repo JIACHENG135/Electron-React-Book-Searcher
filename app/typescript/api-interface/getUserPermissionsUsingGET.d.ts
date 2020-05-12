@@ -51,3 +51,18 @@ declare namespace UserLoginInfo {
     Token: string
   }
 }
+
+declare namespace BookSectionInfo {
+  interface Params {}
+
+  interface Response {
+    code: number
+    status: boolean
+    message: string
+    profile?: any
+    token?: string
+    username: string
+    Token: string
+    results?: Array<any>
+  }
+}
