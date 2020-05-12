@@ -4,7 +4,8 @@ import { shell } from 'electron'
 import './about.less'
 
 export default class About extends React.Component<PageProps> {
-  componentDidMount() {
+  constructor(props: PageProps) {
+    super(props)
     const script1 = document.createElement('script')
     script1.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/fluid.js'
     const script2 = document.createElement('script')
@@ -12,6 +13,7 @@ export default class About extends React.Component<PageProps> {
     document.body.appendChild(script2)
     document.body.appendChild(script1)
   }
+  componentDidMount() {}
   render() {
     return (
       <div className="about flex column center" style={{ height: '100%' }}>
