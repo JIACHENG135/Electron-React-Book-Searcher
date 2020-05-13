@@ -8,8 +8,6 @@ const routes: RouteConfig[] = [
       minimizable: false,
       maximizable: false,
       fullscreenable: false,
-      width: 300,
-      height: 240,
     },
     createConfig: {
       showTitlebar: false,

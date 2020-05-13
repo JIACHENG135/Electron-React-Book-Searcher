@@ -62,17 +62,16 @@ export default class Login extends React.Component<LoginProps, LoginState> {
     return new Promise(resolve => setTimeout(resolve, ms))
   }
   async handleLogin(data: any) {
+    this.setState({ loading: true })
     Object.assign(this.state.userprofile, data)
     const script1 = document.createElement('script')
-    script1.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/transparent.js'
+    script1.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/fluid.js'
     const script2 = document.createElement('script')
     script2.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/gat.gui.min.js'
     document.body.appendChild(script2)
     document.body.appendChild(script1)
-
     // await this.sleep(200)
-    this.setState({ loading: true })
-    $api.UserLoginPost('/login/', this.state.userprofile, this.postoption).then((resData: any) => {
+    await $api.UserLoginPost('/login/', this.state.userprofile, this.postoption).then((resData: any) => {
       this.setState({
         resData: resData,
       })
@@ -93,11 +92,12 @@ export default class Login extends React.Component<LoginProps, LoginState> {
     return (
       <Layout className="demo-login-container">
         <Sider width="50%" className="side-bar">
-          {this.state.loading ? this.canva : this.image}
+          {this.image}
         </Sider>
         <Layout>
           <Content>
             <div className="login-container">
+              {this.state.loading ? this.canva : ''}
               <Form
                 name="normal_login"
                 className={`login-form ${this.state.loading ? 'transparent' : ''}`}

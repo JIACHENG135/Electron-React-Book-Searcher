@@ -40,11 +40,11 @@ export const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
   resizable: false,
   webPreferences: {
     nodeIntegration: true,
-    // scrollBounce: true,
+    scrollBounce: true,
   },
 
   // transparent: true, // 窗口是否透明
-  // show: false,
+  show: false,
   // hasShadow: true,
   // icon: APP_ICON,
   // minWidth: 200,

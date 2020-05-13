@@ -1,5 +1,6 @@
 import * as React from 'react'
 // import { Button, Input, Spin, Card } from 'antd'
+import { remote } from 'electron'
 import { withStore } from '@/src/components'
 import Store from 'electron-store'
 
@@ -8,7 +9,7 @@ import CountUp from 'react-countup'
 
 import { BrowserWindow, shell } from 'electron'
 import './search.less'
-// import './canvas.less'
+import './canvas.less'
 const { Header, Content, Footer } = Layout
 const { Search } = Input
 
@@ -48,9 +49,9 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
   constructor(props: SearchProps) {
     super(props)
   }
-  componentDidMount() {
-    console.log(this)
-  }
+  // canva = document.createElement('CANVAS')
+
+  componentDidMount() {}
   setInputValue(e: any) {
     this.setState({
       value: e,
@@ -67,35 +68,49 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
         { page: 1 },
         { headers: { Authorization: `Token ${store.get('user')}` } }
       )
-      console.log(resData)
     } catch (err) {
-      await $tools.createWindow('Trans', {
-        windowOptions: { modal: false, parent: undefined, title: 'Login', transparent: true, frame: false },
-      })
+      // const { x, y, width, height } = remote.getCurrentWindow().getBounds()
+
+      // await $tools.createWindow('Trans', {
+      //   windowOptions: {
+      //     title: 'Login',
+      //     transparent: true,
+      //     frame: false,
+      //     x: x + 60,
+      //     y: y,
+      //     width: width - 60,
+      //     height: height,
+      //   },
+      //   createConfig: {
+      //     showSidebar: false,
+      //   },
+      // })
+
       this.setState({
         canv: true,
       })
-      await this.sleep(3000)
-      this.setState({
-        canv: false,
-      })
+      const script1 = document.createElement('script')
+      script1.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/fluid.js'
+      const script2 = document.createElement('script')
+      script2.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/gat.gui.min.js'
+      document.body.appendChild(script2)
+      document.body.appendChild(script1)
+      await this.sleep(10000)
+      remote.getCurrentWebContents().reload()
+      // document.body.removeChild(this.canva)
     }
   }
   canva = (<canvas></canvas>)
   render() {
     const { resData, loading, createWindowLoading, asyncDispatchLoading } = this.state
     const { count: reduxCount, countAlias } = this.props
-    // const script1 = document.createElement('script')
-    // script1.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/transparent.js'
-    // const script2 = document.createElement('script')
-    // script2.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/gat.gui.min.js'
-    // document.body.appendChild(script2)
-    // document.body.appendChild(script1)
+
     return (
       <Layout className="demo-container">
         <Header></Header>
-        <Content>
+        <Content className="saerch-wrap">
           {this.state.canv ? this.canva : ''}
+          {/* <canvas></canvas> */}
           <Row gutter={[0, 10]}>
             <Col span={1}></Col>
             <Col span={22}>

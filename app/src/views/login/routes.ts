@@ -9,7 +9,7 @@ const routes: RouteConfig[] = [
       // minWidth: 600,
       // minHeight: 400,
 
-      frame: true,
+      frame: false,
       transparent: true,
     },
     createConfig: {

@@ -3,10 +3,10 @@ import axios from 'axios'
 // import { Button, Input, Spin, Card } from 'antd'
 import { withStore } from '@/src/components'
 import Store from 'electron-store'
-import { Layout, Skeleton, Row, Col, Divider } from 'antd'
-import { UserOutlined, LockOutlined, SyncOutlined } from '@ant-design/icons'
+import { Skeleton, Row, Col, Divider } from 'antd'
+import { SyncOutlined } from '@ant-design/icons'
 import ItemList from './book-section/ItemList'
-const { Content, Sider } = Layout
+import { remote } from 'electron'
 const store = new Store<any>()
 interface BookSectionProps {
   title: string
@@ -79,13 +79,11 @@ export default class BookSection extends React.Component<BookSectionProps, BookS
     $api
       .queryTestInfo(bookname, { page: 1 }, { headers: { Authorization: `Token ${store.get('user')}` } })
       .then(resData => {
-        console.log('requestTest')
-        console.log(resData)
         this.setState({ resData: resData })
       })
       .catch(err => {
         $tools.createWindow('Login', {
-          windowOptions: { modal: true, parent: undefined, title: 'Login' },
+          windowOptions: { title: 'Login', transparent: true },
         })
       })
       .finally(() => {
@@ -99,8 +97,8 @@ export default class BookSection extends React.Component<BookSectionProps, BookS
         results: [],
       },
     })
-    console.log(this.state.resData.count)
-    const randompage: number = Math.floor((Math.random() * this.state.resData.count) / 10 - 1)
+    const randompage: number = Math.floor((Math.random() * this.state.resData.count) / 22 + 1)
+
     $api
       .queryTestInfo(
         bookname,
@@ -108,12 +106,13 @@ export default class BookSection extends React.Component<BookSectionProps, BookS
         { headers: { Authorization: `Token ${store.get('user')}` } }
       )
       .then(resData => {
-        console.log(resData)
         this.setState({ resData: resData })
       })
       .catch(err => {
+        console.log('Errrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr')
+        console.log(err)
         $tools.createWindow('Login', {
-          windowOptions: { modal: true, parent: undefined, title: 'Login' },
+          windowOptions: { title: 'Login', frame: false, transparent: true },
         })
       })
       .finally(() => {

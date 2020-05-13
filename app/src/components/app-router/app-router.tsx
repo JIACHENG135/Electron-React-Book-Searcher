@@ -48,12 +48,10 @@ export class AppRouter extends React.Component<AppRouterProps, AppRouterState> {
     return (
       <Provider store={store}>
         <Router>
-          <CSSTransition in={true} timeout={300} classNames="page" unmountOnExit>
-            <Switch>
-              {this.routeElements}
-              {this.noMatch ?? null}
-            </Switch>
-          </CSSTransition>
+          <Switch>
+            {this.routeElements}
+            {this.noMatch ?? null}
+          </Switch>
         </Router>
       </Provider>
     )
@@ -78,7 +76,6 @@ export class AppRouter extends React.Component<AppRouterProps, AppRouterState> {
 
   creatRoute = (routeConfig: RouteConfig, key: string) => {
     const { path, exact = true, redirect, ...params } = routeConfig
-    console.log(params)
     const routeProps: any = { key, name: key, path, exact }
 
     if (redirect) {

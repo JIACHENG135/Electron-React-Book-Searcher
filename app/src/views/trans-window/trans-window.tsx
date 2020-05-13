@@ -33,36 +33,34 @@ export default class Login extends React.Component<LoginProps, LoginState> {
   constructor(props: LoginProps) {
     super(props)
   }
-  postoption: RequestOptions = {
-    formData: false,
-    method: 'POST',
-    errorType: 'modal',
-  }
-  componentDidMount() {}
 
-  sleep(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms))
-  }
-  async handleLogin() {
+  async componentDidMount() {
     const script1 = document.createElement('script')
     script1.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/transparent.js'
     const script2 = document.createElement('script')
     script2.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/gat.gui.min.js'
     document.body.appendChild(script2)
+    // document.body.style.opacity = '0.1'
     document.body.appendChild(script1)
-
-    // await this.sleep(200)
     this.setState({ loading: true })
 
     await this.sleep(2000)
     this.setState({ loading: false })
     this.props.closeWindow()
   }
+
+  sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms))
+  }
+
   canva = (<canvas></canvas>)
-  image = (<img src={$tools.SIGN_UP} width="100%" alt="sign" />)
   render() {
     // const { resData, loading, createWindowLoading, asyncDispatchLoading } = this.state
     // const { count: reduxCount, countAlias } = this.props
-    return <div className=""></div>
+    return (
+      <div className="">
+        <canvas></canvas>
+      </div>
+    )
   }
 } // class Demo end

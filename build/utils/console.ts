@@ -35,7 +35,6 @@ export class Console {
     const conf = config[type]
     const str = `[${this.getDateStr()}] ${chalk.white[conf.color].bold(this.center(type))} ${message}`
 
-    console.log(str)
     return str
   }
 

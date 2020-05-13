@@ -1,18 +1,20 @@
 import React from 'react'
-import { shell } from 'electron'
+import { shell, remote } from 'electron'
 
 import './about.less'
 
 export default class About extends React.Component<PageProps> {
   constructor(props: PageProps) {
     super(props)
+
     const script1 = document.createElement('script')
-    script1.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/fluid.js'
+    script1.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/black.js'
     const script2 = document.createElement('script')
     script2.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/gat.gui.min.js'
     document.body.appendChild(script2)
     document.body.appendChild(script1)
   }
+
   componentDidMount() {}
   render() {
     return (
