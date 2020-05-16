@@ -69,35 +69,15 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
         { headers: { Authorization: `Token ${store.get('user')}` } }
       )
     } catch (err) {
-      // const { x, y, width, height } = remote.getCurrentWindow().getBounds()
-
-      // await $tools.createWindow('Trans', {
-      //   windowOptions: {
-      //     title: 'Login',
-      //     transparent: true,
-      //     frame: false,
-      //     x: x + 60,
-      //     y: y,
-      //     width: width - 60,
-      //     height: height,
-      //   },
-      //   createConfig: {
-      //     showSidebar: false,
-      //   },
-      // })
-
       this.setState({
         canv: true,
       })
       const script1 = document.createElement('script')
-      script1.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/fluid.js'
+      script1.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/black.js'
       const script2 = document.createElement('script')
       script2.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/gat.gui.min.js'
       document.body.appendChild(script2)
       document.body.appendChild(script1)
-      await this.sleep(10000)
-      remote.getCurrentWebContents().reload()
-      // document.body.removeChild(this.canva)
     }
   }
   canva = (<canvas></canvas>)

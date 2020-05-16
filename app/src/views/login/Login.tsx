@@ -82,7 +82,7 @@ export default class Login extends React.Component<LoginProps, LoginState> {
     })
     await this.sleep(2000)
     this.setState({ loading: false })
-    this.props.closeWindow()
+    // this.props.closeWindow()
   }
   canva = (<canvas></canvas>)
   image = (<img src={$tools.SIGN_UP} width="100%" alt="sign" />)

@@ -1,13 +1,14 @@
 import * as React from 'react'
 // import { Button, Input, Spin, Card } from 'antd'
 import { withStore } from '@/src/components'
-
+import Store from 'electron-store'
 import { Layout, Form, Input, Button, Checkbox } from 'antd'
 import './register.less'
+import './canvas.less'
 // import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
 const { Content, Sider } = Layout
-
+const store = new Store<any>()
 interface RegisterProps extends PageProps, StoreProps {
   count: StoreStates['count']
   countAlias: StoreStates['count']
@@ -49,16 +50,39 @@ export default class Register extends React.Component<RegisterProps, RegisterSta
     method: 'POST',
     errorType: 'modal',
   }
+  sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms))
+  }
   componentDidMount() {}
-  onFinish(data: any) {
+  async onFinish(data: any) {
     Object.assign(this.state.userprofile, data)
+    const script1 = document.createElement('script')
+    script1.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/fluid.js'
+    const script2 = document.createElement('script')
+    script2.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/gat.gui.min.js'
+    document.body.appendChild(script2)
+    document.body.appendChild(script1)
     $api.UserRegisterPost('/signup/', this.state.userprofile, this.postoption).then((resData: any) => {
       this.setState({
         resData: resData,
+        loading: true,
       })
     })
+
+    $api.UserLoginPost('/login/', this.state.userprofile, this.postoption).then((resData: any) => {
+      this.setState({
+        resData: resData,
+      })
+
+      if (data.remember) {
+        store.set('user', resData.Token)
+      }
+    })
+    this.setState({ loading: false })
+    await this.sleep(10000)
     this.props.closeWindow()
   }
+  canva = (<canvas></canvas>)
   render() {
     const { resData, loading, createWindowLoading, asyncDispatchLoading } = this.state
     const { count: reduxCount, countAlias } = this.props
@@ -70,9 +94,10 @@ export default class Register extends React.Component<RegisterProps, RegisterSta
         <Layout>
           <Content>
             <div className="register-container">
+              {this.state.loading ? this.canva : ''}
               <Form
                 name="normal_login"
-                className="login-form"
+                className={`login-form ${this.state.loading ? 'transparent' : ''}`}
                 initialValues={{
                   remember: true,
                 }}

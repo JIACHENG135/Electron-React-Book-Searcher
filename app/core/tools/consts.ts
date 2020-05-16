@@ -35,9 +35,9 @@ export const TRAY_ICON_DARK = asAssetsPath('tray-icon/tray-icon-dark.png')
 
 /** 创建新窗口时默认加载的选项 */
 export const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
-  width: 800,
-  height: 600,
-  resizable: false,
+  width: 1200,
+  height: 900,
+  resizable: true,
   webPreferences: {
     nodeIntegration: true,
     scrollBounce: true,
@@ -49,7 +49,7 @@ export const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
   // icon: APP_ICON,
   // minWidth: 200,
   // minHeight: 200,
-  // titleBarStyle: 'default', // 隐藏标题栏, 但显示窗口控制按钮
+  titleBarStyle: 'hidden', // 隐藏标题栏, 但显示窗口控制按钮
   // frame: process.platform === 'darwin' ? true : false, // 无边框窗口
   frame: true, // 无边框窗口
   // skipTaskbar: false, // 是否在任务栏中隐藏窗口
@@ -64,5 +64,5 @@ export const DEFAULT_INITIAL_CONFIG: CreateConfig = {
   autoShow: true,
   delayToShow: 10,
   single: true,
-  hideMenus: false,
+  hideMenus: true,
 }

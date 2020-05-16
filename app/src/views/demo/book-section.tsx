@@ -7,6 +7,7 @@ import { Skeleton, Row, Col, Divider } from 'antd'
 import { SyncOutlined } from '@ant-design/icons'
 import ItemList from './book-section/ItemList'
 import { remote } from 'electron'
+import './book-section.less'
 const store = new Store<any>()
 interface BookSectionProps {
   title: string
@@ -36,7 +37,7 @@ export default class BookSection extends React.Component<BookSectionProps, BookS
   state: BookSectionState = {
     resData: {
       results: [{}],
-      count: 0,
+      count: 1,
     },
     loading: false,
     createWindowLoading: false,
@@ -64,8 +65,8 @@ export default class BookSection extends React.Component<BookSectionProps, BookS
   }
 
   sectiontitle = (
-    <Divider orientation="left" style={{ color: '#333', fontWeight: 'normal' }}>
-      【{this.props.title}】
+    <Divider className="book-divider" orientation="left" style={{ color: '#333', fontWeight: 'normal' }}>
+      {this.props.title}
     </Divider>
   )
   requestTest(bookname: string) {
@@ -87,7 +88,12 @@ export default class BookSection extends React.Component<BookSectionProps, BookS
         })
       })
       .finally(() => {
-        this.setState({ loading: false })
+        if (this.state.resData.results.length > 0) {
+          this.setState({ loading: false })
+        } else {
+          this.setState({ loading: true })
+        }
+        // this.setState({ loading: false })
       })
   }
   requestRandomTest(bookname: string, keyword: number) {
@@ -106,6 +112,7 @@ export default class BookSection extends React.Component<BookSectionProps, BookS
         { headers: { Authorization: `Token ${store.get('user')}` } }
       )
       .then(resData => {
+        console.log(resData)
         this.setState({ resData: resData })
       })
       .catch(err => {
@@ -116,7 +123,11 @@ export default class BookSection extends React.Component<BookSectionProps, BookS
         })
       })
       .finally(() => {
-        this.setState({ loading: false })
+        if (this.state.resData.results.length > 0) {
+          this.setState({ loading: false })
+        } else {
+          this.setState({ loading: true })
+        }
       })
   }
   render() {
@@ -126,7 +137,7 @@ export default class BookSection extends React.Component<BookSectionProps, BookS
     const syncicon = <SyncOutlined></SyncOutlined>
     const nosyncicon = <SyncOutlined spin></SyncOutlined>
     return (
-      <section id="kexue" ref={ref}>
+      <section id="kexue" ref={ref} className="book-section">
         {this.state.resData.results.length > 0 ? this.sectiontitle : ''}
 
         <Skeleton loading={this.state.loading} key="Skeleton1" active className="skeleton-holder"></Skeleton>

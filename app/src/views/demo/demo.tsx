@@ -5,11 +5,14 @@ import { withStore } from '@/src/components'
 import Store from 'electron-store'
 import { Layout } from 'antd'
 import './demo.less'
+import PerfectScrollbar from 'react-perfect-scrollbar'
 // import 'antd/dist/antd.css'
 
 import Carousel from 'react-multi-carousel'
 import BookSection from './book-section'
 import 'react-multi-carousel/lib/styles.css'
+import 'react-perfect-scrollbar/dist/css/styles.css'
+import './demo.less'
 
 const { Content } = Layout
 const store = new Store<any>()
@@ -82,31 +85,33 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
     }
 
     return (
-      <Layout className="demo-container">
-        <Content>
-          <Carousel responsive={responsive} infinite={true} itemClass="item-class">
-            <div className="carousel-layer" onClick={this.scrollSmoothHandlerScience}>
-              <img src={$tools.SCIENCE} className="carousel-image" alt="science" />
-            </div>
-            <div className="carousel-layer" onClick={this.scrollSmoothHandlerHistory}>
-              <img src={$tools.HISTORY} className="carousel-image" alt="science" />
-            </div>
-            <div className="carousel-layer" onClick={this.scrollSmoothHandlerWenxue}>
-              <img src={$tools.WENXUE} className="carousel-image" alt="science" />
-            </div>
-            <div className="carousel-layer" onClick={this.scrollSmoothHandlerBio}>
-              <img src={$tools.BIO} className="carousel-image" alt="science" />
-            </div>
-          </Carousel>
-          <BookSection ref={this.scrollDivScience} title="科学"></BookSection>
-          <BookSection ref={this.scrollDivHistory} title="历史"></BookSection>
-          <BookSection ref={this.scrollDivWenxue} title="文学"></BookSection>
-          <BookSection ref={this.scrollDivBio} title="传记"></BookSection>
-          <BookSection ref={this.scrollDivBio} title="军事"></BookSection>
-          <BookSection ref={this.scrollDivBio} title="计算机"></BookSection>
-          <BookSection ref={this.scrollDivBio} title="小说"></BookSection>
-        </Content>
-      </Layout>
+      <PerfectScrollbar>
+        <Layout className="demo-container">
+          <Content>
+            <Carousel responsive={responsive} infinite={true} itemClass="item-class">
+              <div className="carousel-layer" onClick={this.scrollSmoothHandlerScience}>
+                <img src={$tools.SCIENCE} className="carousel-image" alt="science" />
+              </div>
+              <div className="carousel-layer" onClick={this.scrollSmoothHandlerHistory}>
+                <img src={$tools.HISTORY} className="carousel-image" alt="science" />
+              </div>
+              <div className="carousel-layer" onClick={this.scrollSmoothHandlerWenxue}>
+                <img src={$tools.WENXUE} className="carousel-image" alt="science" />
+              </div>
+              <div className="carousel-layer" onClick={this.scrollSmoothHandlerBio}>
+                <img src={$tools.BIO} className="carousel-image" alt="science" />
+              </div>
+            </Carousel>
+            <BookSection ref={this.scrollDivScience} title="科学"></BookSection>
+            <BookSection ref={this.scrollDivHistory} title="历史"></BookSection>
+            <BookSection ref={this.scrollDivWenxue} title="文学"></BookSection>
+            <BookSection ref={this.scrollDivBio} title="传记"></BookSection>
+            <BookSection ref={this.scrollDivBio} title="军事"></BookSection>
+            <BookSection ref={this.scrollDivBio} title="计算机"></BookSection>
+            <BookSection ref={this.scrollDivBio} title="小说"></BookSection>
+          </Content>
+        </Layout>
+      </PerfectScrollbar>
     )
   }
 }
