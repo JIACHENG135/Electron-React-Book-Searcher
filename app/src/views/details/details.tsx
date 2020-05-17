@@ -4,8 +4,8 @@ import { withStore } from '@/src/components'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
 import Store from 'electron-store'
-import { Layout, Divider, Row, Col } from 'antd'
-
+import { Layout, Button, Divider, Row, Col } from 'antd'
+import { DownloadOutlined, ApartmentOutlined, CloseOutlined } from '@ant-design/icons'
 import './details.less'
 const { Content } = Layout
 const store = new Store<any>()
@@ -54,6 +54,9 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
   }
 
   async handleQuery() {}
+  handleClose() {
+    this.props.closeWindow()
+  }
   image = (<img src={$tools.SIGN_UP} width="100%" alt="sign" />)
   componentDidMount() {
     const pk = store.get('pkvalue')
@@ -61,8 +64,6 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
     $api
       .BookQueryGet('/detail/' + pk, {}, { headers: { Authorization: `Token ${store.get('user')}` } })
       .then((resData: any) => {
-        console.log('Errorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr')
-        console.log(resData)
         this.setState({
           resData: resData,
           loading: false,
@@ -77,37 +78,54 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
     }
     const book = (
       <Row className="book-row">
-        <Col flex="300px"></Col>
+        <Col flex="260px"></Col>
         <Col flex="auto" className="book-text"></Col>
       </Row>
     )
     return (
-      <PerfectScrollbar>
-        <Layout className="book-detail-container">
-          <Layout>
-            <Content>
-              <Row>
-                <Col flex="300px">
-                  <img src={this.state.resData.results[0].book_pic} className="detail-image" alt="" />
-                </Col>
+      <Layout className="book-detail-container">
+        <Layout>
+          <Content>
+            <Row>
+              <Col flex="260px">
+                <img src={this.state.resData.results[0].book_pic} className="detail-image" alt="" />
+              </Col>
+              <PerfectScrollbar>
                 <Col flex="auto" className="book-right-area">
-                  <div>
-                    <span className="">书名:</span>
-                    {this.state.resData.results[0].book_title}
-                  </div>
-                  <div>
-                    <span className="">作者:</span>
-                    {this.state.resData.results[0].book_author}
-                  </div>
-                  <div>
-                    <span>{this.state.resData.results[0].book_infos}</span>
+                  <div className="book-right-container">
+                    <div>
+                      <span className="book-text">书名:</span>
+                      {this.state.resData.results[0].book_title}
+                    </div>
+                    <div>
+                      <span className="book-text">作者:</span>
+                      {this.state.resData.results[0].book_author}
+                    </div>
+                    <div>
+                      <span className="book-icon" title="Download">
+                        <Button type="primary" icon={<DownloadOutlined />} />
+                      </span>
+                      <span className="book-icon" title="Subscribe">
+                        <Button type="primary" icon={<ApartmentOutlined />} />
+                      </span>
+                      <span
+                        className="book-icon"
+                        title="Close the window"
+                        onClick={this.handleClose.bind(this)}
+                      >
+                        <Button type="primary" danger icon={<CloseOutlined />} />
+                      </span>
+                    </div>
+                    <div>
+                      <span>{this.state.resData.results[0].book_infos}</span>
+                    </div>
                   </div>
                 </Col>
-              </Row>
-            </Content>
-          </Layout>
+              </PerfectScrollbar>
+            </Row>
+          </Content>
         </Layout>
-      </PerfectScrollbar>
+      </Layout>
     )
   }
 } // class Demo end

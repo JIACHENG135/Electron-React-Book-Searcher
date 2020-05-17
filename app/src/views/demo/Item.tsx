@@ -18,10 +18,8 @@ export default class Item extends React.Component<CarouselItemProps, CarouselIte
     resData: [{}],
   }
   handleDetail(pk: any) {
-    console.log(pk)
     this.props.item
     store.set('pkvalue', pk)
-    console.log('Create Window')
     $tools.createWindow('Details', {
       windowOptions: { title: 'Details', transparent: false },
     })

@@ -83,37 +83,39 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
     }
 
     return (
-      <PerfectScrollbar className="scroll-area">
+      <div className="scroll-area">
         <Layout className="demo-container">
           <Content>
-            <Carousel responsive={responsive} infinite={true} itemClass="item-class">
-              <div className="carousel-layer" onClick={this.scrollSmoothHandlerScience}>
-                <img src={$tools.SCIENCE} className="carousel-image" alt="science" />
-              </div>
-              <div className="carousel-layer" onClick={this.scrollSmoothHandlerHistory}>
-                <img src={$tools.HISTORY} className="carousel-image" alt="science" />
-              </div>
-              <div className="carousel-layer" onClick={this.scrollSmoothHandlerWenxue}>
-                <img src={$tools.WENXUE} className="carousel-image" alt="science" />
-              </div>
-              <div className="carousel-layer" onClick={this.scrollSmoothHandlerBio}>
-                <img src={$tools.BIO} className="carousel-image" alt="science" />
-              </div>
-            </Carousel>
-            {/* <BookSection ref={this.scrollDivScience} title="科学"></BookSection>
+            <PerfectScrollbar>
+              <Carousel responsive={responsive} infinite={true} itemClass="item-class">
+                <div className="carousel-layer" onClick={this.scrollSmoothHandlerScience}>
+                  <img src={$tools.SCIENCE} className="carousel-image" alt="science" />
+                </div>
+                <div className="carousel-layer" onClick={this.scrollSmoothHandlerHistory}>
+                  <img src={$tools.HISTORY} className="carousel-image" alt="science" />
+                </div>
+                <div className="carousel-layer" onClick={this.scrollSmoothHandlerWenxue}>
+                  <img src={$tools.WENXUE} className="carousel-image" alt="science" />
+                </div>
+                <div className="carousel-layer" onClick={this.scrollSmoothHandlerBio}>
+                  <img src={$tools.BIO} className="carousel-image" alt="science" />
+                </div>
+              </Carousel>
+              {/* <BookSection ref={this.scrollDivScience} title="科学"></BookSection>
             <BookSection ref={this.scrollDivHistory} title="历史"></BookSection>
             <BookSection ref={this.scrollDivWenxue} title="文学"></BookSection>
             <BookSection ref={this.scrollDivBio} title="传记"></BookSection>
             <BookSection ref={this.scrollDivBio} title="军事"></BookSection> */}
-            <BookSection ref={this.scrollDivBio} title="计算机"></BookSection>
-            <BookSection ref={this.scrollDivBio} title="小说"></BookSection>
-            <BookSection ref={this.scrollDivBio} title="金融"></BookSection>
-            <BookSection ref={this.scrollDivBio} title="知乎"></BookSection>
-            <BookSection ref={this.scrollDivBio} title="社会"></BookSection>
-            <BookSection ref={this.scrollDivBio} title="宗教"></BookSection>
+              <BookSection ref={this.scrollDivBio} title="计算机"></BookSection>
+              <BookSection ref={this.scrollDivBio} title="小说"></BookSection>
+              <BookSection ref={this.scrollDivBio} title="金融"></BookSection>
+              <BookSection ref={this.scrollDivBio} title="知乎"></BookSection>
+              <BookSection ref={this.scrollDivBio} title="社会"></BookSection>
+              <BookSection ref={this.scrollDivBio} title="宗教"></BookSection>
+            </PerfectScrollbar>
           </Content>
         </Layout>
-      </PerfectScrollbar>
+      </div>
     )
   }
 }

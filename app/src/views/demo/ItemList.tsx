@@ -34,7 +34,7 @@ export default class ItemList extends React.Component<CarouselListItemProps> {
     return (
       <Carousel responsive={responsive} infinite={true} itemClass="item-class">
         {items.map(item => (
-          <Item item={item} key={item.book_origin}></Item>
+          <Item item={item} key={item.id}></Item>
         ))}
       </Carousel>
     )
