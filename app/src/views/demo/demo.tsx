@@ -83,8 +83,8 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
     }
 
     return (
-      <div className="scroll-area">
-        <PerfectScrollbar>
+      <PerfectScrollbar>
+        <div className="scroll-area">
           <Layout className="demo-container">
             <Content>
               <Carousel responsive={responsive} infinite={true} itemClass="item-class">
@@ -106,16 +106,18 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
             <BookSection ref={this.scrollDivWenxue} title="文学"></BookSection>
             <BookSection ref={this.scrollDivBio} title="传记"></BookSection>
             <BookSection ref={this.scrollDivBio} title="军事"></BookSection> */}
-              <BookSection ref={this.scrollDivBio} title="计算机"></BookSection>
-              <BookSection ref={this.scrollDivBio} title="小说"></BookSection>
-              <BookSection ref={this.scrollDivBio} title="金融"></BookSection>
-              <BookSection ref={this.scrollDivBio} title="知乎"></BookSection>
-              <BookSection ref={this.scrollDivBio} title="社会"></BookSection>
-              <BookSection ref={this.scrollDivBio} title="宗教"></BookSection>
+              <div className="book-section-area">
+                <BookSection ref={this.scrollDivBio} title="计算机"></BookSection>
+                <BookSection ref={this.scrollDivBio} title="小说"></BookSection>
+                <BookSection ref={this.scrollDivBio} title="金融"></BookSection>
+                <BookSection ref={this.scrollDivBio} title="知乎"></BookSection>
+                <BookSection ref={this.scrollDivBio} title="社会"></BookSection>
+                <BookSection ref={this.scrollDivBio} title="宗教"></BookSection>
+              </div>
             </Content>
           </Layout>
-        </PerfectScrollbar>
-      </div>
+        </div>
+      </PerfectScrollbar>
     )
   }
 }

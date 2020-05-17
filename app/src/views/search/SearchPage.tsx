@@ -139,7 +139,7 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
                 </Col>
                 <Col span={8}>
                   <CountUp className="book-counter" start={0} end={2791901} duration={1.0} />
-                  <span>Aritcles</span>
+                  <span>Articles</span>
                 </Col>
               </Row>
             </Col>
