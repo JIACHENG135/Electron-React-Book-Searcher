@@ -1,16 +1,14 @@
 import * as React from 'react'
 // import { Button, Input, Spin, Card } from 'antd'
-import { remote } from 'electron'
 import { withStore } from '@/src/components'
 import Store from 'electron-store'
 
-import { Layout, Input, Row, Col, Radio, Menu, Breadcrumb } from 'antd'
+import { Layout, Input, Row, Col, Radio } from 'antd'
 import CountUp from 'react-countup'
 
-import { BrowserWindow, shell } from 'electron'
 import './search.less'
 import './canvas.less'
-const { Header, Content, Footer } = Layout
+const { Header, Content } = Layout
 const { Search } = Input
 
 interface SearchProps extends PageProps, StoreProps {
@@ -63,7 +61,7 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
   async handlesearch(value: any) {
     // console.log(value)
     try {
-      const resData = await $api.SearchGet(
+      await $api.SearchGet(
         'book/' + value,
         { page: 1 },
         { headers: { Authorization: `Token ${store.get('user')}` } }
@@ -82,8 +80,7 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
   }
   canva = (<canvas></canvas>)
   render() {
-    const { resData, loading, createWindowLoading, asyncDispatchLoading } = this.state
-    const { count: reduxCount, countAlias } = this.props
+    const { loading } = this.state
 
     return (
       <Layout className="demo-container">

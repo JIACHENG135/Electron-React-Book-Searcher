@@ -1,11 +1,11 @@
 @import '~@/src/styles/_var.less';
 
 .app-sidebar {
-  -webkit-app-region: drag;
   width: @sidebar_width;
   height: 100vh;
-  background-color: @sidebar_background;
-  color: fade(@color_light, 75);
+  // background-color: @sidebar_background!important;
+  background-color: gray;
+  color: fade(@color_light, 0);
   user-select: none;
   .side-menu {
     margin-top: @padding;
@@ -20,7 +20,12 @@
       }
     }
   }
+  z-index: 100;
   .svg-image {
+    //
     fill-rule: white !important;
   }
+}
+.app-sidebar-header {
+  -webkit-app-region: drag;
 }

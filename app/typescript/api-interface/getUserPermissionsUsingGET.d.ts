@@ -66,3 +66,20 @@ declare namespace BookSectionInfo {
     results?: Array<any>
   }
 }
+
+declare namespace BookDetailInfo {
+  interface Params {
+    page?: number
+  }
+
+  interface Response {
+    code: number
+    status: boolean
+    message: string
+    profile?: any
+    token?: string
+    username: string
+    Token: string
+    results?: Array<any>
+  }
+}

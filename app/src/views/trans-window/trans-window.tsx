@@ -40,7 +40,6 @@ export default class Login extends React.Component<LoginProps, LoginState> {
     const script2 = document.createElement('script')
     script2.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/gat.gui.min.js'
     document.body.appendChild(script2)
-    // document.body.style.opacity = '0.1'
     document.body.appendChild(script1)
     this.setState({ loading: true })
 

@@ -2,7 +2,6 @@ import * as React from 'react'
 
 // import { Button, Input, Spin, Card } from 'antd'
 import { withStore } from '@/src/components'
-import Store from 'electron-store'
 import { Layout } from 'antd'
 import './demo.less'
 import PerfectScrollbar from 'react-perfect-scrollbar'
@@ -15,7 +14,6 @@ import 'react-perfect-scrollbar/dist/css/styles.css'
 import './demo.less'
 
 const { Content } = Layout
-const store = new Store<any>()
 interface DemoProps extends PageProps, StoreProps {
   count: StoreStates['count']
   countAlias: StoreStates['count']
@@ -85,7 +83,7 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
     }
 
     return (
-      <PerfectScrollbar>
+      <PerfectScrollbar className="scroll-area">
         <Layout className="demo-container">
           <Content>
             <Carousel responsive={responsive} infinite={true} itemClass="item-class">
@@ -102,13 +100,17 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
                 <img src={$tools.BIO} className="carousel-image" alt="science" />
               </div>
             </Carousel>
-            <BookSection ref={this.scrollDivScience} title="科学"></BookSection>
+            {/* <BookSection ref={this.scrollDivScience} title="科学"></BookSection>
             <BookSection ref={this.scrollDivHistory} title="历史"></BookSection>
             <BookSection ref={this.scrollDivWenxue} title="文学"></BookSection>
             <BookSection ref={this.scrollDivBio} title="传记"></BookSection>
-            <BookSection ref={this.scrollDivBio} title="军事"></BookSection>
+            <BookSection ref={this.scrollDivBio} title="军事"></BookSection> */}
             <BookSection ref={this.scrollDivBio} title="计算机"></BookSection>
             <BookSection ref={this.scrollDivBio} title="小说"></BookSection>
+            <BookSection ref={this.scrollDivBio} title="金融"></BookSection>
+            <BookSection ref={this.scrollDivBio} title="知乎"></BookSection>
+            <BookSection ref={this.scrollDivBio} title="社会"></BookSection>
+            <BookSection ref={this.scrollDivBio} title="宗教"></BookSection>
           </Content>
         </Layout>
       </PerfectScrollbar>

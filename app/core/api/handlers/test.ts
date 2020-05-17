@@ -44,3 +44,12 @@ export function SearchGet(path: string, params?: queryTestInfoUsingGET.Params, o
   const newpath = encodeURI(path)
   return $api.request(newpath, params, options)
 }
+
+export function BookQueryGet(
+  path: string,
+  params?: BookDetailInfo.Params,
+  options?: RequestOptions
+): Promise<queryTestInfoUsingGET.Response> {
+  const newpath = encodeURI(path)
+  return $api.request(newpath, params, options)
+}

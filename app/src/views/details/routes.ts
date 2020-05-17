@@ -1,16 +1,18 @@
 const routes: RouteConfig[] = [
   {
-    key: 'Home',
-    path: '/',
-    redirect: { to: '/demo?form=home' },
+    key: 'Details',
+    path: '/details',
     windowOptions: {
-      title: 'App Home (redirect to demo)',
+      width: 600,
+      height: 380,
+      frame: false,
+      title: 'Details',
       transparent: true,
     },
     createConfig: {
-      showSidebar: true,
+      showTitlebar: false,
+      hideMenus: true,
       saveWindowBounds: true,
-      // openDevTools: true,
     },
   },
 ]

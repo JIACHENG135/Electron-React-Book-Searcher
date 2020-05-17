@@ -1,12 +1,10 @@
 import * as React from 'react'
-import axios from 'axios'
 // import { Button, Input, Spin, Card } from 'antd'
 import { withStore } from '@/src/components'
 import Store from 'electron-store'
 import { Skeleton, Row, Col, Divider } from 'antd'
 import { SyncOutlined } from '@ant-design/icons'
-import ItemList from './book-section/ItemList'
-import { remote } from 'electron'
+import ItemList from './ItemList'
 import './book-section.less'
 const store = new Store<any>()
 interface BookSectionProps {
@@ -96,7 +94,7 @@ export default class BookSection extends React.Component<BookSectionProps, BookS
         // this.setState({ loading: false })
       })
   }
-  requestRandomTest(bookname: string, keyword: number) {
+  requestRandomTest(bookname: string) {
     this.setState({
       loading: true,
       resData: {

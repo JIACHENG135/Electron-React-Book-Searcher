@@ -1,5 +1,4 @@
 import * as React from 'react'
-import axios from 'axios'
 // import { Button, Input, Spin, Card } from 'antd'
 import { withStore } from '@/src/components'
 import Store from 'electron-store'

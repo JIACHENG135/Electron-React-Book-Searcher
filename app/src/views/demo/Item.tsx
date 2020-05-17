@@ -1,15 +1,31 @@
 import React from 'react'
 import './item.less'
 import { Rate } from 'antd'
+import Store from 'electron-store'
+
 interface CarouselItemProps {
   item: CarouselItem
 }
-
-export default class Item extends React.Component<CarouselItemProps> {
+interface CarouselItemState {
+  resData: Array<any> | any
+}
+const store = new Store<any>()
+export default class Item extends React.Component<CarouselItemProps, CarouselItemState> {
   constructor(props: CarouselItemProps) {
     super(props)
   }
-
+  state: CarouselItemState = {
+    resData: [{}],
+  }
+  handleDetail(pk: any) {
+    console.log(pk)
+    this.props.item
+    store.set('pkvalue', pk)
+    console.log('Create Window')
+    $tools.createWindow('Details', {
+      windowOptions: { title: 'Details', transparent: false },
+    })
+  }
   render() {
     const carouselItem = {
       bookAuthor: this.props.item.book_author,
@@ -20,10 +36,10 @@ export default class Item extends React.Component<CarouselItemProps> {
       bookOrigin: this.props.item.book_origin,
       bookPanPass: this.props.item.book_pan_pass,
       bookCategory: this.props.item.book_category,
+      bookPk: this.props.item.book_pk_value,
     }
     return (
-      <div className="item-layer">
-        {/* eslint-disable-line no-use-before-define */}
+      <div className="item-layer" onClick={this.handleDetail.bind(this, carouselItem.bookPk)}>
         <img src={carouselItem.bookPic} alt="" className="item-image" />
         <p className="item-text">{carouselItem.bookTitle}</p>
         <span className="rating-text">评分: </span>
