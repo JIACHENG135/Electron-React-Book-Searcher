@@ -84,9 +84,9 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
 
     return (
       <div className="scroll-area">
-        <Layout className="demo-container">
-          <Content>
-            <PerfectScrollbar>
+        <PerfectScrollbar>
+          <Layout className="demo-container">
+            <Content>
               <Carousel responsive={responsive} infinite={true} itemClass="item-class">
                 <div className="carousel-layer" onClick={this.scrollSmoothHandlerScience}>
                   <img src={$tools.SCIENCE} className="carousel-image" alt="science" />
@@ -112,9 +112,9 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
               <BookSection ref={this.scrollDivBio} title="知乎"></BookSection>
               <BookSection ref={this.scrollDivBio} title="社会"></BookSection>
               <BookSection ref={this.scrollDivBio} title="宗教"></BookSection>
-            </PerfectScrollbar>
-          </Content>
-        </Layout>
+            </Content>
+          </Layout>
+        </PerfectScrollbar>
       </div>
     )
   }
