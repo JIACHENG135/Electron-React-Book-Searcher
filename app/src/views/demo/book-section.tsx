@@ -51,7 +51,6 @@ export default class BookSection extends React.Component<BookSectionProps, BookS
   // 构造函数
   constructor(props: BookSectionProps) {
     super(props)
-    store.delete('user')
   }
   scrollDiv: any = React.createRef()
   postoption: RequestOptions = {
