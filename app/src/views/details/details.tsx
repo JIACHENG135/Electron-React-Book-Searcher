@@ -2,9 +2,9 @@ import * as React from 'react'
 // import { Button, Input, Spin, Card } from 'antd'
 import { withStore } from '@/src/components'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-
+import { IpcRenderer, Shell, WebContents, BrowserWindow, Remote } from 'electron'
 import Store from 'electron-store'
-import { Layout, Button, Divider, Row, Col } from 'antd'
+import { Layout, Button, Popover, Row, Col } from 'antd'
 import { DownloadOutlined, ApartmentOutlined, CloseOutlined } from '@ant-design/icons'
 import './details.less'
 const { Content } = Layout
@@ -15,30 +15,44 @@ interface DetailsProps extends PageProps, StoreProps {
 }
 
 declare interface DetailsState {
-  resData: UserLoginInfo.Response | {} | any | Array<CarouselItem>
+  data: any
+  s4books: any
   loading: boolean
   createWindowLoading: boolean
   asyncDispatchLoading: boolean
 }
+
+declare global {
+  interface Window {
+    require: (
+      module: 'electron'
+    ) => {
+      ipcRenderer: IpcRenderer
+      shell: Shell
+      remote: Remote
+    }
+  }
+}
+
+const { ipcRenderer, shell, remote } = window.require('electron')
 
 /**
  * DemoProps 是组件的 props 类型声明
  * DemoState 是组件的 state 类型声明
  * props 和 state 的默认值需要单独声明
  */
-
+const data = store.get('detail')
+const s4books = store.get('s4books')
 @withStore(['count', { countAlias: 'count' }])
 export default class Details extends React.Component<DetailsProps, DetailsState> {
   // state 初始化
   state: DetailsState = {
-    resData: {
-      results: [{ book_title: '', book_infos: '' }],
-    },
+    data: data,
+    s4books: s4books,
     loading: false,
     createWindowLoading: false,
     asyncDispatchLoading: false,
   }
-
   // 构造函数
   constructor(props: DetailsProps) {
     super(props)
@@ -59,16 +73,12 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
   }
   image = (<img src={$tools.SIGN_UP} width="100%" alt="sign" />)
   componentDidMount() {
-    const pk = store.get('pkvalue')
-    this.setState({ loading: true })
-    $api
-      .BookQueryGet('/detail/' + pk, {}, { headers: { Authorization: `Token ${store.get('user')}` } })
-      .then((resData: any) => {
-        this.setState({
-          resData: resData,
-          loading: false,
-        })
-      })
+    console.log(this.state.s4books)
+  }
+  handleDownload(url: string) {
+    console.log(url)
+    const win: BrowserWindow = remote.getCurrentWindow()
+    win.webContents.downloadURL(url)
   }
   render() {
     // const { resData, loading, createWindowLoading, asyncDispatchLoading } = this.state
@@ -76,6 +86,39 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
     if (this.state.loading) {
       return <div>loading</div>
     }
+    let summarytext, summarytag
+    let authortext, authortag
+
+    if (this.state.data.summary === '') {
+      summarytext = ''
+      summarytag = ''
+    } else {
+      summarytag = <p className="cata-tag">内容简介: </p>
+      summarytext = this.state.data.summary.split('\n').map((value: string, index: number) => {
+        return (
+          <p className="cata-text" key={index}>
+            {value}
+          </p>
+        )
+      })
+    }
+    if (this.state.data.author_intro === '') {
+      authortext = ''
+      authortag = ''
+    } else {
+      authortag = <p className="cata-tag">作者简介: </p>
+      authortext = this.state.data.author_intro
+        .replace('作者简介：', '')
+        .split('\n')
+        .map((value: string, index: number) => {
+          return (
+            <p className="cata-text" key={index}>
+              {value}{' '}
+            </p>
+          )
+        })
+    }
+
     const book = (
       <Row className="book-row">
         <Col flex="260px"></Col>
@@ -88,22 +131,45 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
           <Content>
             <Row>
               <Col flex="260px">
-                <img src={this.state.resData.results[0].book_pic} className="detail-image" alt="" />
+                <img src={this.state.data.images.large} className="detail-image" alt="" />
               </Col>
               <PerfectScrollbar>
                 <Col flex="auto" className="book-right-area">
                   <div className="book-right-container">
                     <div>
-                      <span className="book-text">书名:</span>
-                      {this.state.resData.results[0].book_title}
+                      <p className="book-text cata-tag">书名:{this.state.data.title}</p>
                     </div>
                     <div>
-                      <span className="book-text">作者:</span>
-                      {this.state.resData.results[0].book_author}
+                      <p className="book-text cata-tag">
+                        作者:
+                        {this.state.data.author.map((value: string, index: number) => {
+                          return <span key={index}>{value}</span>
+                        })}
+                      </p>
+
+                      {/* {this.state.data.results[0].book_author} */}
                     </div>
                     <div>
                       <span className="book-icon" title="Download">
-                        <Button type="primary" icon={<DownloadOutlined />} />
+                        <Popover
+                          placement="left"
+                          content={this.state.s4books.files.map((value: string, index: number) => {
+                            return (
+                              <p key={index}>
+                                <a
+                                  onClick={this.handleDownload.bind(
+                                    this,
+                                    `${process.env.API_PROTOCOL}${process.env.API_HOST}${process.env.API_BASE_PATH}/download/${value}`
+                                  )}
+                                >
+                                  {value.split('.')[1]}
+                                </a>
+                              </p>
+                            )
+                          })}
+                        >
+                          <Button type="primary" icon={<DownloadOutlined />} />
+                        </Popover>
                       </span>
                       <span className="book-icon" title="Subscribe">
                         <Button type="primary" icon={<ApartmentOutlined />} />
@@ -117,7 +183,12 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
                       </span>
                     </div>
                     <div>
-                      <span>{this.state.resData.results[0].book_infos}</span>
+                      {summarytag}
+                      {summarytext}
+                    </div>
+                    <div>
+                      {authortag}
+                      {authortext}
                     </div>
                   </div>
                 </Col>

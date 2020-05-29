@@ -36,6 +36,7 @@ export default class BookSection extends React.Component<BookSectionProps, BookS
     resData: {
       results: [{}],
       count: 1,
+      next: '',
     },
     loading: false,
     createWindowLoading: false,
@@ -73,6 +74,7 @@ export default class BookSection extends React.Component<BookSectionProps, BookS
       resData: {
         results: [],
         count: 0,
+        next: '',
       },
     })
     $api
@@ -101,7 +103,12 @@ export default class BookSection extends React.Component<BookSectionProps, BookS
         results: [],
       },
     })
-    const randompage: number = Math.floor((Math.random() * this.state.resData.count) / 22 + 1)
+    let randompage: number
+    if (this.state.resData.length > 0) {
+      randompage = Math.floor((Math.random() * this.state.resData.count) / 22 + 1)
+    } else {
+      randompage = 1
+    }
 
     $api
       .queryTestInfo(

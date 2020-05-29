@@ -3,7 +3,7 @@ const routes: RouteConfig[] = [
     key: 'Demo',
     path: '/demo',
     windowOptions: {
-      frame: false,
+      frame: true,
 
       titleBarStyle: 'default',
     },

@@ -1,4 +1,4 @@
-import { app, Tray } from 'electron'
+import { app, Tray, BrowserWindow } from 'electron'
 
 import { creatAppTray } from './tray'
 
@@ -20,9 +20,9 @@ app.on('activate', () => {
 })
 
 app.on('window-all-closed', function() {
-  // if (process.platform !== 'darwin') {
-  //   app.quit()
-  // }
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
 })
 
 app.on('before-quit', () => {

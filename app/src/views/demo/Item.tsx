@@ -17,27 +17,30 @@ export default class Item extends React.Component<CarouselItemProps, CarouselIte
   state: CarouselItemState = {
     resData: [{}],
   }
-  handleDetail(pk: any) {
-    this.props.item
-    store.set('pkvalue', pk)
+  handleDetail(data: any, s4books: any) {
+    console.log(data)
+    // store.set('pkvalue', pk)
+    store.set('detail', data)
+    store.set('s4books', s4books)
     $tools.createWindow('Details', {
       windowOptions: { title: 'Details', transparent: false },
     })
   }
   render() {
     const carouselItem = {
-      bookAuthor: this.props.item.book_author,
-      bookTitle: this.props.item.book_title.substring(0, 20),
-      bookRating: Math.floor(Math.random() * Math.floor(5)),
-      bookPic: this.props.item.book_pic,
-      bookInfos: this.props.item.book_infos,
-      bookOrigin: this.props.item.book_origin,
-      bookPanPass: this.props.item.book_pan_pass,
-      bookCategory: this.props.item.book_category,
-      bookPk: this.props.item.book_pk_value,
+      bookAuthor: this.props.item.data.author,
+      bookTitle: this.props.item.data.title,
+      bookRating: Math.floor(this.props.item.data.rating.average / 2),
+      bookPic: this.props.item.data.image,
+      bookInfos: this.props.item.data.summary,
+      bookOrigin: this.props.item.data.alt,
+      bookCategory: this.props.item.data.tags,
     }
     return (
-      <div className="item-layer" onClick={this.handleDetail.bind(this, carouselItem.bookPk)}>
+      <div
+        className="item-layer"
+        onClick={this.handleDetail.bind(this, this.props.item.data, this.props.item.s4books)}
+      >
         <img src={carouselItem.bookPic} alt="" className="item-image" />
         <p className="item-text">{carouselItem.bookTitle}</p>
         <span className="rating-text">评分: </span>
