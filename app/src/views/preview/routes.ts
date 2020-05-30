@@ -5,7 +5,7 @@ const routes: RouteConfig[] = [
     windowOptions: {
       title: 'Preview',
       width: 1200,
-      height: 800,
+      height: 600,
       frame: false,
     },
     createConfig: {

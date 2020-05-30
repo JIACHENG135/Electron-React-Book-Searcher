@@ -1,8 +1,9 @@
 import * as React from 'react'
 // import { Button, Input, Spin, Card } from 'antd'
+import axios from 'axios'
 import { withStore } from '@/src/components'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { IpcRenderer, Shell, WebContents, BrowserWindow, Remote } from 'electron'
+import { IpcRenderer, Shell, WebContents, BrowserWindow, Remote, DownloadItem } from 'electron'
 import Store from 'electron-store'
 import { Layout, Button, Popover, Row, Col } from 'antd'
 import { DownloadOutlined, ApartmentOutlined, CloseOutlined, EyeOutlined } from '@ant-design/icons'
@@ -30,11 +31,12 @@ declare global {
       ipcRenderer: IpcRenderer
       shell: Shell
       remote: Remote
+      downloadItem: DownloadItem
     }
   }
 }
 
-const { ipcRenderer, shell, remote } = window.require('electron')
+const { ipcRenderer, shell, remote, downloadItem } = window.require('electron')
 
 /**
  * DemoProps 是组件的 props 类型声明
@@ -43,6 +45,7 @@ const { ipcRenderer, shell, remote } = window.require('electron')
  */
 const data = store.get('detail')
 const s4books = store.get('s4books')
+let win: BrowserWindow
 @withStore(['count', { countAlias: 'count' }])
 export default class Details extends React.Component<DetailsProps, DetailsState> {
   // state 初始化
@@ -82,21 +85,53 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
 
   handlePreview(url: string, filename: any) {
     store.set('filename', filename)
-    // const win: BrowserWindow = remote.getCurrentWindow()
-    const web: WebContents = remote.getCurrentWebContents()
-    web.downloadURL(url)
-    web.session.on('will-download', (event: any, item: any, webContents: any) => {
-      item.setSavePath(`${$tools.AssetsPath('preview-file')}/${filename}`)
-      item.once('done', (event: any, state: any) => {
-        if (state === 'completed') {
-          $tools.createWindow('Preview', {
-            windowOptions: { title: 'Preview', transparent: false },
-          })
-        } else {
-          console.log(`Download failed: ${state}`)
-        }
-      })
+    if (win) {
+    } else {
+      win = remote.getCurrentWindow()
+    }
+    store.set('epuburl', url)
+    $tools.createWindow('Preview', {
+      windowOptions: { title: 'Preview', transparent: false },
     })
+    store.set('bookname', this.state.data.title)
+    // const prewin = win
+    // const savepath = `${$tools.AssetsPath('preview-file')}/${filename}`
+    // console.log(savepath)
+    // axios({
+    //   url: url, //your url
+    //   method: 'GET',
+    //   responseType: 'blob', // important
+    // })
+    //   .then((response: any) => {
+    //     const url = window.URL.createObjectURL(new Blob([response.data]))
+    //     const link = document.createElement('a')
+    //     link.href = url
+    //     link.setAttribute('download', filename) //or any other extension
+    //     document.body.appendChild(link)
+    //     link.click()
+    //   })
+    //   .finally(() => {
+    //     $tools.createWindow('Preview', {
+    //       windowOptions: { title: 'Preview', transparent: false },
+    //     })
+    //   })
+
+    // prewin.webContents.session.downloadURL(url)
+    // prewin.webContents.session.on('will-download', (event: any, item: DownloadItem, webContents: any) => {
+    //   event.preventDefault()
+    //   console.log(item.getFilename())
+    //   console.log(savepath)
+    //   item.savePath = savepath
+    //   item.once('done', (event: any, state: any) => {
+    //     if (state === 'completed') {
+    //       $tools.createWindow('Preview', {
+    //         windowOptions: { title: 'Preview', transparent: false },
+    //       })
+    //     } else {
+    //       console.log(`Download failed: ${state}`)
+    //     }
+    //   })
+    // })
   }
   render() {
     // const { resData, loading, createWindowLoading, asyncDispatchLoading } = this.state

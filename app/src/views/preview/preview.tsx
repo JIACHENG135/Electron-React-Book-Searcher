@@ -4,7 +4,9 @@ import { ReactReader } from 'react-reader'
 import Store from 'electron-store'
 interface PreviewProps extends PageProps, StoreProps {}
 
-declare interface PreviewState {}
+declare interface PreviewState {
+  location: string | number | null
+}
 
 /**
  * DemoProps 是组件的 props 类型声明
@@ -12,11 +14,13 @@ declare interface PreviewState {}
  * props 和 state 的默认值需要单独声明
  */
 const store = new Store<any>()
+const filename = store.get('filename')
+const bookanme = store.get('bookname')
+const epuburl = store.get('epuburl')
 export default class Preview extends React.Component<PreviewProps, PreviewState> {
   // state 初始化
   state: PreviewState = {
-    createWindowLoading: false,
-    asyncDispatchLoading: false,
+    location: store.get(filename) ? store.get(filename) : 2,
   }
 
   // 构造函数
@@ -27,19 +31,24 @@ export default class Preview extends React.Component<PreviewProps, PreviewState>
   sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms))
   }
-
   render() {
-    const filename = store.get('filename')
-    console.log(filename)
-    // const { resData, loading, createWindowLoading, asyncDispatchLoading } = this.state
+    const { location } = this.state
+
     // const { count: reduxCount, countAlias } = this.props
     return (
       <div style={{ position: 'relative', height: '100%' }}>
         <ReactReader
-          url={$tools.AssetsPath(`preview-file/${filename}`)}
-          title={filename}
-          location={'epubcfi(/6/2[cover]!/6)'}
-          locationChanged={(epubcifi: any) => console.log(epubcifi)}
+          // url={$tools.AssetsPath(`preview-file/${filename}`)}
+          url={epuburl}
+          title={bookanme}
+          location={location}
+          locationChanged={(epubcifi: any) => {
+            console.log(epubcifi)
+            this.setState({
+              location: epubcifi,
+            })
+            store.set(filename, epubcifi)
+          }}
         />
       </div>
     )
