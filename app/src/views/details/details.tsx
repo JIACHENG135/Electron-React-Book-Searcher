@@ -5,7 +5,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import { IpcRenderer, Shell, WebContents, BrowserWindow, Remote } from 'electron'
 import Store from 'electron-store'
 import { Layout, Button, Popover, Row, Col } from 'antd'
-import { DownloadOutlined, ApartmentOutlined, CloseOutlined } from '@ant-design/icons'
+import { DownloadOutlined, ApartmentOutlined, CloseOutlined, EyeOutlined } from '@ant-design/icons'
 import './details.less'
 const { Content } = Layout
 const store = new Store<any>()
@@ -75,10 +75,28 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
   componentDidMount() {
     console.log(this.state.s4books)
   }
-  handleDownload(url: string) {
-    console.log(url)
+  handleDownload(url: string, filename: any) {
     const win: BrowserWindow = remote.getCurrentWindow()
     win.webContents.downloadURL(url)
+  }
+
+  handlePreview(url: string, filename: any) {
+    store.set('filename', filename)
+    // const win: BrowserWindow = remote.getCurrentWindow()
+    const web: WebContents = remote.getCurrentWebContents()
+    web.downloadURL(url)
+    web.session.on('will-download', (event: any, item: any, webContents: any) => {
+      item.setSavePath(`${$tools.AssetsPath('preview-file')}/${filename}`)
+      item.once('done', (event: any, state: any) => {
+        if (state === 'completed') {
+          $tools.createWindow('Preview', {
+            windowOptions: { title: 'Preview', transparent: false },
+          })
+        } else {
+          console.log(`Download failed: ${state}`)
+        }
+      })
+    })
   }
   render() {
     // const { resData, loading, createWindowLoading, asyncDispatchLoading } = this.state
@@ -88,6 +106,33 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
     }
     let summarytext, summarytag
     let authortext, authortag
+    let hasEpub, preview, filename
+
+    this.state.s4books.files.forEach((element: string) => {
+      if (element.includes('.epub')) {
+        hasEpub = true
+        filename = element
+      }
+    })
+
+    if (hasEpub) {
+      preview = (
+        <span>
+          <Button
+            onClick={this.handlePreview.bind(
+              this,
+              `${process.env.API_PROTOCOL}${process.env.API_HOST}${process.env.API_BASE_PATH}/download/${filename}`,
+              filename
+            )}
+            type="primary"
+            danger
+            icon={<EyeOutlined></EyeOutlined>}
+          />
+        </span>
+      )
+    } else {
+      preview = ''
+    }
 
     if (this.state.data.summary === '') {
       summarytext = ''
@@ -159,7 +204,8 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
                                 <a
                                   onClick={this.handleDownload.bind(
                                     this,
-                                    `${process.env.API_PROTOCOL}${process.env.API_HOST}${process.env.API_BASE_PATH}/download/${value}`
+                                    `${process.env.API_PROTOCOL}${process.env.API_HOST}${process.env.API_BASE_PATH}/download/${value}`,
+                                    value
                                   )}
                                 >
                                   {value.split('.')[1]}
@@ -181,6 +227,7 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
                       >
                         <Button type="primary" danger icon={<CloseOutlined />} />
                       </span>
+                      {preview}
                     </div>
                     <div>
                       {summarytag}

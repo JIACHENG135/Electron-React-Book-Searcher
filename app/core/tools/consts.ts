@@ -33,6 +33,12 @@ export const SIGN_UP = asAssetsPath('demo-jpg/sign-up.jpg')
 /** 暗色风格托盘图标 (仅 macOS) */
 export const TRAY_ICON_DARK = asAssetsPath('tray-icon/tray-icon-dark.png')
 
+/** 预览文件 */
+
+export const PREFILE = asAssetsPath('preview-file/10556079.epub')
+
+export const AssetsPath = asAssetsPath
+
 /** 创建新窗口时默认加载的选项 */
 export const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
   width: 1200,
