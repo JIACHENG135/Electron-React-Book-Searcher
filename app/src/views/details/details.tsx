@@ -80,7 +80,19 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
   }
   handleDownload(url: string, filename: any) {
     const win: BrowserWindow = remote.getCurrentWindow()
+    const savepath = `${$tools.AssetsPath('preview-file')}/${filename}`
     win.webContents.downloadURL(url)
+    win.webContents.session.on('will-download', (event: any, item: DownloadItem, webContents: any) => {
+      item.setSavePath(savepath)
+      console.log(savepath)
+      item.once('done', (event: any, state: any) => {
+        if (state === 'completed') {
+          console.log('Finished downloading')
+        } else {
+          console.log(`Download failed: ${state}`)
+        }
+      })
+    })
   }
 
   handlePreview(url: string, filename: any) {
@@ -232,7 +244,8 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
                     <div>
                       <span className="book-icon" title="Download">
                         <Popover
-                          placement="left"
+                          placement="top"
+                          trigger="click"
                           content={this.state.s4books.files.map((value: string, index: number) => {
                             return (
                               <p key={index}>
