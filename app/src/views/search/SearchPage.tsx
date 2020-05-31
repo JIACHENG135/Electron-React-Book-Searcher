@@ -5,7 +5,9 @@ import Store from 'electron-store'
 
 import { Layout, Input, Row, Col, Radio } from 'antd'
 import CountUp from 'react-countup'
-
+import Item from '../demo/Item'
+import BookRow from './components/book-row'
+import { CaretRightOutlined, CaretLeftOutlined } from '@ant-design/icons'
 import './search.less'
 import './canvas.less'
 const { Header, Content } = Layout
@@ -17,7 +19,7 @@ interface SearchProps extends PageProps, StoreProps {
 }
 
 declare interface SearchState {
-  resData: queryTestInfoUsingGET.Response | {}
+  resData: queryTestInfoUsingGET.Response | {} | any
   loading: boolean
   createWindowLoading: boolean
   asyncDispatchLoading: boolean
@@ -59,13 +61,21 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
     return new Promise(resolve => setTimeout(resolve, ms))
   }
   async handlesearch(value: any) {
-    // console.log(value)
+    this.setState({
+      resData: {
+        results: [],
+      },
+    })
+    store.set('searchValue', value)
     try {
-      await $api.SearchGet(
-        'book/' + value,
-        { page: 1 },
-        { headers: { Authorization: `Token ${store.get('user')}` } }
-      )
+      $api
+        .SearchGet('book/' + value, { page: 1 }, { headers: { Authorization: `Token ${store.get('user')}` } })
+        .then((resData: any) => {
+          console.log(resData)
+          this.setState({
+            resData,
+          })
+        })
     } catch (err) {
       this.setState({
         canv: true,
@@ -78,16 +88,101 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
       document.body.appendChild(script1)
     }
   }
+
+  handleNextPre(page: number) {
+    this.setState({
+      resData: {
+        results: [],
+      },
+    })
+    try {
+      $api
+        .SearchGet(
+          'book/' + store.get('searchValue'),
+          { page: page },
+          { headers: { Authorization: `Token ${store.get('user')}` } }
+        )
+        .then((resData: any) => {
+          console.log(resData)
+          this.setState({
+            resData,
+          })
+        })
+    } catch (err) {
+      this.setState({
+        canv: true,
+      })
+      const script1 = document.createElement('script')
+      script1.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/black.js'
+      const script2 = document.createElement('script')
+      script2.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/gat.gui.min.js'
+      document.body.appendChild(script2)
+      document.body.appendChild(script1)
+    }
+  }
+
   canva = (<canvas></canvas>)
   render() {
-    const { loading } = this.state
+    const { loading, resData } = this.state
+    const results: Array<any> = resData.results
+    let bookLen: number, rows: number, index: number
+    let bookArray
+    let bookblock
+    let bookArea
+    let nextPage
+    let prevPage
+    let nextButton
+    let prevButton
+    let currentPage
 
+    if (results) {
+      bookblock = new Array<any>()
+      index = 0
+      bookLen = results.length
+      bookArray = new Array<any>()
+
+      if (resData.next) {
+        console.log(resData)
+        nextPage = resData.next.split('=')[1]
+        currentPage = nextPage - 1
+      }
+
+      if (resData.previous) {
+        prevPage = resData.previous.split('=')[1]
+      }
+
+      for (const book of results) {
+        if (bookArray.length % 6 == 0) {
+          bookblock.push(<BookRow items={bookArray}></BookRow>)
+          bookArray = new Array<any>()
+        }
+        bookArray.push(book)
+        index += 1
+      }
+      if (bookArray.length > 0) {
+        bookblock.push(<BookRow items={bookArray}></BookRow>)
+      }
+      bookArea = bookblock.map((item, index) => {
+        return <div key={index}>{item}</div>
+      })
+    } else {
+      bookArea = ''
+    }
+    if (nextPage) {
+      nextButton = <CaretRightOutlined onClick={this.handleNextPre.bind(this, nextPage)} />
+    } else {
+      nextButton = ''
+    }
+    if (prevPage) {
+      prevButton = <CaretLeftOutlined onClick={this.handleNextPre.bind(this, prevPage)} />
+    } else {
+      prevButton = ''
+    }
     return (
       <Layout className="demo-container">
         <Header></Header>
         <Content className="saerch-wrap">
           {this.state.canv ? this.canva : ''}
-          {/* <canvas></canvas> */}
           <Row gutter={[0, 10]}>
             <Col span={1}></Col>
             <Col span={22}>
@@ -145,6 +240,12 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
             </Col>
             <Col span={8}></Col>
           </Row>
+          <div className="page-design">
+            <span>{prevButton}</span>
+            <span>{currentPage}</span>
+            <span>{nextButton}</span>
+          </div>
+          {bookArea}
         </Content>
       </Layout>
     )
