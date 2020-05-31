@@ -5,7 +5,7 @@ import { withStore } from '@/src/components'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { IpcRenderer, Shell, WebContents, BrowserWindow, Remote, DownloadItem } from 'electron'
 import Store from 'electron-store'
-import { Layout, Button, Popover, Row, Col } from 'antd'
+import { Layout, Button, Popover, Row, Col, Rate } from 'antd'
 import { DownloadOutlined, ApartmentOutlined, CloseOutlined, EyeOutlined } from '@ant-design/icons'
 import './details.less'
 const { Content } = Layout
@@ -153,7 +153,7 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
     }
     let summarytext, summarytag
     let authortext, authortag
-    let hasEpub, preview, filename
+    let hasEpub, preview, filename, trans
 
     this.state.s4books.files.forEach((element: string) => {
       if (element.includes('.epub')) {
@@ -217,6 +217,19 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
         <Col flex="auto" className="book-text"></Col>
       </Row>
     )
+    if (this.state.data.translator.length > 0) {
+      trans = (
+        <p className="book-text cata-tag">
+          译者:{' '}
+          {this.state.data.translator.map((value: string, index: number) => {
+            return value
+          })}
+        </p>
+      )
+    } else {
+      trans = ''
+    }
+
     return (
       <Layout className="book-detail-container">
         <Layout>
@@ -229,16 +242,27 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
                 <Col flex="auto" className="book-right-area">
                   <div className="book-right-container">
                     <div>
-                      <p className="book-text cata-tag">书名:{this.state.data.title}</p>
+                      <p className="book-text cata-tag">书名: {this.state.data.title}</p>
                     </div>
                     <div>
                       <p className="book-text cata-tag">
-                        作者:
+                        豆瓣评分: {this.state.data.rating.average / 2}{' '}
+                        <a href={this.state.data.alt}>
+                          ({this.state.data.rating.numRaters}
+                          {'人评分'})
+                        </a>
+                      </p>
+                      <p className="book-text cata-tag">出版日期: {this.state.data.pubdate}</p>
+                      <p className="book-text cata-tag">出版社: {this.state.data.publisher}</p>
+                    </div>
+                    <div>
+                      <p className="book-text cata-tag">
+                        作者:{' '}
                         {this.state.data.author.map((value: string, index: number) => {
-                          return <span key={index}>{value}</span>
+                          return value
                         })}
                       </p>
-
+                      {trans}
                       {/* {this.state.data.results[0].book_author} */}
                     </div>
                     <div>
