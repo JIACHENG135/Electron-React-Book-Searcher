@@ -38,9 +38,7 @@ module.exports = {
   globals: {
     $api: true,
   },
-  ecmaFeatures: {
-    defaultParams: 1,
-  },
+
   rules: {
     'no-console': 'off', // 禁用 console
     'no-debugger': 'error', // 禁用 debugger

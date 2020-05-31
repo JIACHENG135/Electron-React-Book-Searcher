@@ -10,7 +10,7 @@ const routes: RouteConfig[] = [
     },
     createConfig: {
       showSidebar: false,
-      saveWindowBounds: true,
+      saveWindowBounds: false,
       // openDevTools: true,
     },
   },

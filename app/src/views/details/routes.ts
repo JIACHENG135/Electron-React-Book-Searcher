@@ -3,17 +3,17 @@ const routes: RouteConfig[] = [
     key: 'Details',
     path: '/details',
     windowOptions: {
-      width: 600,
+      width: 610,
       height: 380,
       frame: false,
       title: 'Details',
       transparent: true,
-      resizable: false,
+      resizable: true,
     },
     createConfig: {
       showTitlebar: false,
       hideMenus: true,
-      saveWindowBounds: true,
+      saveWindowBounds: false,
     },
   },
 ]
