@@ -24,5 +24,7 @@ export const Details = import('./views/details/Details')
 
 export const Preview = import('./views/preview/Preview')
 
+export const User = import('./views/user/User')
+
 // 同步引用，注意这不会出发 beforeRouter
 export { default as AlertModal } from './views/modals/alert-modal'

@@ -12,10 +12,10 @@
     "icon": "search"
   },
   {
-    "key": "LogViewer",
-    "href": "#/log-viewer",
-    "title": "Log Viewer",
-    "icon": "terminal-box"
+    "key": "User",
+    "href": "#/user",
+    "title": "user",
+    "icon": "user"
   },
   {
     "key": "PageParams",
