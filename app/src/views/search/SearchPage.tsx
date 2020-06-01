@@ -220,7 +220,7 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
               <Radio value={2}>Search English</Radio>
             </Radio.Group>
           </div>
-          <Row gutter={[0, 20]} style={{ paddingTop: '10px' }}>
+          {/* <Row gutter={[0, 20]} style={{ paddingTop: '10px' }}>
             <Col span={8}></Col>
             <Col span={8}>
               <Row>
@@ -239,7 +239,7 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
               </Row>
             </Col>
             <Col span={8}></Col>
-          </Row>
+          </Row> */}
           <div className="page-design">
             <span>{prevButton}</span>
             <span>{currentPage}</span>

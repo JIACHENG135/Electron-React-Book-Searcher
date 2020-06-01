@@ -7,6 +7,7 @@ const routes: RouteConfig[] = [
       width: 600,
       height: 600,
       frame: false,
+      transparent: true,
     },
     createConfig: {
       showSidebar: false,
