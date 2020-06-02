@@ -66,6 +66,19 @@ For Windows
 ### PreviewBook
 ![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20Preview.jpg)
 
+For Mac
+### HomePage
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/Mac%20-%20Home.png)
+### AboutPage
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/Mac%20-%20About.png)
+### Search
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/Mac%20-%20Search.png)
+### Book Detail
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/Mac%20-%20Detail.png)
+### UserProfile
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/Mac%20-%20UserProfile.png)
+
+
 
 
 
