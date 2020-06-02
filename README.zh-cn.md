@@ -36,8 +36,9 @@ npm run dev
 - Redis
 - Celery
 - Gunicorn
-- PostgresSQL
+- PostgreSQL
 - Heroku
+
 
 ## DevTools
 
