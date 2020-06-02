@@ -59,6 +59,8 @@ For Windows
 ![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20-%20About.jpg)
 ### Search
 ![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20-%20Search%20.jpg)
+### Book Detail
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20-%20Detail.jpg)
 ### UserProfile
 ![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20-%20UserProfile.jpg)
 ### PreviewBook
