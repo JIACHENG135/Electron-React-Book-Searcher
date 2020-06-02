@@ -105,7 +105,9 @@ export default class User extends React.Component<UserProps, UserState> {
               </Row>
             </Col>
             <Col className="avatar-container">
-              <div className={'tail-col'}>Profile</div>
+              <div className={'tail-col'}>
+                <Button type="primary"> 关注他</Button>
+              </div>
             </Col>
           </Row>
         </div>
