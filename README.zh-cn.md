@@ -14,8 +14,10 @@ npm install
 npm run dev
 ```
 
-## 概览
+## 技术栈概览
 
+
+### 前端
 - webpack
 - electron
 - electron-builder
@@ -29,6 +31,13 @@ npm run dev
 - typescript
 - eslint
 - prettier
+### 后端
+- Django
+- Redis
+- Celery
+- Gunicorn
+- PostgresSQL
+- Heroku
 
 ## DevTools
 
