@@ -1,8 +1,8 @@
 {
-  "name": "libgen",
+  "name": "LibGen",
   "appId": "org.electron.electron-antd",
-  "version": "1.0.0",
-  "buildVersion": "0001",
+  "version": "1.0.1",
+  "buildVersion": "0002",
   "private": false,
   "main": "dist/main/main.js",
   "author": "Jiacheng",

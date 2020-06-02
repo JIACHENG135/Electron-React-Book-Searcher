@@ -14,8 +14,10 @@ npm install
 npm run dev
 ```
 
-## 概览
+## 技术栈概览
 
+
+### 前端
 - webpack
 - electron
 - electron-builder
@@ -29,6 +31,32 @@ npm run dev
 - typescript
 - eslint
 - prettier
+### 后端
+- Django
+- Django ORM
+- Django Restful Framework
+- PostgreSQL
+### 服务端/中间件
+- Redis
+- Celery
+- Heroku Scaling Service
+- Gunicorn
+- Amazon S3 static storage
+
+## 截图
+在Windows上
+### 主页
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20-%20Home%20Page.jpg)
+### 关于
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20-%20About.jpg)
+### 检索
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20-%20Search%20.jpg)
+### 书籍详情
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20-%20Detail.jpg)
+### 用户信息(开发中)
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20-%20UserProfile.jpg)
+### 预览图书
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20Preview.jpg)
 
 ## DevTools
 

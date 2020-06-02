@@ -1,5 +1,5 @@
 # LibGen
-
+<span><a href="https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/README.zh-cn.md">中文</a></span>
 <div align="center">
 
   <img width='80px;' height="80px;" src='https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/app-icon/app-icon%40128.png'>
@@ -12,24 +12,62 @@ LibGen Desktop is a lightweight, fast and free book searching and sharing engine
 
 Finished:
 
-- Searching book name
-- Get rating from www.douban.com
-- Download book from baidu netdisk. I'm not a fan of piracy. If you think this project hurts your copyright plz contact me. I will revoke any information related to your copyright.
+- Search books
+- Get ratings from www.douban.com
+- Download books
+- User register and login
 
 Incoming
-
-- User register and login:
-  - Only logged in user can get pass code
-  - User can collect books
-  - User can make ratings of a book ...
+- User social system
+- User can collect books
+- Push to kindle(Developing stage)
 - Reading tools which support mouse hover translate
 - Download quota for non-registered user
 
-
+## Stacks
+### Frontend
+- webpack
+- electron
+- electron-builder
+- electron-log
+- react
+- react-router
+- redux
+- ant-design
+- remixicon
+- less
+- typescript
+- eslint
+- prettier
+### Backend
+- Django
+- Django ORM
+- Django Restful Framework
+- PostgreSQL
+### Server/Middleware
+- Redis
+- Celery
+- Heroku Scaling Service
+- Gunicorn
+- Amazon S3 static storage
 
 ## Screenshots
+For Windows
+### HomePage
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20-%20Home%20Page.jpg)
+### AboutPage
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20-%20About.jpg)
+### Search
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20-%20Search%20.jpg)
+### Book Detail
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20-%20Detail.jpg)
+### UserProfile
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20-%20UserProfile.jpg)
+### PreviewBook
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20Preview.jpg)
 
-![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-5-6-demo-home.jpg)
+
+
 
 ## Install
 
