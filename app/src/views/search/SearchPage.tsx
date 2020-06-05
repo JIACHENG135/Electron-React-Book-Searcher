@@ -4,12 +4,14 @@ import { withStore } from '@/src/components'
 import Store from 'electron-store'
 
 import { Layout, Input, Row, Col, Radio } from 'antd'
+import ReactLoading from 'react-loading'
 import CountUp from 'react-countup'
 import Item from '../demo/Item'
 import BookRow from './components/book-row'
 import { CaretRightOutlined, CaretLeftOutlined } from '@ant-design/icons'
 import './search.less'
 import './canvas.less'
+import Loading from 'react-loading'
 const { Header, Content } = Layout
 const { Search } = Input
 
@@ -60,20 +62,25 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
   sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms))
   }
-  async handlesearch(value: any) {
-    this.setState({
-      resData: {
-        results: [],
-      },
-    })
+  handlesearch(value: any) {
     store.set('searchValue', value)
     try {
+      this.setState({
+        resData: {
+          results: [],
+        },
+        loading: true,
+      })
       $api
         .SearchGet('book/' + value, { page: 1 }, { headers: { Authorization: `Token ${store.get('user')}` } })
         .then((resData: any) => {
-          console.log(resData)
           this.setState({
             resData,
+          })
+        })
+        .finally(() => {
+          this.setState({
+            loading: false,
           })
         })
     } catch (err) {
@@ -123,7 +130,7 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
 
   canva = (<canvas></canvas>)
   render() {
-    const { loading, resData } = this.state
+    const { resData } = this.state
     const results: Array<any> = resData.results
     let bookLen: number, rows: number, index: number
     let bookArray
@@ -135,6 +142,7 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
     let prevButton
     let currentPage
 
+    console.log(this.state.loading)
     if (results) {
       bookblock = new Array<any>()
       index = 0
@@ -203,7 +211,7 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
             <Col span={12}>
               <Search
                 placeholder="input search loading with enterButton"
-                loading={loading}
+                loading={this.state.loading}
                 enterButton
                 allowClear
                 onSearch={(value: any) => this.handlesearch(value)}

@@ -18,7 +18,7 @@ export default class Item extends React.Component<CarouselItemProps, CarouselIte
     resData: [{}],
   }
   handleDetail(data: any, s4books: any) {
-    console.log(data)
+    // console.log(data)
     // store.set('pkvalue', pk)
     store.set('detail', data)
     store.set('s4books', s4books)
@@ -36,11 +36,11 @@ export default class Item extends React.Component<CarouselItemProps, CarouselIte
       bookOrigin: this.props.item.data.alt,
       bookCategory: this.props.item.data.tags,
     }
+    const s4books = {
+      files: this.props.item.book_upload.split(';'),
+    }
     return (
-      <div
-        className="item-layer"
-        onClick={this.handleDetail.bind(this, this.props.item.data, this.props.item.s4books)}
-      >
+      <div className="item-layer" onClick={this.handleDetail.bind(this, this.props.item.data, s4books)}>
         <img src={carouselItem.bookPic} alt="" className="item-image" />
         <p className="item-text">{carouselItem.bookTitle}</p>
         <span className="rating-text">评分: </span>
