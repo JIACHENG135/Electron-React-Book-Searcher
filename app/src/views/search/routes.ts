@@ -5,6 +5,9 @@ const routes: RouteConfig[] = [
     createConfig: {
       single: false,
     },
+    windowOptions: {
+      resizable: true,
+    },
   },
   {
     key: 'PageParams',

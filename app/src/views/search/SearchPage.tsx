@@ -6,10 +6,9 @@ import axios from 'axios'
 import { Layout, Input, Row, Col, Radio, Button } from 'antd'
 import BookRow from './components/book-row'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { CaretRightOutlined, CaretLeftOutlined } from '@ant-design/icons'
 import './search.less'
 import './canvas.less'
-import { IpcRenderer, Shell, WebContents, BrowserWindow, Remote, DownloadItem } from 'electron'
+import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem } from 'electron'
 
 const { Header, Content } = Layout
 const { Search } = Input
@@ -169,7 +168,6 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
     try {
       axios(url)
         .then((resData: any) => {
-          console.log(resData)
           this.setState({
             resData: resData.data,
           })
@@ -208,7 +206,9 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
   render() {
     const { resData } = this.state
     const results: Array<any> = resData.results
-    let bookLen: number, rows: number, index: number
+    let bookLen
+    let rows
+    let index
     let bookArray
     let bookblock
     let bookArea
@@ -265,6 +265,7 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
           <Header></Header>
           <Content className="saerch-wrap">
             {this.state.canv ? this.canva : ''}
+
             <Row gutter={[0, 10]}>
               <Col span={1}></Col>
               <Col span={22}>
@@ -342,7 +343,7 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
         dispatch({ type: 'ACTION_ADD_COUNT', data: count + 1 })
         this.setState({ asyncDispatchLoading: false })
         resolve()
-      }, 1000)
+      }, 800)
     })
   }
 
