@@ -9,7 +9,6 @@ import './book-section.less'
 const store = new Store<any>()
 interface BookSectionProps {
   title: string
-  ref: any
 }
 
 declare interface BookSectionState {
@@ -136,13 +135,12 @@ export default class BookSection extends React.Component<BookSectionProps, BookS
       })
   }
   render() {
-    const { ref } = this.props
     // const { resData, loading, createWindowLoading, asyncDispatchLoading } = this.state
     // const { count: reduxCount, countAlias } = this.props
     const syncicon = <SyncOutlined></SyncOutlined>
     const nosyncicon = <SyncOutlined spin></SyncOutlined>
     return (
-      <section id="kexue" ref={ref} className="book-section">
+      <section id="kexue" className="book-section">
         {this.state.resData.results.length > 0 ? this.sectiontitle : ''}
 
         <Skeleton loading={this.state.loading} key="Skeleton1" active className="skeleton-holder"></Skeleton>

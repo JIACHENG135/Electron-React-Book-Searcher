@@ -54,7 +54,6 @@ export async function request(apiPath: string, params?: RequestParams, optionsSo
 
   return axios(sendData)
     .then(res => {
-      console.log(res)
       const resData: UserLoginInfo.Response | any = res.data
       if (method == 'POST') {
       }

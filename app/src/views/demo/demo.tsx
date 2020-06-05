@@ -107,12 +107,12 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
             <BookSection ref={this.scrollDivBio} title="传记"></BookSection>
             <BookSection ref={this.scrollDivBio} title="军事"></BookSection> */}
               <div className="book-section-area">
-                <BookSection ref={this.scrollDivBio} title="计算机"></BookSection>
-                <BookSection ref={this.scrollDivBio} title="小说"></BookSection>
-                <BookSection ref={this.scrollDivBio} title="武侠"></BookSection>
-                <BookSection ref={this.scrollDivBio} title="文学"></BookSection>
-                <BookSection ref={this.scrollDivBio} title="社会"></BookSection>
-                <BookSection ref={this.scrollDivBio} title="电影"></BookSection>
+                <BookSection title="计算机"></BookSection>
+                <BookSection title="小说"></BookSection>
+                <BookSection title="武侠"></BookSection>
+                <BookSection title="文学"></BookSection>
+                <BookSection title="社会"></BookSection>
+                <BookSection title="电影"></BookSection>
               </div>
             </Content>
           </Layout>

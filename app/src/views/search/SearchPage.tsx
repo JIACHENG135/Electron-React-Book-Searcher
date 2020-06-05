@@ -2,16 +2,15 @@ import * as React from 'react'
 // import { Button, Input, Spin, Card } from 'antd'
 import { withStore } from '@/src/components'
 import Store from 'electron-store'
-
-import { Layout, Input, Row, Col, Radio } from 'antd'
-import ReactLoading from 'react-loading'
-import CountUp from 'react-countup'
-import Item from '../demo/Item'
+import axios from 'axios'
+import { Layout, Input, Row, Col, Radio, Button } from 'antd'
 import BookRow from './components/book-row'
+import PerfectScrollbar from 'react-perfect-scrollbar'
 import { CaretRightOutlined, CaretLeftOutlined } from '@ant-design/icons'
 import './search.less'
 import './canvas.less'
-import Loading from 'react-loading'
+import { IpcRenderer, Shell, WebContents, BrowserWindow, Remote, DownloadItem } from 'electron'
+
 const { Header, Content } = Layout
 const { Search } = Input
 
@@ -19,10 +18,27 @@ interface SearchProps extends PageProps, StoreProps {
   count: StoreStates['count']
   countAlias: StoreStates['count']
 }
+declare global {
+  interface Window {
+    require: (
+      module: 'electron'
+    ) => {
+      ipcRenderer: IpcRenderer
+      shell: Shell
+      remote: Remote
+      downloadItem: DownloadItem
+    }
+  }
+}
+const { ipcRenderer, shell, remote, downloadItem } = window.require('electron')
+
+const win: BrowserWindow = remote.getCurrentWindow()
 
 declare interface SearchState {
+  cols: number
   resData: queryTestInfoUsingGET.Response | {} | any
   loading: boolean
+  currentPage: string | number | any
   createWindowLoading: boolean
   asyncDispatchLoading: boolean
   value: number
@@ -41,6 +57,8 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
   state: SearchState = {
     resData: {},
     loading: false,
+    cols: 6,
+    currentPage: 1,
     createWindowLoading: false,
     asyncDispatchLoading: false,
     value: 1,
@@ -53,7 +71,9 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
   }
   // canva = document.createElement('CANVAS')
 
-  componentDidMount() {}
+  componentDidMount() {
+    win.on('resize', this.throttle(this.onResize, 1000).bind(this, win))
+  }
   setInputValue(e: any) {
     this.setState({
       value: e,
@@ -61,6 +81,37 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
   }
   sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms))
+  }
+
+  throttle(fn: Function, rateTime: number) {
+    let prev = Date.now() - rateTime
+    return (...args: any[]) => {
+      if (Date.now() - prev >= rateTime) {
+        fn.apply(this, args)
+        prev = Date.now()
+      }
+    }
+  }
+
+  onResize(win: BrowserWindow) {
+    const bound = win.getBounds()
+    if (bound.width < 800) {
+      this.setState({
+        cols: 2,
+      })
+    } else if (bound.width < 1200) {
+      this.setState({
+        cols: 4,
+      })
+    } else if (bound.width < 1600) {
+      this.setState({
+        cols: 6,
+      })
+    } else {
+      this.setState({
+        cols: 8,
+      })
+    }
   }
   handlesearch(value: any) {
     store.set('searchValue', value)
@@ -96,25 +147,50 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
     }
   }
 
-  handleNextPre(page: number) {
+  handleNextPre(preOrnext: number) {
     this.setState({
       resData: {
         results: [],
       },
+      loading: true,
     })
+    let url
+    if (preOrnext == 0) {
+      url = this.state.resData.previous
+      this.setState({
+        currentPage: this.state.currentPage - 1,
+      })
+    } else {
+      url = this.state.resData.next
+      this.setState({
+        currentPage: this.state.currentPage + 1,
+      })
+    }
     try {
-      $api
-        .SearchGet(
-          'book/' + store.get('searchValue'),
-          { page: page },
-          { headers: { Authorization: `Token ${store.get('user')}` } }
-        )
+      axios(url)
         .then((resData: any) => {
           console.log(resData)
           this.setState({
-            resData,
+            resData: resData.data,
           })
         })
+        .finally(() => {
+          this.setState({
+            loading: false,
+          })
+        })
+      // $api
+      //   .SearchGet(
+      //     'book/' + store.get('searchValue'),
+      //     { page: page },
+      //     { headers: { Authorization: `Token ${store.get('user')}` } }
+      //   )
+      //   .then((resData: any) => {
+      //     console.log(resData)
+      //     this.setState({
+      //       resData,
+      //     })
+      //   })
     } catch (err) {
       this.setState({
         canv: true,
@@ -136,99 +212,97 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
     let bookArray
     let bookblock
     let bookArea
-    let nextPage
-    let prevPage
+
     let nextButton
     let prevButton
     let currentPage
 
-    console.log(this.state.loading)
     if (results) {
       bookblock = new Array<any>()
       index = 0
       bookLen = results.length
       bookArray = new Array<any>()
-
-      if (resData.next) {
-        console.log(resData)
-        nextPage = resData.next.split('=')[1]
-        currentPage = nextPage - 1
-      }
-
-      if (resData.previous) {
-        prevPage = resData.previous.split('=')[1]
-      }
-
+      currentPage = this.state.currentPage
       for (const book of results) {
-        if (bookArray.length % 6 == 0) {
-          bookblock.push(<BookRow items={bookArray}></BookRow>)
+        if (bookArray.length % this.state.cols == 0) {
+          bookblock.push(<BookRow items={bookArray} grid={this.state.cols}></BookRow>)
           bookArray = new Array<any>()
         }
         bookArray.push(book)
         index += 1
       }
       if (bookArray.length > 0) {
-        bookblock.push(<BookRow items={bookArray}></BookRow>)
+        bookblock.push(<BookRow items={bookArray} grid={this.state.cols}></BookRow>)
       }
       bookArea = bookblock.map((item, index) => {
         return <div key={index}>{item}</div>
       })
     } else {
       bookArea = ''
+      currentPage = ' '
     }
-    if (nextPage) {
-      nextButton = <CaretRightOutlined onClick={this.handleNextPre.bind(this, nextPage)} />
+    if (this.state.resData.next) {
+      nextButton = (
+        <Button onClick={this.handleNextPre.bind(this, 1)} type="primary" className="page-button">
+          next
+        </Button>
+      )
     } else {
-      nextButton = ''
+      nextButton = ' '
     }
-    if (prevPage) {
-      prevButton = <CaretLeftOutlined onClick={this.handleNextPre.bind(this, prevPage)} />
+    if (this.state.resData.previous) {
+      prevButton = (
+        <Button onClick={this.handleNextPre.bind(this, 0)} type="primary" className="page-button">
+          prev
+        </Button>
+      )
     } else {
-      prevButton = ''
+      prevButton = ' '
     }
     return (
       <Layout className="demo-container">
-        <Header></Header>
-        <Content className="saerch-wrap">
-          {this.state.canv ? this.canva : ''}
-          <Row gutter={[0, 10]}>
-            <Col span={1}></Col>
-            <Col span={22}>
-              <div style={{ textAlign: 'center' }}>
-                <span>
-                  <img src={$tools.APP_ICON} width="44" />
-                </span>
-                <span style={{ marginLeft: '10px' }}>
-                  <img src={$tools.APP_TEXT} width="110" alt="" />
-                </span>
-              </div>
-            </Col>
-            <Col span={1}></Col>
-          </Row>
+        <PerfectScrollbar>
+          <Header></Header>
+          <Content className="saerch-wrap">
+            {this.state.canv ? this.canva : ''}
+            <Row gutter={[0, 10]}>
+              <Col span={1}></Col>
+              <Col span={22}>
+                <div style={{ textAlign: 'center' }}>
+                  <span>
+                    <img src={$tools.APP_ICON} width="44" />
+                  </span>
+                  <span style={{ marginLeft: '10px' }}>
+                    <img src={$tools.APP_TEXT} width="110" alt="" />
+                  </span>
+                </div>
+              </Col>
+              <Col span={1}></Col>
+            </Row>
 
-          <Row gutter={[0, 20]} style={{ paddingTop: '20px' }}>
-            <Col span={6}></Col>
-            <Col span={12}>
-              <Search
-                placeholder="input search loading with enterButton"
-                loading={this.state.loading}
-                enterButton
-                allowClear
-                onSearch={(value: any) => this.handlesearch(value)}
-              />
-            </Col>
-            <Col span={6}></Col>
-          </Row>
-          <div className="mid-item">
-            <Radio.Group
-              onChange={(ev: any): void => this.setInputValue(ev.target.value)}
-              value={this.state.value}
-            >
-              <Radio value={1}>搜中文</Radio>
-              <Radio value={2}>Search English</Radio>
-            </Radio.Group>
-          </div>
-          {/* <Row gutter={[0, 20]} style={{ paddingTop: '10px' }}>
+            <Row gutter={[0, 20]} style={{ paddingTop: '20px' }}>
+              <Col span={6}></Col>
+              <Col span={12}>
+                <Search
+                  placeholder="input search loading with enterButton"
+                  loading={this.state.loading}
+                  enterButton
+                  allowClear
+                  onSearch={(value: any) => this.handlesearch(value)}
+                />
+              </Col>
+              <Col span={6}></Col>
+            </Row>
+            <div className="mid-item">
+              <Radio.Group
+                onChange={(ev: any): void => this.setInputValue(ev.target.value)}
+                value={this.state.value}
+              >
+                <Radio value={1}>搜中文</Radio>
+                <Radio value={2}>Search English</Radio>
+              </Radio.Group>
+            </div>
+            {/* <Row gutter={[0, 20]} style={{ paddingTop: '10px' }}>
             <Col span={8}></Col>
             <Col span={8}>
               <Row>
@@ -248,13 +322,14 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
             </Col>
             <Col span={8}></Col>
           </Row> */}
-          <div className="page-design">
-            <span>{prevButton}</span>
-            <span>{currentPage}</span>
-            <span>{nextButton}</span>
-          </div>
-          {bookArea}
-        </Content>
+
+            {bookArea}
+            <div className="page-design">
+              <span>{prevButton}</span>
+              <span>{nextButton}</span>
+            </div>
+          </Content>
+        </PerfectScrollbar>
       </Layout>
     )
   }
