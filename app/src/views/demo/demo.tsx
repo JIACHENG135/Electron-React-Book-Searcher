@@ -87,7 +87,7 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
         <div className="scroll-area">
           <Layout className="demo-container">
             <Content>
-              <Carousel responsive={responsive} infinite={true} itemClass="item-class">
+              {/* <Carousel responsive={responsive} infinite={true} itemClass="item-class">
                 <div className="carousel-layer" onClick={this.scrollSmoothHandlerScience}>
                   <img src={$tools.SCIENCE} className="carousel-image" alt="science" />
                 </div>
@@ -101,11 +101,6 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
                   <img src={$tools.BIO} className="carousel-image" alt="science" />
                 </div>
               </Carousel>
-              {/* <BookSection ref={this.scrollDivScience} title="科学"></BookSection>
-            <BookSection ref={this.scrollDivHistory} title="历史"></BookSection>
-            <BookSection ref={this.scrollDivWenxue} title="文学"></BookSection>
-            <BookSection ref={this.scrollDivBio} title="传记"></BookSection>
-            <BookSection ref={this.scrollDivBio} title="军事"></BookSection> */}
               <div className="book-section-area">
                 <BookSection title="计算机"></BookSection>
                 <BookSection title="小说"></BookSection>
@@ -113,7 +108,7 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
                 <BookSection title="文学"></BookSection>
                 <BookSection title="社会"></BookSection>
                 <BookSection title="电影"></BookSection>
-              </div>
+              </div> */}
             </Content>
           </Layout>
         </div>

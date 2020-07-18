@@ -151,7 +151,7 @@ export default class BookSection extends React.Component<BookSectionProps, BookS
             <span
               ref={this.props.title}
               className="sync-icon"
-              onClick={this.requestRandomTest.bind(this, 'book/' + this.props.title, 2)}
+              onClick={this.requestRandomTest.bind(this, 'book/' + this.props.title)}
             >
               {this.state.loading ? nosyncicon : syncicon}
             </span>
