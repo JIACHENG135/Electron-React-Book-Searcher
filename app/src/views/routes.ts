@@ -7,7 +7,7 @@ const routes: RouteConfig[] = [
       title: 'App Home (redirect to demo)',
       transparent: true,
       minHeight: 600,
-      minWidth: 1000,
+      minWidth: 2000,
     },
     createConfig: {
       showSidebar: true,

@@ -3,10 +3,16 @@ import * as React from 'react'
 import axios from 'axios'
 import { withStore } from '@/src/components'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { IpcRenderer, Shell, WebContents, BrowserWindow, Remote, DownloadItem } from 'electron'
+import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem } from 'electron'
 import Store from 'electron-store'
-import { Layout, Button, Popover, Row, Col, Rate } from 'antd'
-import { DownloadOutlined, ApartmentOutlined, CloseOutlined, EyeOutlined } from '@ant-design/icons'
+import { Layout, Button, Popover, Row, Col } from 'antd'
+import {
+  DownloadOutlined,
+  ApartmentOutlined,
+  CloseOutlined,
+  EyeOutlined,
+  FilePdfOutlined,
+} from '@ant-design/icons'
 import './details.less'
 const { Content } = Layout
 const store = new Store<any>()
@@ -70,7 +76,6 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
     return new Promise(resolve => setTimeout(resolve, ms))
   }
 
-  async handleQuery() {}
   handleClose() {
     this.props.closeWindow()
   }
@@ -95,6 +100,52 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
     })
   }
 
+  handleLibgenDownload(url: string, filename: any) {
+    const win: BrowserWindow = remote.getCurrentWindow()
+    const act_url =
+      'http://93.174.95.29/fiction/' +
+      this.state.data.images.large.replace('http://93.174.95.29/fictioncovers/', '').replace('.jpg', '') +
+      '.' +
+      this.state.data.extension +
+      '/' +
+      this.state.data.title +
+      '.' +
+      this.state.data.extension
+
+    const savepath = `${$tools.AssetsPath('preview-file')}/${filename}`
+    win.webContents.downloadURL(act_url)
+    win.webContents.session.on('will-download', (event: any, item: DownloadItem, webContents: any) => {
+      item.setSavePath(savepath)
+      console.log(savepath)
+      item.once('done', (event: any, state: any) => {
+        if (state === 'completed') {
+          console.log('Finished downloading')
+        } else {
+          console.log(`Download failed: ${state}`)
+        }
+      })
+    })
+  }
+  handlePreviewPdf(locator: string, md5: string, filename: string) {
+    // store.set('pdf-filename', filename)
+    // store.set('locator', locator)
+    // store.set('md5', md5)
+    if (win) {
+    } else {
+      win = remote.getCurrentWindow()
+    }
+    let loadingUrl
+    axios
+      .get('http://127.0.0.1:8000/api/downloadlib/' + locator + '/' + md5 + '/' + filename)
+      .then((res: any) => {
+        console.log('Urllllllllllll', res.data)
+        loadingUrl = res.data
+        store.set('loadingUrl', loadingUrl)
+        // $tools.createWindow('Prepdf', {
+        //   windowOptions: { title: 'Preview PDF file', transparent: false },
+        // })
+      })
+  }
   handlePreview(url: string, filename: any) {
     store.set('filename', filename)
     if (win) {
@@ -155,13 +206,16 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
     let authortext, authortag
     let hasEpub, preview, filename, trans
 
-    this.state.s4books.files.forEach((element: string) => {
-      if (element.includes('.epub')) {
-        hasEpub = true
-        filename = element
-      }
-    })
-
+    if (this.state.s4books.files.length > 0) {
+      this.state.s4books.files.forEach((element: string) => {
+        if (element.includes('.epub')) {
+          hasEpub = true
+          filename = element
+        }
+      })
+    }
+    console.log('Data')
+    console.log(this.state.data)
     if (hasEpub) {
       preview = (
         <span>
@@ -178,14 +232,34 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
         </span>
       )
     } else {
-      preview = ''
+      if (this.state.data.status == 2) {
+        preview = (
+          <span>
+            <a
+              href={`${$tools.AssetsPath(
+                'webpage/web/viewer.html'
+              )}?file=https://vue-aplayer-django.herokuapp.com/api/downloadlib/${this.state.data.images.large
+                .replace('http://93.174.95.29/fictioncovers/', '')
+                .replace('.jpg', '') +
+                '/' +
+                this.state.data.title +
+                '.' +
+                this.state.data.extension}`}
+            >
+              <FilePdfOutlined></FilePdfOutlined>
+            </a>
+          </span>
+        )
+      } else {
+        preview = ''
+      }
     }
 
     if (this.state.data.summary === '') {
       summarytext = ''
       summarytag = ''
     } else {
-      summarytag = <p className="cata-tag">内容简介: </p>
+      summarytag = <p className="cata-tag">Introduction: </p>
       summarytext = this.state.data.summary.split('\n').map((value: string, index: number) => {
         return (
           <p className="cata-text" key={index}>
@@ -198,7 +272,7 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
       authortext = ''
       authortag = ''
     } else {
-      authortag = <p className="cata-tag">作者简介: </p>
+      authortag = <p className="cata-tag">Introduction of author: </p>
       authortext = this.state.data.author_intro
         .replace('作者简介：', '')
         .split('\n')
@@ -211,17 +285,44 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
         })
     }
 
-    const book = (
-      <Row className="book-row">
-        <Col flex="260px"></Col>
-        <Col flex="auto" className="book-text"></Col>
-      </Row>
-    )
+    let popover_content
+    if (this.state.data.status == 2) {
+      console.log('There is no files')
+      popover_content = (
+        <p>
+          <a
+            onClick={this.handleLibgenDownload.bind(
+              this,
+              this.state.data.md5,
+              this.state.data.title + '.' + this.state.data.extension
+            )}
+          >
+            {this.state.data.title + '.' + this.state.data.extension}
+          </a>
+        </p>
+      )
+    } else {
+      popover_content = this.state.s4books.files.map((value: string, index: number) => {
+        return (
+          <p key={index}>
+            <a
+              onClick={this.handleDownload.bind(
+                this,
+                `${process.env.API_PROTOCOL}${process.env.API_HOST}${process.env.API_BASE_PATH}/download/${value}`,
+                value
+              )}
+            >
+              {value.split('.')[1]}
+            </a>
+          </p>
+        )
+      })
+    }
     if (this.state.data.translator.length > 0) {
       trans = (
         <p className="book-text cata-tag">
-          译者:{' '}
-          {this.state.data.translator.map((value: string, index: number) => {
+          Translator:{' '}
+          {this.state.data.translator.map((value: string) => {
             return value
           })}
         </p>
@@ -242,23 +343,23 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
                 <Col flex="auto" className="book-right-area">
                   <div className="book-right-container">
                     <div>
-                      <p className="book-text cata-tag">书名: {this.state.data.title}</p>
+                      <p className="book-text cata-tag">Bookname: {this.state.data.title}</p>
                     </div>
                     <div>
                       <p className="book-text cata-tag">
-                        豆瓣评分: {this.state.data.rating.average / 2}{' '}
+                        Douban rating: {this.state.data.rating.average / 2}{' '}
                         <a href={this.state.data.alt}>
                           ({this.state.data.rating.numRaters}
                           {'人评分'})
                         </a>
                       </p>
-                      <p className="book-text cata-tag">出版日期: {this.state.data.pubdate}</p>
-                      <p className="book-text cata-tag">出版社: {this.state.data.publisher}</p>
+                      <p className="book-text cata-tag">Publishing Year: {this.state.data.pubdate}</p>
+                      <p className="book-text cata-tag">Publisher: {this.state.data.publisher}</p>
                     </div>
                     <div>
                       <p className="book-text cata-tag">
-                        作者:{' '}
-                        {this.state.data.author.map((value: string, index: number) => {
+                        Author:{' '}
+                        {this.state.data.author.map((value: string) => {
                           return value
                         })}
                       </p>
@@ -270,21 +371,22 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
                         <Popover
                           placement="top"
                           trigger="click"
-                          content={this.state.s4books.files.map((value: string, index: number) => {
-                            return (
-                              <p key={index}>
-                                <a
-                                  onClick={this.handleDownload.bind(
-                                    this,
-                                    `${process.env.API_PROTOCOL}${process.env.API_HOST}${process.env.API_BASE_PATH}/download/${value}`,
-                                    value
-                                  )}
-                                >
-                                  {value.split('.')[1]}
-                                </a>
-                              </p>
-                            )
-                          })}
+                          content={popover_content}
+                          // content={this.state.s4books.files.map((value: string, index: number) => {
+                          //   return (
+                          //     <p key={index}>
+                          //       <a
+                          //         onClick={this.handleDownload.bind(
+                          //           this,
+                          //           `${process.env.API_PROTOCOL}${process.env.API_HOST}${process.env.API_BASE_PATH}/download/${value}`,
+                          //           value
+                          //         )}
+                          //       >
+                          //         {value.split('.')[1]}
+                          //       </a>
+                          //     </p>
+                          //   )
+                          // })}
                         >
                           <Button type="primary" icon={<DownloadOutlined />} />
                         </Popover>

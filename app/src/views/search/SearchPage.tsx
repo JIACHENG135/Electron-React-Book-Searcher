@@ -5,6 +5,7 @@ import Store from 'electron-store'
 import axios from 'axios'
 import { Layout, Input, Row, Col, Radio, Button } from 'antd'
 import BookRow from './components/book-row'
+import LibgenRow from './components/libgen-row'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import './search.less'
 import './canvas.less'
@@ -76,6 +77,7 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
   setInputValue(e: any) {
     this.setState({
       value: e,
+      resData: {},
     })
   }
   sleep(ms: number) {
@@ -113,6 +115,7 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
     }
   }
   handlesearch(value: any) {
+    console.log(typeof this.state.value)
     store.set('searchValue', value)
     try {
       this.setState({
@@ -121,18 +124,39 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
         },
         loading: true,
       })
-      $api
-        .SearchGet('book/' + value, { page: 1 }, { headers: { Authorization: `Token ${store.get('user')}` } })
-        .then((resData: any) => {
-          this.setState({
-            resData,
+
+      if (this.state.value == 2) {
+        $api
+          // .SearchGet('book/' + value, { page: 1 }, { headers: { Authorization: `Token ${store.get('user')}` } })
+          .SearchGet('libgen/' + value, { page: 1 })
+
+          .then((resData: any) => {
+            console.log(resData)
+            this.setState({
+              resData,
+            })
           })
-        })
-        .finally(() => {
-          this.setState({
-            loading: false,
+          .finally(() => {
+            this.setState({
+              loading: false,
+            })
           })
-        })
+      } else {
+        $api
+          // .SearchGet('book/' + value, { page: 1 }, { headers: { Authorization: `Token ${store.get('user')}` } })
+          .SearchGet('book/' + value, { page: 1 })
+
+          .then((resData: any) => {
+            this.setState({
+              resData,
+            })
+          })
+          .finally(() => {
+            this.setState({
+              loading: false,
+            })
+          })
+      }
     } catch (err) {
       this.setState({
         canv: true,
@@ -225,14 +249,24 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
       currentPage = this.state.currentPage
       for (const book of results) {
         if (bookArray.length % this.state.cols == 0) {
-          bookblock.push(<BookRow items={bookArray} grid={this.state.cols}></BookRow>)
+          if (this.state.value == 1) {
+            console.log(book)
+            bookblock.push(<BookRow items={bookArray} grid={this.state.cols}></BookRow>)
+          } else {
+            bookblock.push(<LibgenRow items={bookArray} grid={this.state.cols}></LibgenRow>)
+          }
+
           bookArray = new Array<any>()
         }
         bookArray.push(book)
         index += 1
       }
       if (bookArray.length > 0) {
-        bookblock.push(<BookRow items={bookArray} grid={this.state.cols}></BookRow>)
+        if (this.state.value == 1) {
+          bookblock.push(<BookRow items={bookArray} grid={this.state.cols}></BookRow>)
+        } else {
+          bookblock.push(<LibgenRow items={bookArray} grid={this.state.cols}></LibgenRow>)
+        }
       }
       bookArea = bookblock.map((item, index) => {
         return <div key={index}>{item}</div>
@@ -280,7 +314,6 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
               </Col>
               <Col span={1}></Col>
             </Row>
-
             <Row gutter={[0, 20]} style={{ paddingTop: '20px' }}>
               <Col span={6}></Col>
               <Col span={12}>
