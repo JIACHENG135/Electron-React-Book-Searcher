@@ -7,8 +7,6 @@ import './demo.less'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 // import 'antd/dist/antd.css'
 
-import Carousel from 'react-multi-carousel'
-import BookSection from './book-section'
 import 'react-multi-carousel/lib/styles.css'
 import 'react-perfect-scrollbar/dist/css/styles.css'
 import './demo.less'
@@ -62,54 +60,31 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
   }
 
   render() {
-    const responsive = {
-      superLargeDesktop: {
-        // the naming can be any, depends on you.
-        breakpoint: { max: 4000, min: 3000 },
-        items: 5,
-      },
-      desktop: {
-        breakpoint: { max: 3000, min: 1024 },
-        items: 3,
-      },
-      tablet: {
-        breakpoint: { max: 1024, min: 464 },
-        items: 2,
-      },
-      mobile: {
-        breakpoint: { max: 464, min: 0 },
-        items: 1,
-      },
-    }
+    // const responsive = {
+    //   superLargeDesktop: {
+    //     // the naming can be any, depends on you.
+    //     breakpoint: { max: 4000, min: 3000 },
+    //     items: 5,
+    //   },
+    //   desktop: {
+    //     breakpoint: { max: 3000, min: 1024 },
+    //     items: 3,
+    //   },
+    //   tablet: {
+    //     breakpoint: { max: 1024, min: 464 },
+    //     items: 2,
+    //   },
+    //   mobile: {
+    //     breakpoint: { max: 464, min: 0 },
+    //     items: 1,
+    //   },
+    // }
 
     return (
       <PerfectScrollbar>
         <div className="scroll-area">
           <Layout className="demo-container">
-            <Content>
-              {/* <Carousel responsive={responsive} infinite={true} itemClass="item-class">
-                <div className="carousel-layer" onClick={this.scrollSmoothHandlerScience}>
-                  <img src={$tools.SCIENCE} className="carousel-image" alt="science" />
-                </div>
-                <div className="carousel-layer" onClick={this.scrollSmoothHandlerHistory}>
-                  <img src={$tools.HISTORY} className="carousel-image" alt="science" />
-                </div>
-                <div className="carousel-layer" onClick={this.scrollSmoothHandlerWenxue}>
-                  <img src={$tools.WENXUE} className="carousel-image" alt="science" />
-                </div>
-                <div className="carousel-layer" onClick={this.scrollSmoothHandlerBio}>
-                  <img src={$tools.BIO} className="carousel-image" alt="science" />
-                </div>
-              </Carousel>
-              <div className="book-section-area">
-                <BookSection title="计算机"></BookSection>
-                <BookSection title="小说"></BookSection>
-                <BookSection title="武侠"></BookSection>
-                <BookSection title="文学"></BookSection>
-                <BookSection title="社会"></BookSection>
-                <BookSection title="电影"></BookSection>
-              </div> */}
-            </Content>
+            <Content></Content>
           </Layout>
         </div>
       </PerfectScrollbar>

@@ -17,7 +17,7 @@ interface State {
 
 export class AppSidebar extends React.Component<{}, State> {
   state: State = {
-    activeMenuKey: AppSideMenus[0]?.key,
+    activeMenuKey: AppSideMenus[1]?.key,
   }
 
   componentDidMount() {

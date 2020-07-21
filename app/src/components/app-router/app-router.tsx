@@ -5,7 +5,6 @@ import { Provider } from 'react-redux'
 import { asyncImport } from '../async-import'
 import { beforeRouter } from './router-hooks'
 import * as pageResource from '@/src/page-resource'
-import { CSSTransition } from 'react-transition-group'
 
 interface AppRouterProps {
   routes: Map<string, RouteConfig>
