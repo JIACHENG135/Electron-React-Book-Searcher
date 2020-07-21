@@ -2,8 +2,9 @@ import * as React from 'react'
 import axios from 'axios'
 import Store from 'electron-store'
 import './trans-window.less'
-import { Row, Col } from 'antd'
+import { Row, Col, Layout } from 'antd'
 import ReactLoading from 'react-loading'
+import PerfectScrollbar from 'react-perfect-scrollbar'
 // import { Button, Input, Spin, Card } from 'antd'
 
 // import './login.module.less'
@@ -66,8 +67,8 @@ export default class Login extends React.Component<LoginProps, LoginState> {
     )
     // const { count: reduxCount, countAlias } = this.props
     return (
-      <div className="container-window">
-        <Row align="middle" style={{ height: '50%' }}>
+      <PerfectScrollbar className="container-window">
+        <Row align="middle" style={{ height: '100%' }}>
           <Col className="trans-text-area" span={12}>
             <h5>{store.get('clipboard')}</h5>
           </Col>
@@ -75,7 +76,7 @@ export default class Login extends React.Component<LoginProps, LoginState> {
             <h4>{loading ? loadingBar : translated}</h4>
           </Col>
         </Row>
-      </div>
+      </PerfectScrollbar>
     )
   }
 } // class Demo end
