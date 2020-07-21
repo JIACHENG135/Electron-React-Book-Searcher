@@ -245,6 +245,8 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
                 this.state.data.title +
                 '.' +
                 this.state.data.extension}`}
+              target="_blank"
+              rel="noreferrer noopener"
             >
               <FilePdfOutlined></FilePdfOutlined>
             </a>
