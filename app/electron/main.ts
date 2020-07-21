@@ -24,6 +24,7 @@ app.on('ready', () => {
         height: 200,
         titleBarStyle: 'customButtonsOnHover',
         vibrancy: 'light',
+        resizable: false,
       },
     })
   })

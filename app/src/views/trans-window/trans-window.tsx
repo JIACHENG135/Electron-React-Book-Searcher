@@ -2,6 +2,7 @@ import * as React from 'react'
 import axios from 'axios'
 import Store from 'electron-store'
 import './trans-window.less'
+import { Row, Col } from 'antd'
 // import { Button, Input, Spin, Card } from 'antd'
 
 // import './login.module.less'
@@ -32,11 +33,13 @@ export default class Login extends React.Component<LoginProps, LoginState> {
 
   componentDidMount() {
     console.log('http://127.0.0.1:8000/api/translate/' + store.get('clipboard') + '/cn')
-    axios.get('http://127.0.0.1:8000/api/translate/' + store.get('clipboard') + '/cn').then((resData: any) => {
-      this.setState({
-        translated: resData.data,
+    axios
+      .get('http://vue-aplayer-django.herokuapp.com/api/translate/' + store.get('clipboard') + '/cn')
+      .then((resData: any) => {
+        this.setState({
+          translated: resData.data,
+        })
       })
-    })
   }
 
   sleep(ms: number) {
@@ -49,7 +52,14 @@ export default class Login extends React.Component<LoginProps, LoginState> {
     // const { count: reduxCount, countAlias } = this.props
     return (
       <div className="container-window">
-        <h1>{translated}</h1>
+        <Row>
+          <Col className="trans-text-area" span={12}>
+            <h5>{store.get('clipboard')}</h5>
+          </Col>
+          <Col className="trans-text-area" span={12}>
+            <h4>{translated}</h4>
+          </Col>
+        </Row>
       </div>
     )
   }
