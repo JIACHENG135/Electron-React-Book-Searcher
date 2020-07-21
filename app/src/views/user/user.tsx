@@ -107,7 +107,14 @@ export default class User extends React.Component<UserProps, UserState> {
             <Col className="avatar-container">
               <div className={'tail-col'}>
                 <span>
-                  <Button type="primary"> 关注他</Button>
+                  <Button
+                    type="primary"
+                    href="https://www.zhihu.com/people/5602f1ee57a5cf124ec122e995d46e5f"
+                    target="_blank"
+                  >
+                    {' '}
+                    关注他
+                  </Button>
                 </span>
               </div>
             </Col>
