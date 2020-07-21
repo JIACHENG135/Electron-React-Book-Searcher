@@ -3,7 +3,7 @@ const routes: RouteConfig[] = [
     key: 'SearchPage',
     path: '/search',
     createConfig: {
-      single: false,
+      single: true,
     },
     windowOptions: {
       resizable: true,

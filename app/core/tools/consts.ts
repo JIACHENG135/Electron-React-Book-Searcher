@@ -41,8 +41,10 @@ export const AssetsPath = asAssetsPath
 
 /** 创建新窗口时默认加载的选项 */
 export const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
-  width: 1500,
-  height: 1500,
+  width: 1200,
+  height: 600,
+  minHeight: 600,
+  minWidth: 1200,
   resizable: true,
   maximizable: true,
   webPreferences: {
@@ -67,8 +69,8 @@ export const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
 }
 
 export const DEFAULT_INITIAL_CONFIG: CreateConfig = {
-  showSidebar: false,
-  showTitlebar: true,
+  showSidebar: true,
+  showTitlebar: false,
   autoShow: true,
   delayToShow: 10,
   single: true,

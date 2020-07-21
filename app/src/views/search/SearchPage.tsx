@@ -318,7 +318,7 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
               <Col span={6}></Col>
               <Col span={12}>
                 <Search
-                  placeholder="input search loading with enterButton"
+                  placeholder="Search something!"
                   loading={this.state.loading}
                   enterButton
                   allowClear

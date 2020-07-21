@@ -28,8 +28,6 @@ export default class LibgenBook extends React.Component<CarouselItemProps, Carou
     })
   }
   render() {
-    console.log('Item props')
-    console.log(this.props.item)
     const carouselItem = {
       bookAuthor: this.props.item.Author,
       bookTitle: this.props.item.Title,

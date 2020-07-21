@@ -98,6 +98,7 @@
     "react-countup": "^4.3.3",
     "react-hot-loader": "^4.12.20",
     "react-multi-carousel": "^2.5.5",
+    "react-spring": "^8.0.27",
     "react-spring-3d-carousel": "^1.2.0"
   }
 }

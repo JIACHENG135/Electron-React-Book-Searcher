@@ -17,7 +17,7 @@ interface State {
 
 export class AppSidebar extends React.Component<{}, State> {
   state: State = {
-    activeMenuKey: AppSideMenus[1]?.key,
+    activeMenuKey: AppSideMenus[0]?.key,
   }
 
   componentDidMount() {
@@ -31,7 +31,7 @@ export class AppSidebar extends React.Component<{}, State> {
     return (
       <div className="app-sidebar">
         <div className="mt-24 flex center app-sidebar-header">
-          <img width="40" src={$tools.APP_SVG} className="svg-image" />
+          <img width="50" src={$tools.APP_SVG} className="svg-image" />
 
           {/* <embed  width="40" src={$tools.APP_SVG} type="image/svg+xml" /> */}
         </div>

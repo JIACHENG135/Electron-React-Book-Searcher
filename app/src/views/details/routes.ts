@@ -9,9 +9,11 @@ const routes: RouteConfig[] = [
       title: 'Details',
       transparent: true,
       resizable: true,
+      maximizable: false,
     },
     createConfig: {
       showTitlebar: false,
+      showSidebar: false,
       hideMenus: true,
       saveWindowBounds: false,
     },

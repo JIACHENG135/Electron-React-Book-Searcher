@@ -10,12 +10,12 @@ app.allowRendererProcessReuse = true
 
 app.on('ready', () => {
   tray = creatAppTray()
-  $tools.createWindow('Home')
+  $tools.createWindow('SearchPage')
 })
 
 app.on('activate', () => {
   if (process.platform == 'darwin') {
-    $tools.createWindow('Home')
+    $tools.createWindow('SearchPage')
   }
 })
 

@@ -1,11 +1,5 @@
 [
   {
-    "key": "Demo",
-    "href": "#/demo",
-    "title": "Home",
-    "icon": "home-3"
-  },
-  {
     "key": "Search",
     "href": "#/search",
     "title": "Search",
@@ -16,18 +10,6 @@
     "href": "#/user",
     "title": "user",
     "icon": "user"
-  },
-  {
-    "key": "PageParams",
-    "href": "#/page-params/ok?obj={ss:['1',2,3]}",
-    "title": "Page Params",
-    "icon": "flask"
-  },
-  {
-    "key": "any",
-    "href": "#/any",
-    "title": "No Match",
-    "icon": "forbid"
   },
   {
     "key": "About",
