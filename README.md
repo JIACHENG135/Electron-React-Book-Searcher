@@ -67,8 +67,6 @@ For Windows
 ![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20Preview.jpg)
 
 For Mac
-### HomePage
-![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/Mac%20-%20Home.png)
 ### AboutPage
 ![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/Mac%20-%20About.png)
 ### Search
@@ -77,9 +75,12 @@ For Mac
 ![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/Mac%20-%20Detail.png)
 ### UserProfile
 ![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/Mac%20-%20UserProfile.png)
-
-
-
+### Fiction Details Page
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/Mac%20-%20Fiction%20Detail.png)
+### Preview PDF file
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/Mac%20-%20Preview%20PDF.png)
+### Translate any language to Chinese
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/Mac%20-%20Translate.png)
 
 
 ## Install
