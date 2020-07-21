@@ -237,7 +237,7 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
     } else {
       if (this.state.data.status == 2) {
         preview = (
-          <span>
+          <span title="Preview the PDF file">
             <Button
               type="primary"
               danger

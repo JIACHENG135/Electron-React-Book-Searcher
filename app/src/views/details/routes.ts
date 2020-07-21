@@ -7,8 +7,9 @@ const routes: RouteConfig[] = [
       height: 380,
       frame: false,
       title: 'Details',
+      titleBarStyle: 'hiddenInset',
       transparent: true,
-      resizable: true,
+      resizable: false,
       maximizable: false,
     },
     createConfig: {

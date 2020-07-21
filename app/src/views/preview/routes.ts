@@ -7,10 +7,11 @@ const routes: RouteConfig[] = [
       width: 1200,
       height: 600,
       frame: false,
+      resizable: true,
     },
     createConfig: {
       showSidebar: false,
-      saveWindowBounds: false,
+      saveWindowBounds: true,
       // openDevTools: true,
     },
   },
