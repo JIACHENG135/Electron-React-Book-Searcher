@@ -41,7 +41,7 @@ export default class About extends React.Component<PageProps> {
           >
             JIACHENG135.
           </a>{' '}
-          All rights deserved
+          All rights reserved
         </p>
       </div>
     )
