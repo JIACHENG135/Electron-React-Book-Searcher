@@ -41,14 +41,14 @@ export const AssetsPath = asAssetsPath
 
 /** 创建新窗口时默认加载的选项 */
 export const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
-  width: 1200,
-  height: 300,
+  width: 1500,
+  height: 1500,
   resizable: true,
+  maximizable: true,
   webPreferences: {
     nodeIntegration: true,
     scrollBounce: true,
   },
-  maximizable: true,
   transparent: true,
 
   // transparent: true, // 窗口是否透明

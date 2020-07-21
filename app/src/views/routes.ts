@@ -6,9 +6,8 @@ const routes: RouteConfig[] = [
     windowOptions: {
       title: 'App Home (redirect to demo)',
       transparent: true,
-      width: 800,
-      minHeight: 600,
-      minWidth: 600,
+      minHeight: 800,
+      minWidth: 1000,
     },
     createConfig: {
       showSidebar: true,
