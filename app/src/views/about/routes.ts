@@ -4,10 +4,8 @@ const routes: RouteConfig[] = [
     path: '/about',
     windowOptions: {
       title: 'About',
-      resizable: false,
-      minimizable: false,
-      maximizable: false,
-      fullscreenable: false,
+      resizable: true,
+      vibrancy: 'light',
     },
     createConfig: {
       showTitlebar: false,

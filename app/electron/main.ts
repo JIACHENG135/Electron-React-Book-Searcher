@@ -12,7 +12,7 @@ app.allowRendererProcessReuse = true
 app.on('ready', () => {
   tray = creatAppTray()
 
-  globalShortcut.register('Cmd+C+T', () => {
+  globalShortcut.register('CommandOrControl+C+T', () => {
     store.set('clipboard', clipboard.readText())
     $tools.createWindow('Trans', {
       windowOptions: {
@@ -20,7 +20,7 @@ app.on('ready', () => {
         transparent: true,
         minWidth: 200,
         minHeight: 200,
-        width: 200,
+        width: 500,
         height: 200,
         titleBarStyle: 'customButtonsOnHover',
         vibrancy: 'light',
@@ -28,12 +28,12 @@ app.on('ready', () => {
       },
     })
   })
-  $tools.createWindow('SearchPage')
+  $tools.createWindow('About')
 })
 
 app.on('activate', () => {
   if (process.platform == 'darwin') {
-    $tools.createWindow('SearchPage')
+    $tools.createWindow('About')
   }
 })
 
