@@ -3,6 +3,7 @@ import axios from 'axios'
 import Store from 'electron-store'
 import './trans-window.less'
 import { Row, Col } from 'antd'
+import ReactLoading from 'react-loading'
 // import { Button, Input, Spin, Card } from 'antd'
 
 // import './login.module.less'
@@ -12,6 +13,7 @@ interface LoginProps extends PageProps, StoreProps {}
 
 declare interface LoginState {
   translated: string
+  loading: boolean
 }
 
 /**
@@ -24,6 +26,7 @@ export default class Login extends React.Component<LoginProps, LoginState> {
   // state 初始化
   state: LoginState = {
     translated: '',
+    loading: true,
   }
 
   // 构造函数
@@ -38,6 +41,13 @@ export default class Login extends React.Component<LoginProps, LoginState> {
       .then((resData: any) => {
         this.setState({
           translated: resData.data,
+          loading: false,
+        })
+      })
+      .catch((err: any) => {
+        this.setState({
+          translated: '别带问号...',
+          loading: false,
         })
       })
   }
@@ -48,16 +58,21 @@ export default class Login extends React.Component<LoginProps, LoginState> {
 
   canva = (<canvas></canvas>)
   render() {
-    const { translated } = this.state
+    const { translated, loading } = this.state
+    const loadingBar = (
+      <div>
+        <ReactLoading className="loading-bubble" type="spinningBubbles" color="black" height={30} width={30} />
+      </div>
+    )
     // const { count: reduxCount, countAlias } = this.props
     return (
       <div className="container-window">
-        <Row>
+        <Row align="middle" style={{ height: '50%' }}>
           <Col className="trans-text-area" span={12}>
             <h5>{store.get('clipboard')}</h5>
           </Col>
           <Col className="trans-text-area" span={12}>
-            <h4>{translated}</h4>
+            <h4>{loading ? loadingBar : translated}</h4>
           </Col>
         </Row>
       </div>

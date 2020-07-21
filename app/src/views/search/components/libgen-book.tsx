@@ -71,7 +71,6 @@ export default class LibgenBook extends React.Component<CarouselItemProps, Carou
             >
               <img src={carouselItem.bookPic} alt="" className="item-image" />
               <p className="item-text">{carouselItem.bookTitle}</p>
-              <p className="author-text">{carouselItem.bookAuthor}</p>
             </div>
           }
         >

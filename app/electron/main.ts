@@ -6,7 +6,7 @@ $tools.log.info(`Application <${$tools.APP_NAME}> launched.`)
 const store = new Store<any>()
 
 let tray: Tray
-
+let activeWin: BrowserWindow | boolean
 app.allowRendererProcessReuse = true
 
 app.on('ready', () => {
@@ -14,19 +14,24 @@ app.on('ready', () => {
 
   globalShortcut.register('CommandOrControl+C+T', () => {
     store.set('clipboard', clipboard.readText())
-    $tools.createWindow('Trans', {
-      windowOptions: {
-        title: 'Translating results',
-        transparent: true,
-        minWidth: 200,
-        minHeight: 200,
-        width: 500,
-        height: 200,
-        titleBarStyle: 'customButtonsOnHover',
-        vibrancy: 'light',
-        resizable: false,
-      },
-    })
+    activeWin = $tools.activeWindow('Trans')
+    if (activeWin) {
+      activeWin.reload()
+    } else {
+      $tools.createWindow('Trans', {
+        windowOptions: {
+          title: 'Translating results',
+          transparent: true,
+          minWidth: 200,
+          minHeight: 200,
+          width: 500,
+          height: 200,
+          titleBarStyle: 'customButtonsOnHover',
+          vibrancy: 'light',
+          resizable: false,
+        },
+      })
+    }
   })
   $tools.createWindow('About')
 })
