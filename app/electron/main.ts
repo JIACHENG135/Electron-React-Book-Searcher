@@ -1,8 +1,9 @@
-import { app, Tray, BrowserWindow, globalShortcut, clipboard } from 'electron'
+import { app, Tray, BrowserWindow, globalShortcut, clipboard, screen } from 'electron'
 
 import { creatAppTray } from './tray'
-
+import Store from 'electron-store'
 $tools.log.info(`Application <${$tools.APP_NAME}> launched.`)
+const store = new Store<any>()
 
 let tray: Tray
 
@@ -10,7 +11,22 @@ app.allowRendererProcessReuse = true
 
 app.on('ready', () => {
   tray = creatAppTray()
-  globalShortcut.register('Alt+Cmd+T', () => $tools.createWindow('Trans'))
+
+  globalShortcut.register('Cmd+C+T', () => {
+    store.set('clipboard', clipboard.readText())
+    $tools.createWindow('Trans', {
+      windowOptions: {
+        title: 'Translating results',
+        transparent: true,
+        minWidth: 200,
+        minHeight: 200,
+        width: 200,
+        height: 200,
+        titleBarStyle: 'customButtonsOnHover',
+        vibrancy: 'light',
+      },
+    })
+  })
   $tools.createWindow('SearchPage')
 })
 

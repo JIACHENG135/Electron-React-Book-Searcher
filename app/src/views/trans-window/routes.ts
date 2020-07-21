@@ -4,14 +4,12 @@ const routes: RouteConfig[] = [
     path: '/trans',
     windowOptions: {
       title: 'transparent window',
-      width: 400,
-      height: 200,
       frame: false,
       transparent: true,
     },
     createConfig: {
       showSidebar: false,
-      saveWindowBounds: true,
+      saveWindowBounds: false,
       // openDevTools: true,
     },
   },

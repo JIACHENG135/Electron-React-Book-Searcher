@@ -7,7 +7,7 @@ const routes: RouteConfig[] = [
       height: 380,
       frame: false,
       title: 'Details',
-      titleBarStyle: 'hiddenInset',
+      titleBarStyle: 'customButtonsOnHover',
       transparent: true,
       resizable: true,
       maximizable: false,

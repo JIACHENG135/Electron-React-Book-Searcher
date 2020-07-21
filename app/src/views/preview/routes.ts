@@ -8,6 +8,7 @@ const routes: RouteConfig[] = [
       height: 600,
       frame: false,
       resizable: true,
+      titleBarStyle: 'customButtonsOnHover',
     },
     createConfig: {
       showSidebar: false,

@@ -9,26 +9,20 @@ import './trans-window.less'
 
 interface LoginProps extends PageProps, StoreProps {}
 
-declare interface LoginState {}
+declare interface LoginState {
+  translated: string
+}
 
 /**
  * DemoProps 是组件的 props 类型声明
  * DemoState 是组件的 state 类型声明
  * props 和 state 的默认值需要单独声明
  */
-
+const store = new Store<any>()
 export default class Login extends React.Component<LoginProps, LoginState> {
   // state 初始化
   state: LoginState = {
-    resData: {},
-    loading: false,
-    createWindowLoading: false,
-    asyncDispatchLoading: false,
-    value: 1,
-    userprofile: {
-      username: '',
-      password: '',
-    },
+    translated: '',
   }
 
   // 构造函数
@@ -36,7 +30,14 @@ export default class Login extends React.Component<LoginProps, LoginState> {
     super(props)
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    console.log('http://127.0.0.1:8000/api/translate/' + store.get('clipboard') + '/cn')
+    axios.get('http://127.0.0.1:8000/api/translate/' + store.get('clipboard') + '/cn').then((resData: any) => {
+      this.setState({
+        translated: resData.data,
+      })
+    })
+  }
 
   sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms))
@@ -44,11 +45,11 @@ export default class Login extends React.Component<LoginProps, LoginState> {
 
   canva = (<canvas></canvas>)
   render() {
-    // const { resData, loading, createWindowLoading, asyncDispatchLoading } = this.state
+    const { translated } = this.state
     // const { count: reduxCount, countAlias } = this.props
     return (
       <div className="container-window">
-        <h1>A big test</h1>
+        <h1>{translated}</h1>
       </div>
     )
   }
