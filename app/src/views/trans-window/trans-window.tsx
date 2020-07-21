@@ -38,7 +38,11 @@ export default class Login extends React.Component<LoginProps, LoginState> {
   componentDidMount() {
     console.log('http://127.0.0.1:8000/api/translate/' + store.get('clipboard') + '/cn')
     axios
-      .get('http://vue-aplayer-django.herokuapp.com/api/translate/' + store.get('clipboard') + '/cn')
+      .get(
+        'http://vue-aplayer-django.herokuapp.com/api/translate/' +
+          store.get('clipboard').replace('?', '') +
+          '/cn'
+      )
       .then((resData: any) => {
         this.setState({
           translated: resData.data,

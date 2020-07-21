@@ -9,6 +9,7 @@ type CarouselItem = {
   MD5?: string
   Year?: string
   Extension?: string
+  Language?: string
   // book_isnb: string
   // book_tsg:string
 }

@@ -37,6 +37,7 @@ export default class LibgenBook extends React.Component<CarouselItemProps, Carou
       bookYear: this.props.item.Year,
       md5: this.props.item.MD5,
       bookExtension: this.props.item.Extension,
+      bookLang: this.props.item.Language,
     }
     const s4books = {
       files: this.props.item.MD5,
@@ -63,6 +64,7 @@ export default class LibgenBook extends React.Component<CarouselItemProps, Carou
                   md5: carouselItem.md5,
                   status: 2,
                   extension: carouselItem.bookExtension,
+                  lang: carouselItem.bookLang,
                 },
                 {
                   files: [],
