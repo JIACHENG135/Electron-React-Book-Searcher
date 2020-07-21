@@ -52,18 +52,6 @@ Incoming
 - Amazon S3 static storage
 
 ## Screenshots
-For Windows
-### AboutPage
-![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20-%20About.jpg)
-### Search
-![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20-%20Search%20.jpg)
-### Book Detail
-![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20-%20Detail.jpg)
-### UserProfile
-![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20-%20UserProfile.jpg)
-### PreviewBook
-![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20Preview.jpg)
-
 For Mac
 ### AboutPage
 ![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/Mac%20-%20About.png)
@@ -79,6 +67,19 @@ For Mac
 ![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/Mac%20-%20Preview%20PDF.png)
 ### Translate any language to Chinese
 ![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/Mac%20-%20Translate.png)
+For Windows
+### AboutPage
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20-%20About.jpg)
+### Search
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20-%20Search%20.jpg)
+### Book Detail
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20-%20Detail.jpg)
+### UserProfile
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20-%20UserProfile.jpg)
+### PreviewBook
+![img](https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/demo-jpg/2020-06-01%20Preview.jpg)
+
+
 
 
 ## Install
