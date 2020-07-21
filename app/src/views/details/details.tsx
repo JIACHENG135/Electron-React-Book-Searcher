@@ -3,7 +3,7 @@ import * as React from 'react'
 import axios from 'axios'
 import { withStore } from '@/src/components'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem } from 'electron'
+import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem, Notification } from 'electron'
 import Store from 'electron-store'
 import { Layout, Button, Popover, Row, Col } from 'antd'
 import {
@@ -80,18 +80,23 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
     this.props.closeWindow()
   }
   image = (<img src={$tools.SIGN_UP} width="100%" alt="sign" />)
-  componentDidMount() {
-    console.log(this.state.s4books)
-  }
+  componentDidMount() {}
   handleDownload(url: string, filename: any) {
     const win: BrowserWindow = remote.getCurrentWindow()
     const savepath = `${$tools.AssetsPath('preview-file')}/${filename}`
+    const n = new remote.Notification({
+      icon: $tools.APP_ICON,
+      title: 'Download completed',
+      body: 'Download completed',
+      sound: 'Purr',
+    })
     win.webContents.downloadURL(url)
     win.webContents.session.on('will-download', (event: any, item: DownloadItem, webContents: any) => {
       item.setSavePath(savepath)
       console.log(savepath)
       item.once('done', (event: any, state: any) => {
         if (state === 'completed') {
+          n.show()
           console.log('Finished downloading')
         } else {
           console.log(`Download failed: ${state}`)
@@ -138,7 +143,6 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
     axios
       .get('http://127.0.0.1:8000/api/downloadlib/' + locator + '/' + md5 + '/' + filename)
       .then((res: any) => {
-        console.log('Urllllllllllll', res.data)
         loadingUrl = res.data
         store.set('loadingUrl', loadingUrl)
         // $tools.createWindow('Prepdf', {
@@ -214,8 +218,7 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
         }
       })
     }
-    console.log('Data')
-    console.log(this.state.data)
+
     if (hasEpub) {
       preview = (
         <span>
@@ -235,7 +238,10 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
       if (this.state.data.status == 2) {
         preview = (
           <span>
-            <a
+            <Button
+              type="primary"
+              danger
+              icon={<FilePdfOutlined></FilePdfOutlined>}
               href={`${$tools.AssetsPath(
                 'webpage/web/viewer.html'
               )}?file=https://vue-aplayer-django.herokuapp.com/api/downloadlib/${this.state.data.images.large
@@ -247,9 +253,7 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
                 this.state.data.extension}`}
               target="_blank"
               rel="noreferrer noopener"
-            >
-              <FilePdfOutlined></FilePdfOutlined>
-            </a>
+            ></Button>
           </span>
         )
       } else {
