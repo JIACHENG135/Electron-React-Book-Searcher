@@ -1,4 +1,4 @@
-import { app, Tray, BrowserWindow } from 'electron'
+import { app, Tray, BrowserWindow, globalShortcut, clipboard } from 'electron'
 
 import { creatAppTray } from './tray'
 
@@ -10,6 +10,7 @@ app.allowRendererProcessReuse = true
 
 app.on('ready', () => {
   tray = creatAppTray()
+  globalShortcut.register('Alt+Cmd+T', () => $tools.createWindow('Trans'))
   $tools.createWindow('SearchPage')
 })
 

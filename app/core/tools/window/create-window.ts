@@ -50,7 +50,7 @@ export function getWindowUrl(key: RouterKey, options: CreateWindowOptions = {}):
 export function createWindow(key: RouterKey, options: CreateWindowOptions = {}): Promise<BrowserWindow> {
   return new Promise(resolve => {
     const routeConfig: RouteConfig | AnyObj = routes.get(key) || {}
-
+    console.log(routeConfig)
     const windowOptions: BrowserWindowConstructorOptions = {
       ...$tools.DEFAULT_WINDOW_OPTIONS, // 默认新窗口选项
       ...routeConfig.windowOptions, // routes 中的配置的window选项

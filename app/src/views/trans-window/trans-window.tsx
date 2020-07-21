@@ -1,5 +1,7 @@
 import * as React from 'react'
 import axios from 'axios'
+import Store from 'electron-store'
+import './trans-window.less'
 // import { Button, Input, Spin, Card } from 'antd'
 
 // import './login.module.less'
@@ -34,19 +36,7 @@ export default class Login extends React.Component<LoginProps, LoginState> {
     super(props)
   }
 
-  async componentDidMount() {
-    const script1 = document.createElement('script')
-    script1.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/transparent.js'
-    const script2 = document.createElement('script')
-    script2.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/gat.gui.min.js'
-    document.body.appendChild(script2)
-    document.body.appendChild(script1)
-    this.setState({ loading: true })
-
-    await this.sleep(2000)
-    this.setState({ loading: false })
-    this.props.closeWindow()
-  }
+  componentDidMount() {}
 
   sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms))
@@ -57,8 +47,8 @@ export default class Login extends React.Component<LoginProps, LoginState> {
     // const { resData, loading, createWindowLoading, asyncDispatchLoading } = this.state
     // const { count: reduxCount, countAlias } = this.props
     return (
-      <div className="">
-        <canvas></canvas>
+      <div className="container-window">
+        <h1>A big test</h1>
       </div>
     )
   }
