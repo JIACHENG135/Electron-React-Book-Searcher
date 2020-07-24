@@ -3,14 +3,13 @@ const routes: RouteConfig[] = [
     key: 'Details',
     path: '/details',
     windowOptions: {
-      width: 610,
+      width: 1300,
       height: 380,
       frame: false,
       title: 'Details',
-      titleBarStyle: 'customButtonsOnHover',
+      // titleBarStyle: 'customButtonsOnHover',
       transparent: true,
       resizable: true,
-      maximizable: false,
     },
     createConfig: {
       showTitlebar: false,

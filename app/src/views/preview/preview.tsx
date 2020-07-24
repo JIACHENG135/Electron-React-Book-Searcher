@@ -37,19 +37,22 @@ export default class Preview extends React.Component<PreviewProps, PreviewState>
     // const { count: reduxCount, countAlias } = this.props
     return (
       <div style={{ position: 'relative', height: '100%' }}>
-        <ReactReader
-          // url={$tools.AssetsPath(`preview-file/${filename}`)}
-          url={epuburl}
-          title={bookanme}
-          location={location}
-          locationChanged={(epubcifi: any) => {
-            console.log(epubcifi)
-            this.setState({
-              location: epubcifi,
-            })
-            store.set(filename, epubcifi)
-          }}
-        />
+        <video
+          id="my-video"
+          className="video-js"
+          controls
+          preload="auto"
+          width="640"
+          height="264"
+          poster="MY_VIDEO_POSTER.jpg"
+          data-setup="{}"
+        >
+          <source src="http://zuidazy.xunleiziyuan.net/1801/反物质危机.BD1280高清中字版.mp4" type="video/mp4" />
+          <p className="vjs-no-js">
+            To view this video please enable JavaScript, and consider upgrading to a web browser that
+            <a href="https://videojs.com/html5-video-support/">supports HTML5 video</a>
+          </p>
+        </video>
       </div>
     )
   }

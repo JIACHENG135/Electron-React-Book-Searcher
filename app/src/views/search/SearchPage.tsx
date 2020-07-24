@@ -5,7 +5,6 @@ import Store from 'electron-store'
 import axios from 'axios'
 import { Layout, Input, Row, Col, Radio, Button } from 'antd'
 import BookRow from './components/book-row'
-import LibgenRow from './components/libgen-row'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import './search.less'
 import './canvas.less'
@@ -125,108 +124,36 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
         loading: true,
       })
 
-      if (this.state.value == 2) {
-        $api
-          // .SearchGet('book/' + value, { page: 1 }, { headers: { Authorization: `Token ${store.get('user')}` } })
-          .SearchGet('libgen/' + value, { page: 1 })
-
-          .then((resData: any) => {
-            console.log(resData)
-            this.setState({
-              resData,
-            })
-          })
-          .finally(() => {
-            this.setState({
-              loading: false,
-            })
-          })
-      } else {
-        $api
-          // .SearchGet('book/' + value, { page: 1 }, { headers: { Authorization: `Token ${store.get('user')}` } })
-          .SearchGet('book/' + value, { page: 1 })
-
-          .then((resData: any) => {
-            this.setState({
-              resData,
-            })
-          })
-          .finally(() => {
-            this.setState({
-              loading: false,
-            })
-          })
-      }
-    } catch (err) {
-      this.setState({
-        canv: true,
+      axios.get('https://libgen-user.herokuapp.com/?v=' + value + '&page=1&size=24').then((resData: any) => {
+        console.log(resData)
+        this.setState({
+          resData: resData.data,
+          loading: false,
+        })
       })
-      const script1 = document.createElement('script')
-      script1.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/black.js'
-      const script2 = document.createElement('script')
-      script2.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/gat.gui.min.js'
-      document.body.appendChild(script2)
-      document.body.appendChild(script1)
-    }
+    } catch (err) {}
   }
 
-  handleNextPre(preOrnext: number) {
-    this.setState({
-      resData: {
-        results: [],
-      },
-      loading: true,
-    })
-    let url
-    if (preOrnext == 0) {
-      url = this.state.resData.previous
-      this.setState({
-        currentPage: this.state.currentPage - 1,
-      })
-    } else {
-      url = this.state.resData.next
-      this.setState({
-        currentPage: this.state.currentPage + 1,
-      })
-    }
+  handleNextPre(url: string) {
     try {
-      axios(url)
-        .then((resData: any) => {
-          this.setState({
-            resData: resData.data,
-          })
-        })
-        .finally(() => {
-          this.setState({
-            loading: false,
-          })
-        })
-      // $api
-      //   .SearchGet(
-      //     'book/' + store.get('searchValue'),
-      //     { page: page },
-      //     { headers: { Authorization: `Token ${store.get('user')}` } }
-      //   )
-      //   .then((resData: any) => {
-      //     console.log(resData)
-      //     this.setState({
-      //       resData,
-      //     })
-      //   })
-    } catch (err) {
       this.setState({
-        canv: true,
+        resData: {
+          results: [],
+        },
+        loading: true,
       })
-      const script1 = document.createElement('script')
-      script1.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/black.js'
-      const script2 = document.createElement('script')
-      script2.src = 'https://ssjh.s3-ap-northeast-1.amazonaws.com/gat.gui.min.js'
-      document.body.appendChild(script2)
-      document.body.appendChild(script1)
+
+      axios.get(url).then((resData: any) => {
+        this.setState({
+          resData: resData.data,
+          loading: false,
+        })
+      })
+    } catch (err) {
+      console.log(err)
     }
   }
 
-  canva = (<canvas></canvas>)
   render() {
     const { resData } = this.state
     const results: Array<any> = resData.results
@@ -239,22 +166,17 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
 
     let nextButton
     let prevButton
-    let currentPage
+    // let currentPage
 
     if (results) {
       bookblock = new Array<any>()
       index = 0
       bookLen = results.length
       bookArray = new Array<any>()
-      currentPage = this.state.currentPage
+      // currentPage = this.state.currentPage
       for (const book of results) {
         if (bookArray.length % this.state.cols == 0) {
-          if (this.state.value == 1) {
-            console.log(book)
-            bookblock.push(<BookRow items={bookArray} grid={this.state.cols}></BookRow>)
-          } else {
-            bookblock.push(<LibgenRow items={bookArray} grid={this.state.cols}></LibgenRow>)
-          }
+          bookblock.push(<BookRow items={bookArray} grid={this.state.cols}></BookRow>)
 
           bookArray = new Array<any>()
         }
@@ -262,32 +184,28 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
         index += 1
       }
       if (bookArray.length > 0) {
-        if (this.state.value == 1) {
-          bookblock.push(<BookRow items={bookArray} grid={this.state.cols}></BookRow>)
-        } else {
-          bookblock.push(<LibgenRow items={bookArray} grid={this.state.cols}></LibgenRow>)
-        }
+        bookblock.push(<BookRow items={bookArray} grid={this.state.cols}></BookRow>)
       }
       bookArea = bookblock.map((item, index) => {
         return <div key={index}>{item}</div>
       })
     } else {
       bookArea = ''
-      currentPage = ' '
+      // currentPage = ' '
     }
-    if (this.state.resData.next) {
+    if (this.state.resData.prev) {
       nextButton = (
-        <Button onClick={this.handleNextPre.bind(this, 1)} type="primary" className="page-button">
-          next
+        <Button onClick={this.handleNextPre.bind(this, resData.prev)} type="primary" className="page-button">
+          上一页
         </Button>
       )
     } else {
       nextButton = ' '
     }
-    if (this.state.resData.previous) {
+    if (this.state.resData.next) {
       prevButton = (
-        <Button onClick={this.handleNextPre.bind(this, 0)} type="primary" className="page-button">
-          prev
+        <Button onClick={this.handleNextPre.bind(this, resData.next)} type="primary" className="page-button">
+          下一页
         </Button>
       )
     } else {
@@ -298,8 +216,6 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
         <PerfectScrollbar>
           <Header></Header>
           <Content className="saerch-wrap">
-            {this.state.canv ? this.canva : ''}
-
             <Row gutter={[0, 10]}>
               <Col span={1}></Col>
               <Col span={22}>
@@ -332,30 +248,10 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
                 onChange={(ev: any): void => this.setInputValue(ev.target.value)}
                 value={this.state.value}
               >
-                <Radio value={1}>搜中文</Radio>
-                <Radio value={2}>Search English</Radio>
+                <Radio value={1}>搜名字</Radio>
+                <Radio value={2}>搜类别</Radio>
               </Radio.Group>
             </div>
-            {/* <Row gutter={[0, 20]} style={{ paddingTop: '10px' }}>
-            <Col span={8}></Col>
-            <Col span={8}>
-              <Row>
-                <Col span={8}>
-                  <CountUp className="book-counter" start={0} end={2330367} duration={1.0} />
-                  <span>Books</span>
-                </Col>
-                <Col span={8}>
-                  <CountUp className="book-counter" start={0} end={533572} duration={1.0} />
-                  <span>Comics</span>
-                </Col>
-                <Col span={8}>
-                  <CountUp className="book-counter" start={0} end={2791901} duration={1.0} />
-                  <span>Articles</span>
-                </Col>
-              </Row>
-            </Col>
-            <Col span={8}></Col>
-          </Row> */}
 
             {bookArea}
             <div className="page-design">

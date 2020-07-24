@@ -43,10 +43,10 @@ export const AssetsPath = asAssetsPath
 export const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
   width: 1200,
   height: 600,
-  minHeight: 600,
-  minWidth: 1200,
+  // minHeight: 600,
+  // minWidth: 1200,
   resizable: true,
-  maximizable: true,
+  // maximizable: true,
   webPreferences: {
     nodeIntegration: true,
     scrollBounce: true,

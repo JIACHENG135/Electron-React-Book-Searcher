@@ -4,7 +4,7 @@ import Store from 'electron-store'
 import './trans-window.less'
 import { Row, Col, Layout } from 'antd'
 import ReactLoading from 'react-loading'
-import PerfectScrollbar from 'react-perfect-scrollbar'
+import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem, Notification } from 'electron'
 // import { Button, Input, Spin, Card } from 'antd'
 
 // import './login.module.less'
@@ -15,7 +15,24 @@ interface LoginProps extends PageProps, StoreProps {}
 declare interface LoginState {
   translated: string
   loading: boolean
+  winHeight: number
+  winWidth: number
 }
+
+declare global {
+  interface Window {
+    require: (
+      module: 'electron'
+    ) => {
+      ipcRenderer: IpcRenderer
+      shell: Shell
+      remote: Remote
+      downloadItem: DownloadItem
+    }
+  }
+}
+
+const { ipcRenderer, shell, remote, downloadItem } = window.require('electron')
 
 /**
  * DemoProps 是组件的 props 类型声明
@@ -23,11 +40,15 @@ declare interface LoginState {
  * props 和 state 的默认值需要单独声明
  */
 const store = new Store<any>()
+const win: BrowserWindow = remote.getCurrentWindow()
+const winSize = win.getSize()
 export default class Login extends React.Component<LoginProps, LoginState> {
   // state 初始化
   state: LoginState = {
     translated: '',
     loading: true,
+    winHeight: winSize[1],
+    winWidth: winSize[0],
   }
 
   // 构造函数
@@ -35,52 +56,63 @@ export default class Login extends React.Component<LoginProps, LoginState> {
     super(props)
   }
 
-  componentDidMount() {
-    console.log('http://127.0.0.1:8000/api/translate/' + store.get('clipboard') + '/cn')
-    axios
-      .get(
-        'http://vue-aplayer-django.herokuapp.com/api/translate/' +
-          store.get('clipboard').replace('?', '') +
-          '/cn'
-      )
-      .then((resData: any) => {
-        this.setState({
-          translated: resData.data,
-          loading: false,
-        })
-      })
-      .catch((err: any) => {
-        this.setState({
-          translated: '别带问号...',
-          loading: false,
-        })
-      })
-  }
-
   sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms))
   }
 
   canva = (<canvas></canvas>)
+  throttle(fn: Function, rateTime: number) {
+    let prev = Date.now() - rateTime
+    return (...args: any[]) => {
+      if (Date.now() - prev >= rateTime) {
+        fn.apply(this, args)
+        prev = Date.now()
+      }
+    }
+  }
+  componentDidMount() {
+    win.on('resize', this.throttle(this.onResize, 100).bind(this, win))
+  }
+  onResize(win: BrowserWindow) {
+    const bound = win.getSize()
+    this.setState({
+      winHeight: bound[1],
+      winWidth: bound[0],
+    })
+  }
   render() {
-    const { translated, loading } = this.state
+    const { translated, loading, winHeight, winWidth } = this.state
+    const url = store.get('play-url')
+
+    const bound = win.getSize()
+
     const loadingBar = (
       <div>
         <ReactLoading className="loading-bubble" type="spinningBubbles" color="black" height={30} width={30} />
       </div>
     )
+
     // const { count: reduxCount, countAlias } = this.props
     return (
-      <PerfectScrollbar className="container-window">
-        <Row align="middle" style={{ height: '100%' }}>
-          <Col className="trans-text-area" span={12}>
-            <h5>{store.get('clipboard')}</h5>
-          </Col>
-          <Col className="trans-text-area" span={12}>
-            <h4>{loading ? loadingBar : translated}</h4>
-          </Col>
-        </Row>
-      </PerfectScrollbar>
+      <div className="container-window">
+        <video
+          id="my-video"
+          className="video-js"
+          controls
+          preload="auto"
+          width={winWidth}
+          height={winHeight}
+          poster="MY_VIDEO_POSTER.jpg"
+          data-setup="{}"
+        >
+          <source src={url} type="video/mp4" />
+          <source src="MY_VIDEO.webm" type="video/webm" />
+          <p className="vjs-no-js">
+            To view this video please enable JavaScript, and consider upgrading to a web browser that
+            <a href="https://videojs.com/html5-video-support/">supports HTML5 video</a>
+          </p>
+        </video>
+      </div>
     )
   }
 } // class Demo end

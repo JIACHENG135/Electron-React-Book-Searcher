@@ -50,11 +50,12 @@ export function getWindowUrl(key: RouterKey, options: CreateWindowOptions = {}):
 export function createWindow(key: RouterKey, options: CreateWindowOptions = {}): Promise<BrowserWindow> {
   return new Promise(resolve => {
     const routeConfig: RouteConfig | AnyObj = routes.get(key) || {}
-    console.log(routeConfig)
+    $tools.log.debug('test resizable', routeConfig)
     const windowOptions: BrowserWindowConstructorOptions = {
       ...$tools.DEFAULT_WINDOW_OPTIONS, // 默认新窗口选项
-      ...routeConfig.windowOptions, // routes 中的配置的window选项
       ...options.windowOptions, // 调用方法时传入的选项
+      // 现在调换了23 的顺序
+      ...routeConfig.windowOptions, // routes 中的配置的window选项
     }
 
     const createConfig: CreateConfig = {
@@ -73,6 +74,8 @@ export function createWindow(key: RouterKey, options: CreateWindowOptions = {}):
     }
 
     const win = new BrowserWindow(windowOptions)
+
+    $tools.log.info(windowOptions)
 
     const url = getWindowUrl(key, options)
     windowList.set(key, win)

@@ -1,10 +1,11 @@
 .book-detail-container {
   height: 100%;
-  overflow-y: hidden;
+  overflow: hidden;
   padding-left: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
   background-color: white;
+
   .rate {
     height: 5%;
     padding-bottom: 3px;
@@ -22,6 +23,7 @@
     padding-left: 10px;
     text-indent: 2em;
     padding-right: 10px;
+    display: block;
   }
   .cata-tag {
     text-align: left;
@@ -55,8 +57,9 @@
     text-align: left;
   }
   .book-right-area {
-    max-height: 340px;
-    max-width: 340px !important;
+    max-height: 360px;
+    // max-width: 340px !important;
     background-color: white;
+    overflow-x: hidden;
   }
 }

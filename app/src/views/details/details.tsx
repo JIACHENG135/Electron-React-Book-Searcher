@@ -4,14 +4,17 @@ import axios from 'axios'
 import { withStore } from '@/src/components'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem, Notification } from 'electron'
+import PlayList from './components/play-list'
 import Store from 'electron-store'
 import { Layout, Button, Popover, Row, Col } from 'antd'
+import { v4 as uuidv4 } from 'uuid'
 import {
   DownloadOutlined,
   ApartmentOutlined,
   CloseOutlined,
   EyeOutlined,
   FilePdfOutlined,
+  PlayCircleOutlined,
 } from '@ant-design/icons'
 import './details.less'
 const { Content } = Layout
@@ -161,245 +164,141 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
       windowOptions: { title: 'Preview', transparent: false },
     })
     store.set('bookname', this.state.data.title)
-    // const prewin = win
-    // const savepath = `${$tools.AssetsPath('preview-file')}/${filename}`
-    // console.log(savepath)
-    // axios({
-    //   url: url, //your url
-    //   method: 'GET',
-    //   responseType: 'blob', // important
-    // })
-    //   .then((response: any) => {
-    //     const url = window.URL.createObjectURL(new Blob([response.data]))
-    //     const link = document.createElement('a')
-    //     link.href = url
-    //     link.setAttribute('download', filename) //or any other extension
-    //     document.body.appendChild(link)
-    //     link.click()
-    //   })
-    //   .finally(() => {
-    //     $tools.createWindow('Preview', {
-    //       windowOptions: { title: 'Preview', transparent: false },
-    //     })
-    //   })
-
-    // prewin.webContents.session.downloadURL(url)
-    // prewin.webContents.session.on('will-download', (event: any, item: DownloadItem, webContents: any) => {
-    //   event.preventDefault()
-    //   console.log(item.getFilename())
-    //   console.log(savepath)
-    //   item.savePath = savepath
-    //   item.once('done', (event: any, state: any) => {
-    //     if (state === 'completed') {
-    //       $tools.createWindow('Preview', {
-    //         windowOptions: { title: 'Preview', transparent: false },
-    //       })
-    //     } else {
-    //       console.log(`Download failed: ${state}`)
-    //     }
-    //   })
-    // })
   }
   render() {
-    // const { resData, loading, createWindowLoading, asyncDispatchLoading } = this.state
-    // const { count: reduxCount, countAlias } = this.props
     if (this.state.loading) {
       return <div>loading</div>
     }
-    let summarytext, summarytag
-    let authortext, authortag
-    let hasEpub, preview, filename, trans
 
-    if (this.state.s4books.files.length > 0) {
-      this.state.s4books.files.forEach((element: string) => {
-        if (element.includes('.epub')) {
-          hasEpub = true
-          filename = element
-        }
-      })
-    }
-
-    if (hasEpub) {
-      preview = (
-        <span>
-          <Button
-            onClick={this.handlePreview.bind(
-              this,
-              `${process.env.API_PROTOCOL}${process.env.API_HOST}${process.env.API_BASE_PATH}/download/${filename}`,
-              filename
-            )}
-            type="primary"
-            danger
-            icon={<EyeOutlined></EyeOutlined>}
-          />
-        </span>
+    let name
+    if (this.state.data.name?.length > 0) {
+      name = (
+        <div>
+          <p className="book-text cata-tag">名称: {this.state.data.name}</p>
+        </div>
       )
     } else {
-      if (this.state.data.status == 2) {
-        preview = (
-          <span title="Preview the PDF file">
-            <Button
-              type="primary"
-              danger
-              icon={<FilePdfOutlined></FilePdfOutlined>}
-              href={`${$tools.AssetsPath(
-                'webpage/web/viewer.html'
-              )}?file=https://vue-aplayer-django.herokuapp.com/api/downloadlib/${this.state.data.images.large
-                .replace('http://93.174.95.29/fictioncovers/', '')
-                .replace('.jpg', '') +
-                '/' +
-                this.state.data.title +
-                '.' +
-                this.state.data.extension}`}
-              target="_blank"
-              rel="noreferrer noopener"
-            ></Button>
-          </span>
-        )
-      } else {
-        preview = ''
-      }
+      name = ''
     }
 
-    if (this.state.data.summary === '') {
-      summarytext = ''
-      summarytag = ''
-    } else {
-      summarytag = <p className="cata-tag">Introduction: </p>
-      summarytext = this.state.data.summary.split('\n').map((value: string, index: number) => {
-        return (
-          <p className="cata-text" key={index}>
-            {value}
-          </p>
-        )
-      })
-    }
-    if (this.state.data.author_intro === '') {
-      authortext = ''
-      authortag = ''
-    } else {
-      authortag = <p className="cata-tag">Introduction of author: </p>
-      authortext = this.state.data.author_intro
-        .replace('作者简介：', '')
-        .split('\n')
-        .map((value: string, index: number) => {
-          return (
-            <p className="cata-text" key={index}>
-              {value}{' '}
-            </p>
-          )
-        })
-    }
-
-    let popover_content
-    if (this.state.data.status == 2) {
-      console.log('There is no files')
-      popover_content = (
-        <p>
-          <a
-            onClick={this.handleLibgenDownload.bind(
-              this,
-              this.state.data.md5,
-              this.state.data.title + '.' + this.state.data.extension
-            )}
-          >
-            {this.state.data.title + '.' + this.state.data.extension}
-          </a>
-        </p>
-      )
-    } else {
-      popover_content = this.state.s4books.files.map((value: string, index: number) => {
-        return (
-          <p key={index}>
-            <a
-              onClick={this.handleDownload.bind(
-                this,
-                `${process.env.API_PROTOCOL}${process.env.API_HOST}${process.env.API_BASE_PATH}/download/${value}`,
-                value
-              )}
-            >
-              {value.split('.')[1]}
-            </a>
-          </p>
-        )
-      })
-    }
-    if (this.state.data.translator.length > 0) {
-      trans = (
+    let rating
+    if (parseInt(this.state.data.rating) > 0) {
+      rating = (
         <p className="book-text cata-tag">
-          Translator:{' '}
-          {this.state.data.translator.map((value: string) => {
-            return value
-          })}
+          评分: {this.state.data.rating}{' '}
+          <span>
+            ({this.state.data.ratingfreq}
+            {'人评分'})
+          </span>
         </p>
       )
     } else {
-      trans = ''
+      rating = ''
     }
 
+    let update
+    if (this.state.data.update?.length > 0) {
+      update = (
+        <div>
+          <p className="book-text cata-tag">更新时间: {this.state.data.update}</p>
+        </div>
+      )
+    } else {
+      update = ''
+    }
+
+    let pres
+    if (this.state.data.update?.pres > 0) {
+      pres = (
+        <div>
+          <p className="book-text cata-tag">导演: {this.state.data.pres}</p>
+        </div>
+      )
+    } else {
+      pres = ''
+    }
+
+    let alia
+    if (this.state.data.alia?.length > 0) {
+      alia = (
+        <div>
+          <p className="book-text cata-tag">别名: {this.state.data.alia}</p>
+        </div>
+      )
+    } else {
+      alia = ''
+    }
+
+    let cate
+    if (this.state.data.cate?.length > 0) {
+      cate = (
+        <div>
+          <p className="book-text cata-tag">类型: {this.state.data.cate}</p>
+        </div>
+      )
+    } else {
+      cate = ''
+    }
+
+    let region
+    if (this.state.data.region?.length > 0) {
+      region = (
+        <div>
+          <p className="book-text cata-tag">地区: {this.state.data.region}</p>
+        </div>
+      )
+    } else {
+      region = ''
+    }
+
+    let lang
+    if (this.state.data.lang?.length > 0) {
+      lang = (
+        <div>
+          <p className="book-text cata-tag">类型: {this.state.data.lang}</p>
+        </div>
+      )
+    } else {
+      lang = ''
+    }
+
+    let leng
+    if (parseInt(this.state.data.leng) > 0) {
+      leng = (
+        <div>
+          <p className="book-text cata-tag">片长: {this.state.data.leng}</p>
+        </div>
+      )
+    } else {
+      leng = ''
+    }
+
+    const address = this.state.data.address
+    const play = <PlayList adds={address} cols={11}></PlayList>
     return (
       <Layout className="book-detail-container">
         <Layout>
           <Content>
             <Row>
               <Col flex="260px">
-                <img src={this.state.data.images.large} className="detail-image" alt="" />
+                <img src={this.state.data.cover} className="detail-image" alt="" />
               </Col>
-              <PerfectScrollbar>
-                <Col flex="auto" className="book-right-area">
+
+              <Col flex="auto" className="book-right-area">
+                <PerfectScrollbar>
                   <div className="book-right-container">
+                    {name}
+                    {rating}
+                    {update}
+                    {pres}
+                    {alia}
+                    {cate}
+                    {region}
+                    {lang}
+                    {leng}
+                    {play}
+
                     <div>
-                      <p className="book-text cata-tag">Bookname: {this.state.data.title}</p>
-                    </div>
-                    <div>
-                      <p className="book-text cata-tag">
-                        Douban rating: {this.state.data.rating.average / 2}{' '}
-                        <a href={this.state.data.alt}>
-                          ({this.state.data.rating.numRaters}
-                          {'人评分'})
-                        </a>
-                      </p>
-                      <p className="book-text cata-tag">Publishing Year: {this.state.data.pubdate}</p>
-                      <p className="book-text cata-tag">Publisher: {this.state.data.publisher}</p>
-                    </div>
-                    <div>
-                      <p className="book-text cata-tag">
-                        Author:{' '}
-                        {this.state.data.author.map((value: string) => {
-                          return value
-                        })}
-                      </p>
-                      {trans}
-                      {/* {this.state.data.results[0].book_author} */}
-                    </div>
-                    <div>
-                      <span className="book-icon" title="Download">
-                        <Popover
-                          placement="top"
-                          trigger="click"
-                          content={popover_content}
-                          // content={this.state.s4books.files.map((value: string, index: number) => {
-                          //   return (
-                          //     <p key={index}>
-                          //       <a
-                          //         onClick={this.handleDownload.bind(
-                          //           this,
-                          //           `${process.env.API_PROTOCOL}${process.env.API_HOST}${process.env.API_BASE_PATH}/download/${value}`,
-                          //           value
-                          //         )}
-                          //       >
-                          //         {value.split('.')[1]}
-                          //       </a>
-                          //     </p>
-                          //   )
-                          // })}
-                        >
-                          <Button type="primary" icon={<DownloadOutlined />} />
-                        </Popover>
-                      </span>
-                      <span className="book-icon" title="Subscribe">
-                        <Button type="primary" icon={<ApartmentOutlined />} />
-                      </span>
                       <span
                         className="book-icon"
                         title="Close the window"
@@ -407,19 +306,10 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
                       >
                         <Button type="primary" danger icon={<CloseOutlined />} />
                       </span>
-                      {preview}
-                    </div>
-                    <div>
-                      {summarytag}
-                      {summarytext}
-                    </div>
-                    <div>
-                      {authortag}
-                      {authortext}
                     </div>
                   </div>
-                </Col>
-              </PerfectScrollbar>
+                </PerfectScrollbar>
+              </Col>
             </Row>
           </Content>
         </Layout>
