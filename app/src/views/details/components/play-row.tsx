@@ -35,26 +35,27 @@ export default class PlayRow extends React.Component<PlayRowProps> {
     })
   }
   render() {
-    let fillCol
     const { cols, items, start } = this.props
     const colArea = items.map((add: string, ind: number) => {
       return (
         <Col key={uuidv4()} span={cols}>
           <span key={uuidv4()} onClick={this.play.bind(this, add)}>
-            <Button type="primary" icon={<PlayCircleOutlined></PlayCircleOutlined>}></Button>
-            <span style={{ paddingLeft: '5px' }}>第{start + ind + 1}集</span>
+            <Button key={uuidv4()} type="primary" icon={<PlayCircleOutlined></PlayCircleOutlined>}></Button>
+            <span key={uuidv4()} style={{ paddingLeft: '5px' }}>
+              第{start + ind + 1}集
+            </span>
           </span>
         </Col>
       )
     })
-    if (items.length % 2 != 0) {
-      fillCol = <Col key={uuidv4()} flex="auto"></Col>
-    } else {
-      fillCol = ''
-    }
+    // if (items.length % 2 != 0) {
+    //   fillCol = <Col key={uuidv4()} flex="auto"></Col>
+    // } else {
+    //   fillCol = ''
+    // }
     return (
-      <div className="play-row-container">
-        <Row>{colArea}</Row>
+      <div key={uuidv4()} className="play-row-container">
+        <Row key={uuidv4()}>{colArea}</Row>
       </div>
     )
   }

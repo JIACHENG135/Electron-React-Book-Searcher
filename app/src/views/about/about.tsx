@@ -1,5 +1,5 @@
 import React from 'react'
-import { shell, remote } from 'electron'
+import { shell } from 'electron'
 
 import './about.less'
 
@@ -15,7 +15,6 @@ export default class About extends React.Component<PageProps> {
     // document.body.appendChild(script1)
   }
 
-  componentDidMount() {}
   render() {
     return (
       <div className="about flex column center" style={{ height: '100%' }}>

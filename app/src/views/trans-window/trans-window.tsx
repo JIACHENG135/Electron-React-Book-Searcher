@@ -1,10 +1,10 @@
 import * as React from 'react'
-import axios from 'axios'
+
 import Store from 'electron-store'
 import './trans-window.less'
-import { Row, Col, Layout } from 'antd'
-import ReactLoading from 'react-loading'
-import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem, Notification } from 'electron'
+
+// import ReactLoading from 'react-loading'
+import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem } from 'electron'
 // import { Button, Input, Spin, Card } from 'antd'
 
 // import './login.module.less'
@@ -83,16 +83,16 @@ export default class Login extends React.Component<LoginProps, LoginState> {
     })
   }
   render() {
-    const { translated, loading, winHeight, winWidth, poster } = this.state
+    const { winHeight, winWidth, poster } = this.state
     const url = store.get('play-url')
 
-    const bound = win.getSize()
+    // const bound = win.getSize()
 
-    const loadingBar = (
-      <div>
-        <ReactLoading className="loading-bubble" type="spinningBubbles" color="black" height={30} width={30} />
-      </div>
-    )
+    // const loadingBar = (
+    //   <div>
+    //     <ReactLoading className="loading-bubble" type="spinningBubbles" color="black" height={30} width={30} />
+    //   </div>
+    // )
 
     // const { count: reduxCount, countAlias } = this.props
     return (

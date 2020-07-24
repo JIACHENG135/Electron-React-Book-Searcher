@@ -1,6 +1,5 @@
 import * as React from 'react'
 
-import { ReactReader } from 'react-reader'
 import Store from 'electron-store'
 interface PreviewProps extends PageProps, StoreProps {}
 
@@ -15,8 +14,7 @@ declare interface PreviewState {
  */
 const store = new Store<any>()
 const filename = store.get('filename')
-const bookanme = store.get('bookname')
-const epuburl = store.get('epuburl')
+
 export default class Preview extends React.Component<PreviewProps, PreviewState> {
   // state 初始化
   state: PreviewState = {
@@ -32,8 +30,6 @@ export default class Preview extends React.Component<PreviewProps, PreviewState>
     return new Promise(resolve => setTimeout(resolve, ms))
   }
   render() {
-    const { location } = this.state
-
     // const { count: reduxCount, countAlias } = this.props
     return (
       <div style={{ position: 'relative', height: '100%' }}>

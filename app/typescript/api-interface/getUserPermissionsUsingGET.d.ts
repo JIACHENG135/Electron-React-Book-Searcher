@@ -19,8 +19,8 @@ declare namespace UserRegisterInfo {
     email?: string
     password1?: string
     password2?: string
-    first_name?: string
-    last_name?: string
+    firstName?: string
+    lastName?: string
   }
 
   interface Response {

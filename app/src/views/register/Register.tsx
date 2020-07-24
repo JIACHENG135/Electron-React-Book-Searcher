@@ -38,7 +38,7 @@ export default class Register extends React.Component<RegisterProps, RegisterSta
     createWindowLoading: false,
     asyncDispatchLoading: false,
     value: 1,
-    userprofile: { first_name: 'Liu', last_name: 'Jiacheng' },
+    userprofile: { firstName: 'Liu', lastName: 'Jiacheng' },
   }
 
   // 构造函数
@@ -53,7 +53,6 @@ export default class Register extends React.Component<RegisterProps, RegisterSta
   sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms))
   }
-  componentDidMount() {}
   async onFinish(data: any) {
     Object.assign(this.state.userprofile, data)
     const script1 = document.createElement('script')
@@ -84,8 +83,6 @@ export default class Register extends React.Component<RegisterProps, RegisterSta
   }
   canva = (<canvas></canvas>)
   render() {
-    const { resData, loading, createWindowLoading, asyncDispatchLoading } = this.state
-    const { count: reduxCount, countAlias } = this.props
     return (
       <Layout className="demo-register-container">
         <Sider width="50%">

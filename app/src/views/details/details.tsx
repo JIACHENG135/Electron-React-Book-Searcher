@@ -3,19 +3,12 @@ import * as React from 'react'
 import axios from 'axios'
 import { withStore } from '@/src/components'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem, Notification } from 'electron'
+import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem } from 'electron'
 import PlayList from './components/play-list'
 import Store from 'electron-store'
-import { Layout, Button, Popover, Row, Col } from 'antd'
+import { Layout, Button, Row, Col } from 'antd'
 import { v4 as uuidv4 } from 'uuid'
-import {
-  DownloadOutlined,
-  ApartmentOutlined,
-  CloseOutlined,
-  EyeOutlined,
-  FilePdfOutlined,
-  PlayCircleOutlined,
-} from '@ant-design/icons'
+import { CloseOutlined } from '@ant-design/icons'
 import './details.less'
 const { Content } = Layout
 const store = new Store<any>()
@@ -83,7 +76,6 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
     this.props.closeWindow()
   }
   image = (<img src={$tools.SIGN_UP} width="100%" alt="sign" />)
-  componentDidMount() {}
   handleDownload(url: string, filename: any) {
     const win: BrowserWindow = remote.getCurrentWindow()
     const savepath = `${$tools.AssetsPath('preview-file')}/${filename}`
@@ -94,7 +86,7 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
       sound: 'Purr',
     })
     win.webContents.downloadURL(url)
-    win.webContents.session.on('will-download', (event: any, item: DownloadItem, webContents: any) => {
+    win.webContents.session.on('will-download', (event: any, item: DownloadItem) => {
       item.setSavePath(savepath)
       console.log(savepath)
       item.once('done', (event: any, state: any) => {
@@ -110,7 +102,7 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
 
   handleLibgenDownload(url: string, filename: any) {
     const win: BrowserWindow = remote.getCurrentWindow()
-    const act_url =
+    const actUrl =
       'http://93.174.95.29/fiction/' +
       this.state.data.images.large.replace('http://93.174.95.29/fictioncovers/', '').replace('.jpg', '') +
       '.' +
@@ -121,8 +113,8 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
       this.state.data.extension
 
     const savepath = `${$tools.AssetsPath('preview-file')}/${filename}`
-    win.webContents.downloadURL(act_url)
-    win.webContents.session.on('will-download', (event: any, item: DownloadItem, webContents: any) => {
+    win.webContents.downloadURL(actUrl)
+    win.webContents.session.on('will-download', (event: any, item: DownloadItem) => {
       item.setSavePath(savepath)
       console.log(savepath)
       item.once('done', (event: any, state: any) => {
@@ -286,7 +278,7 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
               </Col>
 
               <Col flex="auto" className="book-right-area">
-                <PerfectScrollbar>
+                <PerfectScrollbar key={uuidv4()}>
                   <div className="book-right-container">
                     {name}
                     {rating}

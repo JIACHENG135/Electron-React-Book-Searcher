@@ -4,7 +4,6 @@ import { config } from 'react-spring'
 import { v4 as uuidv4 } from 'uuid'
 // import { Button, Input, Spin, Card } from 'antd'
 import { withStore } from '@/src/components'
-import { Layout } from 'antd'
 import './demo.less'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 // import 'antd/dist/antd.css'
@@ -13,7 +12,6 @@ import 'react-multi-carousel/lib/styles.css'
 import 'react-perfect-scrollbar/dist/css/styles.css'
 import './demo.less'
 
-const { Content } = Layout
 interface DemoProps extends PageProps, StoreProps {
   count: StoreStates['count']
   countAlias: StoreStates['count']
@@ -54,7 +52,7 @@ export default class Demo extends React.Component<DemoProps, DemoState> {
   constructor(props: DemoProps) {
     super(props)
   }
-  componentDidMount() {}
+
   scrollSmoothHandlerScience = () => {
     this.scrollDivScience.current.scrollIntoView({ behavior: 'smooth' })
   }

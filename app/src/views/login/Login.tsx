@@ -53,7 +53,6 @@ export default class Login extends React.Component<LoginProps, LoginState> {
     method: 'POST',
     errorType: 'modal',
   }
-  componentDidMount() {}
   onFinish(data: any) {
     this.handleLogin(data)
   }

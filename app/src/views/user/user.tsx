@@ -1,12 +1,12 @@
 import * as React from 'react'
 
-import { ReactReader } from 'react-reader'
-import Store from 'electron-store'
-import { Avatar, Badge } from 'antd'
-import { Layout, Button, Popover, Row, Col, Rate } from 'antd'
-import { AimOutlined } from '@ant-design/icons'
+// import { ReactReader } from 'react-reader'
+// import Store from 'electron-store'
+// import { Avatar, Badge } from 'antd'
+import { Button, Row, Col } from 'antd'
+// import { AimOutlined } from '@ant-design/icons'
 import './user.less'
-const { Content } = Layout
+// const { Content } = Layout
 interface UserProps extends PageProps, StoreProps {}
 
 declare interface UserState {}
@@ -16,7 +16,7 @@ declare interface UserState {}
  * DemoState 是组件的 state 类型声明
  * props 和 state 的默认值需要单独声明
  */
-const store = new Store<any>()
+// const store = new Store<any>()
 
 export default class User extends React.Component<UserProps, UserState> {
   // state 初始化

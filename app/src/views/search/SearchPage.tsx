@@ -157,9 +157,9 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
   render() {
     const { resData } = this.state
     const results: Array<any> = resData.results
-    let bookLen
-    let rows
-    let index
+    // let bookLen
+    // let rows
+    // let index
     let bookArray
     let bookblock
     let bookArea
@@ -170,8 +170,8 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
 
     if (results) {
       bookblock = new Array<any>()
-      index = 0
-      bookLen = results.length
+      // index = 0
+      // bookLen = results.length
       bookArray = new Array<any>()
       // currentPage = this.state.currentPage
       for (const book of results) {
@@ -181,7 +181,7 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
           bookArray = new Array<any>()
         }
         bookArray.push(book)
-        index += 1
+        // index += 1
       }
       if (bookArray.length > 0) {
         bookblock.push(<BookRow items={bookArray} grid={this.state.cols}></BookRow>)
