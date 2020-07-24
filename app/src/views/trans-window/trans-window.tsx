@@ -17,6 +17,7 @@ declare interface LoginState {
   loading: boolean
   winHeight: number
   winWidth: number
+  poster: string
 }
 
 declare global {
@@ -49,6 +50,7 @@ export default class Login extends React.Component<LoginProps, LoginState> {
     loading: true,
     winHeight: winSize[1],
     winWidth: winSize[0],
+    poster: store.get('poster'),
   }
 
   // 构造函数
@@ -81,7 +83,7 @@ export default class Login extends React.Component<LoginProps, LoginState> {
     })
   }
   render() {
-    const { translated, loading, winHeight, winWidth } = this.state
+    const { translated, loading, winHeight, winWidth, poster } = this.state
     const url = store.get('play-url')
 
     const bound = win.getSize()
@@ -102,7 +104,7 @@ export default class Login extends React.Component<LoginProps, LoginState> {
           preload="auto"
           width={winWidth}
           height={winHeight}
-          poster="MY_VIDEO_POSTER.jpg"
+          poster={poster}
           data-setup="{}"
         >
           <source src={url} type="video/mp4" />

@@ -166,6 +166,7 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
     store.set('bookname', this.state.data.title)
   }
   render() {
+    store.set('poster', this.state.data.cover)
     if (this.state.loading) {
       return <div>loading</div>
     }
