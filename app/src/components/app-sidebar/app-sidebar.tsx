@@ -45,11 +45,11 @@ export class AppSidebar extends React.Component<{}, State> {
   renderMenuItem = ({ key, icon, title, href }: SideMenuItem) => {
     const { activeMenuKey } = this.state
     const isActive = activeMenuKey === key
-    // const iconProps: IconProps = { type: icon, className: 'fs-24' }
-    // if (activeMenuKey === key) {
-    //   iconProps.theme = 'filled'
-    //   iconProps.style = { color: '#fff' }
-    // }
+    const iconProps: any = { type: icon, className: 'fs-24' }
+    if (activeMenuKey === key) {
+      iconProps.theme = 'filled'
+      iconProps.style = { color: '#fff' }
+    }
     return (
       <Tooltip key={key} overlayClassName="side-menu-item-tooltip" placement="right" title={title}>
         <a

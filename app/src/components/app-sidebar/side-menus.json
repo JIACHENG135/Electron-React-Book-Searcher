@@ -5,6 +5,7 @@
     "title": "Search",
     "icon": "search"
   },
+
   {
     "key": "User",
     "href": "#/user",

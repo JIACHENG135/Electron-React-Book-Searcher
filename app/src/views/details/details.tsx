@@ -254,6 +254,7 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
               target="_blank"
               rel="noreferrer noopener"
             ></Button>
+            <a href="http://xunleia.zuida360.com/1803/星际旅行1：无限太空.BD1280高清中英双字版.mp4">视频测试</a>
           </span>
         )
       } else {
