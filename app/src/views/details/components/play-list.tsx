@@ -21,7 +21,7 @@ export default class PlayList extends React.Component<BookRowItemProps> {
     playcol = new Array<any>()
     let ct = 0
     adds.map((add: any, ind: number) => {
-      if ((ind + 1) % cols != 0) {
+      if ((ind + 1) % (cols + 1) != 0) {
         playcol.push(add)
       } else {
         if (playcol.length > 0) {

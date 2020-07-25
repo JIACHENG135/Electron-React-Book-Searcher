@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-import './trans-window.less'
-import VideoPlayer from './videoplayer'
+import './fless-trans.less'
+
 // import VideoPlayer from './player'
 import Store from 'electron-store'
 import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem } from 'electron'
@@ -36,32 +36,19 @@ if (win) {
   winSize = remote.getCurrentWindow().getSize()
 }
 
-interface LoginProps extends PageProps, StoreProps {
-  player: any
-}
+interface LoginProps extends PageProps, StoreProps {}
 
-declare interface LoginState {
-  translated: string
-  loading: boolean
-  winHeight: number
-  winWidth: number
-}
+declare interface LoginState {}
 
 /**
  * DemoProps 是组件的 props 类型声明
  * DemoState 是组件的 state 类型声明
  * props 和 state 的默认值需要单独声明
  */
-export default class TransWindow extends React.Component<LoginProps, LoginState> {
+export default class FramelessWindow extends React.Component<LoginProps, LoginState> {
   // state 初始化
-  private videoNode?: HTMLVideoElement
 
-  state: LoginState = {
-    translated: '',
-    loading: true,
-    winHeight: winSize[1],
-    winWidth: winSize[0],
-  }
+  state: LoginState = {}
 
   // 构造函数
   constructor(props: LoginProps) {
@@ -81,29 +68,11 @@ export default class TransWindow extends React.Component<LoginProps, LoginState>
     return new Promise(resolve => setTimeout(resolve, ms))
   }
 
-  canva = (<canvas></canvas>)
-
   render() {
-    const { winWidth, winHeight } = this.state
-    const videoJsOptions = {
-      autoPlay: true,
-      controls: true,
-      src: store.get('play-url'),
-      // sources: [
-      //   {
-      //     src: store.get('play-url'),
-      //     type: 'video/mp4',
-      //   },
-      // ],
-      poster: store.get('poster'),
-      width: winWidth,
-      height: winHeight,
-    }
-
     return (
       <div className="container-window">
-        <VideoPlayer {...videoJsOptions} />
+        <img src={`${$tools.AssetsPath('fluid-icon/Confetti-4s-2255px (1).svg')}`} className="svg-image" />
       </div>
     )
   }
-} // class Demo end
+}

@@ -130,6 +130,7 @@ import videojs, { VideoJsPlayer, VideoJsPlayerPluginOptions } from 'video.js'
 // import 'video.js/dist/video-js.css'
 import Store from 'electron-store'
 import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem } from 'electron'
+import './videoplayer.less'
 
 interface VideoPlayerPropsInferface {
   aspectRatio?: string
@@ -223,15 +224,24 @@ export default class VideoPlayer extends React.Component<VideoPlayerPropsInferfa
     // this.player.height = bound[0]
     // this.player.width = bound[1]
   }
+  sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms))
+  }
   componentDidMount() {
     const bound = win.getSize()
     let player
     const throttle = this.throttle
     const onresize = this.onResize
+    const sleep = this.sleep
     videojs('my-video', {}).ready(function() {
       //   console.log(this)
       player = this
       win.on('resize', throttle(onresize, 200).bind(this, win, player))
+      sleep(1000)
+      if (player.hasStarted()) {
+        $tools.windowList.get('Fless')?.close()
+      }
+
       //   const bound = win.getSize()
       //   this.dimensions(bound[0], bound[1])
     })

@@ -53,9 +53,10 @@ export function createWindow(key: RouterKey, options: CreateWindowOptions = {}):
     $tools.log.debug('test resizable', routeConfig)
     const windowOptions: BrowserWindowConstructorOptions = {
       ...$tools.DEFAULT_WINDOW_OPTIONS, // 默认新窗口选项
-      ...options.windowOptions, // 调用方法时传入的选项
+
       // 现在调换了23 的顺序
       ...routeConfig.windowOptions, // routes 中的配置的window选项
+      ...options.windowOptions, // 调用方法时传入的选项
     }
 
     const createConfig: CreateConfig = {

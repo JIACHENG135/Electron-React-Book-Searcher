@@ -211,11 +211,12 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
     } else {
       prevButton = ' '
     }
+    const bgimage = $tools.AssetsPath('fluid-icon/Confetti-4s-2255px (1).svg')
     return (
       <Layout className="demo-container">
         <PerfectScrollbar>
           <Header></Header>
-          <Content className="saerch-wrap">
+          <Content className="saerch-wrap" style={{ backgroundImage: bgimage }}>
             <Row gutter={[0, 10]}>
               <Col span={1}></Col>
               <Col span={22}>

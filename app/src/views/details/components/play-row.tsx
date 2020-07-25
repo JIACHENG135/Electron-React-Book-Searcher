@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 import './play-row.less'
 import Store from 'electron-store'
 import { PlayCircleOutlined } from '@ant-design/icons'
+import { BrowserWindow } from 'electron'
 const store = new Store<any>()
 interface PlayRowProps {
   cols: number
@@ -18,6 +19,11 @@ export default class PlayRow extends React.Component<PlayRowProps> {
   }
   play(add: string) {
     store.set('play-url', add)
+
+    $tools.createWindow('Fless').finally(() => {
+      const flessWin = $tools.windowList.get('Fless')
+      flessWin?.center()
+    })
     $tools.createWindow('Trans', {
       windowOptions: {
         title: 'Translating results',
@@ -38,10 +44,10 @@ export default class PlayRow extends React.Component<PlayRowProps> {
     const { cols, items, start } = this.props
     const colArea = items.map((add: string, ind: number) => {
       return (
-        <Col key={uuidv4()} span={cols}>
+        <Col key={uuidv4()} span={cols} className="playlist">
           <span key={uuidv4()} onClick={this.play.bind(this, add)}>
             <Button key={uuidv4()} type="primary" icon={<PlayCircleOutlined></PlayCircleOutlined>}></Button>
-            <span key={uuidv4()} style={{ paddingLeft: '5px' }}>
+            <span key={uuidv4()} className="ep-num" style={{ paddingLeft: '5px' }}>
               第{start + ind + 1}集
             </span>
           </span>

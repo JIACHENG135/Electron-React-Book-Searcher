@@ -267,7 +267,7 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
     }
 
     const address = this.state.data.address
-    const play = <PlayList adds={address} cols={11}></PlayList>
+    const play = <PlayList adds={address} cols={6}></PlayList>
     store.set('play-list', this.state.data.address)
     return (
       <Layout className="book-detail-container">
