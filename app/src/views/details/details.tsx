@@ -3,15 +3,14 @@ import * as React from 'react'
 import axios from 'axios'
 import { withStore } from '@/src/components'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem } from 'electron'
+import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem, IpcRendererEvent } from 'electron'
 import PlayList from './components/play-list'
 import Store from 'electron-store'
 import { Layout, Button, Row, Col } from 'antd'
 import { v4 as uuidv4 } from 'uuid'
 import { CloseOutlined } from '@ant-design/icons'
 import './details.less'
-import slow from './assets/slow.svg'
-import fast from './assets/fast.svg'
+
 const { Content } = Layout
 const store = new Store<any>()
 interface DetailsProps extends PageProps, StoreProps {
@@ -50,6 +49,7 @@ const { ipcRenderer, shell, remote, downloadItem } = window.require('electron')
 const data = store.get('detail')
 const s4books = store.get('s4books')
 let win: BrowserWindow
+
 @withStore(['count', { countAlias: 'count' }])
 export default class Details extends React.Component<DetailsProps, DetailsState> {
   // state 初始化
@@ -73,7 +73,21 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
   sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms))
   }
-
+  componentDidMount() {
+    console.log(ipcRenderer)
+    ipcRenderer.on('Slow Down', (event: IpcRendererEvent, arg: any) => {
+      this.setState({
+        loading: false,
+      })
+      console.log(arg)
+    })
+    ipcRenderer.on('Speed Up', (event: IpcRendererEvent, arg: any) => {
+      this.setState({
+        loading: true,
+      })
+      console.log(arg)
+    })
+  }
   handleClose() {
     this.props.closeWindow()
   }
@@ -163,9 +177,6 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
     store.set('poster', this.state.data.cover)
 
     const { loading } = this.state
-    if (this.state.loading) {
-      return <div>loading</div>
-    }
 
     let name
     if (this.state.data.name?.length > 0) {
@@ -273,9 +284,17 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
     const address = this.state.data.address
     const play = <PlayList adds={address} cols={6}></PlayList>
     store.set('play-list', this.state.data.address)
-    const bgimage = loading ? slow : fast
+    const theme = $tools.getTheme()
+    const bgimage = loading
+      ? '../../../../assets/themes/' + theme + '/Valley-3.3s-2255px.svg'
+      : '../../../../assets/themes/' + theme + '/Valley-3.3s-2255px.png'
     return (
-      <Layout className="book-detail-container" style={{ backgroundImage: 'url(' + bgimage + ')' }}>
+      <Layout
+        className="book-detail-container"
+        style={{
+          backgroundImage: 'url(' + bgimage + ')',
+        }}
+      >
         <Layout>
           <Content>
             <Row>

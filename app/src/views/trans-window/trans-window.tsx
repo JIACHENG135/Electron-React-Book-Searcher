@@ -86,7 +86,7 @@ export default class TransWindow extends React.Component<LoginProps, LoginState>
   render() {
     const { winWidth, winHeight } = this.state
     const videoJsOptions = {
-      autoPlay: true,
+      // autoPlay: true,
       controls: true,
       src: store.get('play-url'),
       // sources: [

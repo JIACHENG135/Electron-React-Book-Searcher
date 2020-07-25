@@ -4,10 +4,10 @@ const routes: RouteConfig[] = [
     path: '/fless',
     windowOptions: {
       title: 'frameless transparent window',
-      frame: false,
+      frame: true,
       height: 500,
       width: 500,
-      transparent: true,
+      transparent: false,
       titleBarStyle: 'customButtonsOnHover',
     },
     createConfig: {

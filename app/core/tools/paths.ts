@@ -1,6 +1,6 @@
 import path from 'path'
 import { app } from 'electron'
-
+import Store from 'electron-store'
 /** 当前应用程序所在目录 */
 export const APP_PATH: string = app.getAppPath()
 
@@ -34,4 +34,11 @@ export function asAssetsPath(pathStr: string) {
  */
 export function asAbsolutePath(pathStr: string) {
   return path.resolve(APP_PATH, pathStr)
+}
+const store = new Store<any>()
+export function getTheme() {
+  return store.get('MyTheme')
+}
+export function setTheme(n: number) {
+  store.set('MyTheme', n)
 }

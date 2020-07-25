@@ -20,10 +20,7 @@ export default class PlayRow extends React.Component<PlayRowProps> {
   play(add: string) {
     store.set('play-url', add)
 
-    $tools.createWindow('Fless').finally(() => {
-      const flessWin = $tools.windowList.get('Fless')
-      flessWin?.center()
-    })
+    $tools.windowList.get('Details')?.webContents.send('Speed Up', 'You can speed up bgimage now')
     $tools.createWindow('Trans', {
       windowOptions: {
         title: 'Translating results',

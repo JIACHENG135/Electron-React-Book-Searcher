@@ -1,4 +1,4 @@
-import { app, Tray, BrowserWindow, globalShortcut, clipboard, screen } from 'electron'
+import { app, Tray, BrowserWindow, globalShortcut, clipboard, screen, ipcMain } from 'electron'
 
 import { creatAppTray } from './tray'
 import Store from 'electron-store'
@@ -8,6 +8,10 @@ const store = new Store<any>()
 let tray: Tray
 let activeWin: BrowserWindow | boolean
 app.allowRendererProcessReuse = true
+
+ipcMain.on('Slow Down', (event: any, mes: any) => {
+  $tools.windowList.get('Details')?.webContents.send('CanSlowDown', mes)
+})
 
 app.on('ready', () => {
   tray = creatAppTray()

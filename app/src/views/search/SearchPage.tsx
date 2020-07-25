@@ -10,8 +10,13 @@ import './search.less'
 import './canvas.less'
 import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem } from 'electron'
 
-import slow from './assets/Fluid-10s-3000px.svg'
-import fast from './assets/Fluid-3.3s-3000px.svg'
+// const themePath = $tools.asAssetsPath('/themes/')
+
+// const fast = require($tools.asAssetsPath('/themes/1/Fluid-3.3s-3000px.svg'))
+
+const store = new Store<any>()
+// console.log(images)
+
 const { Header, Content } = Layout
 const { Search } = Input
 
@@ -45,7 +50,7 @@ declare interface SearchState {
   value: number
   canv: boolean
 }
-const store = new Store<any>()
+
 /**
  * SearchProps 是组件的 props 类型声明
  * SearchState 是组件的 state 类型声明
@@ -74,6 +79,7 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
 
   componentDidMount() {
     win.on('resize', this.throttle(this.onResize, 1000).bind(this, win))
+    $tools.setTheme(6)
   }
   setInputValue(e: any) {
     this.setState({
@@ -159,6 +165,7 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
   render() {
     const { resData, loading } = this.state
     const results: Array<any> = resData.results
+    const theme = store.get('MyTheme')
     // let bookLen
     // let rows
     // let index
@@ -213,10 +220,18 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
     } else {
       prevButton = ' '
     }
-    // let Background
-    const bimage = loading ? fast : slow
+    // let bgimage
+
+    const bimage = loading
+      ? '../../../../assets/themes/' + theme + '/Fluid-10s-3000px.svg'
+      : '../../../../assets/themes/' + theme + '/Fluid-10s-3000px.png'
     return (
-      <Layout className="demo-container" style={{ backgroundImage: 'url(' + bimage + ')' }}>
+      <Layout
+        className="demo-container"
+        style={{
+          backgroundImage: 'url(' + bimage + ')',
+        }}
+      >
         <PerfectScrollbar>
           <Header></Header>
           <Content className="saerch-wrap">
