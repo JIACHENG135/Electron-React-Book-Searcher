@@ -1,24 +1,16 @@
 import * as React from 'react'
 
-import Store from 'electron-store'
 import './trans-window.less'
-
-// import ReactLoading from 'react-loading'
+import VideoPlayer from './videoplayer'
+// import VideoPlayer from './player'
+import Store from 'electron-store'
 import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem } from 'electron'
+// import ReactLoading from 'react-loading'
+
 // import { Button, Input, Spin, Card } from 'antd'
 
 // import './login.module.less'
 // import './canvas.less'
-
-interface LoginProps extends PageProps, StoreProps {}
-
-declare interface LoginState {
-  translated: string
-  loading: boolean
-  winHeight: number
-  winWidth: number
-  poster: string
-}
 
 declare global {
   interface Window {
@@ -34,35 +26,47 @@ declare global {
 }
 
 const { ipcRenderer, shell, remote, downloadItem } = window.require('electron')
+const store = new Store<any>()
+const win: BrowserWindow = remote.getCurrentWindow()
+// const win: BrowserWindow | undefined = $tools.windowList.get('Trans')
+let winSize: Array<number>
+if (win) {
+  winSize = win.getSize()
+} else {
+  winSize = remote.getCurrentWindow().getSize()
+}
+
+interface LoginProps extends PageProps, StoreProps {
+  player: any
+}
+
+declare interface LoginState {
+  translated: string
+  loading: boolean
+  winHeight: number
+  winWidth: number
+}
 
 /**
  * DemoProps 是组件的 props 类型声明
  * DemoState 是组件的 state 类型声明
  * props 和 state 的默认值需要单独声明
  */
-const store = new Store<any>()
-const win: BrowserWindow = remote.getCurrentWindow()
-const winSize = win.getSize()
 export default class Login extends React.Component<LoginProps, LoginState> {
   // state 初始化
+  private videoNode?: HTMLVideoElement
+
   state: LoginState = {
     translated: '',
     loading: true,
     winHeight: winSize[1],
     winWidth: winSize[0],
-    poster: store.get('poster'),
   }
 
   // 构造函数
   constructor(props: LoginProps) {
     super(props)
   }
-
-  sleep(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms))
-  }
-
-  canva = (<canvas></canvas>)
   throttle(fn: Function, rateTime: number) {
     let prev = Date.now() - rateTime
     return (...args: any[]) => {
@@ -72,48 +76,33 @@ export default class Login extends React.Component<LoginProps, LoginState> {
       }
     }
   }
-  componentDidMount() {
-    win.on('resize', this.throttle(this.onResize, 100).bind(this, win))
+
+  sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms))
   }
-  onResize(win: BrowserWindow) {
-    const bound = win.getSize()
-    this.setState({
-      winHeight: bound[1],
-      winWidth: bound[0],
-    })
-  }
+
+  canva = (<canvas></canvas>)
+
   render() {
-    const { winHeight, winWidth, poster } = this.state
-    const url = store.get('play-url')
+    const { winWidth, winHeight } = this.state
+    const videoJsOptions = {
+      autoPlay: true,
+      controls: true,
+      src: store.get('play-url'),
+      // sources: [
+      //   {
+      //     src: store.get('play-url'),
+      //     type: 'video/mp4',
+      //   },
+      // ],
+      poster: store.get('poster'),
+      width: winWidth,
+      height: winHeight,
+    }
 
-    // const bound = win.getSize()
-
-    // const loadingBar = (
-    //   <div>
-    //     <ReactLoading className="loading-bubble" type="spinningBubbles" color="black" height={30} width={30} />
-    //   </div>
-    // )
-
-    // const { count: reduxCount, countAlias } = this.props
     return (
       <div className="container-window">
-        <video
-          id="my-video"
-          className="video-js"
-          controls
-          preload="auto"
-          width={winWidth}
-          height={winHeight}
-          poster={poster}
-          data-setup="{}"
-        >
-          <source src={url} type="video/mp4" />
-          <source src="MY_VIDEO.webm" type="video/webm" />
-          <p className="vjs-no-js">
-            To view this video please enable JavaScript, and consider upgrading to a web browser that
-            <a href="https://videojs.com/html5-video-support/">supports HTML5 video</a>
-          </p>
-        </video>
+        <VideoPlayer {...videoJsOptions} />
       </div>
     )
   }

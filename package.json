@@ -1,7 +1,7 @@
 {
-  "name": "LibGen",
+  "name": "JCPlayer",
   "appId": "org.electron.electron-antd",
-  "version": "1.1.0",
+  "version": "1.0.0",
   "buildVersion": "0004",
   "private": false,
   "main": "dist/main/main.js",
@@ -94,11 +94,13 @@
   "homepage": "https://github.com/Jiacheng/electron-antd#readme",
   "dependencies": {
     "@types/react-transition-group": "^4.2.4",
+    "@types/video.js": "^7.3.10",
     "element-theme-default": "^1.4.13",
     "react-countup": "^4.3.3",
     "react-hot-loader": "^4.12.20",
     "react-multi-carousel": "^2.5.5",
     "react-spring": "^8.0.27",
-    "react-spring-3d-carousel": "^1.2.0"
+    "react-spring-3d-carousel": "^1.2.0",
+    "video.js": "^7.8.4"
   }
 }
