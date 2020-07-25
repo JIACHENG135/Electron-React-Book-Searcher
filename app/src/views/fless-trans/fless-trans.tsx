@@ -69,10 +69,6 @@ export default class FramelessWindow extends React.Component<LoginProps, LoginSt
   }
 
   render() {
-    return (
-      <div className="container-window">
-        <img src={`${$tools.AssetsPath('fluid-icon/Confetti-4s-2255px (1).svg')}`} className="svg-image" />
-      </div>
-    )
+    return <div className="container-window"></div>
   }
 }

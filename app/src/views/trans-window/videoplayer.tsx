@@ -237,10 +237,9 @@ export default class VideoPlayer extends React.Component<VideoPlayerPropsInferfa
       //   console.log(this)
       player = this
       win.on('resize', throttle(onresize, 200).bind(this, win, player))
-      sleep(1000)
-      if (player.hasStarted()) {
-        $tools.windowList.get('Fless')?.close()
-      }
+      sleep(10000)
+
+      $tools.windowList.get('Fless')?.close()
 
       //   const bound = win.getSize()
       //   this.dimensions(bound[0], bound[1])

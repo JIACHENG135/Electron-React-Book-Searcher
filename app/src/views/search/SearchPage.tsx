@@ -155,7 +155,7 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
   }
 
   render() {
-    const { resData } = this.state
+    const { resData, loading } = this.state
     const results: Array<any> = resData.results
     // let bookLen
     // let rows
@@ -211,12 +211,15 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
     } else {
       prevButton = ' '
     }
-    const bgimage = $tools.AssetsPath('fluid-icon/Confetti-4s-2255px (1).svg')
+    // let Background
+    const bimage = loading
+      ? 'https://ssjh.s3-ap-northeast-1.amazonaws.com/fluid-icon/Fluid-3.3s-3000px.svg'
+      : 'https://ssjh.s3-ap-northeast-1.amazonaws.com/fluid-icon/Fluid-10s-3000px.svg'
     return (
-      <Layout className="demo-container">
+      <Layout className="demo-container" style={{ backgroundImage: 'url(' + bimage + ')' }}>
         <PerfectScrollbar>
           <Header></Header>
-          <Content className="saerch-wrap" style={{ backgroundImage: bgimage }}>
+          <Content className="saerch-wrap">
             <Row gutter={[0, 10]}>
               <Col span={1}></Col>
               <Col span={22}>
