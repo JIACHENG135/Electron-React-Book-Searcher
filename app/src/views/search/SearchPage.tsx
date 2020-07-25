@@ -10,6 +10,8 @@ import './search.less'
 import './canvas.less'
 import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem } from 'electron'
 
+import slow from './assets/Fluid-10s-3000px.svg'
+import fast from './assets/Fluid-3.3s-3000px.svg'
 const { Header, Content } = Layout
 const { Search } = Input
 
@@ -212,9 +214,7 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
       prevButton = ' '
     }
     // let Background
-    const bimage = loading
-      ? 'https://ssjh.s3-ap-northeast-1.amazonaws.com/fluid-icon/Fluid-3.3s-3000px.svg'
-      : 'https://ssjh.s3-ap-northeast-1.amazonaws.com/fluid-icon/Fluid-10s-3000px.svg'
+    const bimage = loading ? fast : slow
     return (
       <Layout className="demo-container" style={{ backgroundImage: 'url(' + bimage + ')' }}>
         <PerfectScrollbar>

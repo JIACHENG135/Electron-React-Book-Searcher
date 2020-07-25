@@ -10,6 +10,8 @@ import { Layout, Button, Row, Col } from 'antd'
 import { v4 as uuidv4 } from 'uuid'
 import { CloseOutlined } from '@ant-design/icons'
 import './details.less'
+import slow from './assets/slow.svg'
+import fast from './assets/fast.svg'
 const { Content } = Layout
 const store = new Store<any>()
 interface DetailsProps extends PageProps, StoreProps {
@@ -159,6 +161,8 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
   }
   render() {
     store.set('poster', this.state.data.cover)
+
+    const { loading } = this.state
     if (this.state.loading) {
       return <div>loading</div>
     }
@@ -269,8 +273,9 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
     const address = this.state.data.address
     const play = <PlayList adds={address} cols={6}></PlayList>
     store.set('play-list', this.state.data.address)
+    const bgimage = loading ? slow : fast
     return (
-      <Layout className="book-detail-container">
+      <Layout className="book-detail-container" style={{ backgroundImage: 'url(' + bgimage + ')' }}>
         <Layout>
           <Content>
             <Row>
