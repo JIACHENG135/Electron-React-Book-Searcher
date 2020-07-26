@@ -2,6 +2,8 @@ import { app, Tray, BrowserWindow, globalShortcut, clipboard, screen, ipcMain } 
 
 import { creatAppTray } from './tray'
 import Store from 'electron-store'
+import less from 'less'
+
 $tools.log.info(`Application <${$tools.APP_NAME}> launched.`)
 const store = new Store<any>()
 

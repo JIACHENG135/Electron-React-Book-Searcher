@@ -3,7 +3,7 @@ const routes: RouteConfig[] = [
     key: 'Demo',
     path: '/demo',
     windowOptions: {
-      frame: true,
+      frame: process.platform == 'darwin' ? true : false,
 
       titleBarStyle: 'default',
     },

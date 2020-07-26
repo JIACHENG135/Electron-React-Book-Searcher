@@ -223,26 +223,17 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
       prevButton = ' '
     }
     // let bgimage
-
-    // const bimage = loading
-    // ? '../../../../assets/themes/' + theme + '/Fluid-10s-3000px.svg'
-    // : '../../../../assets/themes/' + theme + '/Fluid-10s-3000px.png'
     const bimage = loading ? '/Fluid-10s-3000px.svg' : '/Fluid-10s-3000px.png'
-    // const bimage = loading
-    //   ? 'https://ssjh.s3-ap-northeast-1.amazonaws.com/' + theme + '/Fluid-10s-3000px.svg'
-    //   : 'https://ssjh.s3-ap-northeast-1.amazonaws.com/' + theme + '/Fluid-10s-3000px.png'
     return (
       <Layout
         className="demo-container"
         style={{
-          // backgroundImage: 'url(' + bimage + ')',
           backgroundImage: 'url(' + $tools.asAssetsPath('themes/' + theme + bimage) + ')',
-          // backgroundImage: 'url(' + bimage + ')',
         }}
       >
         <PerfectScrollbar>
           <Header></Header>
-          <Content className="saerch-wrap">
+          <Content>
             <Row gutter={[0, 10]}>
               <Col span={1}></Col>
               <Col span={22}>

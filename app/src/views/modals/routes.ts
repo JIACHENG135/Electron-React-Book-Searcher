@@ -9,7 +9,7 @@ const routes: RouteConfig[] = [
       resizable: false,
       vibrancy: 'titlebar',
       transparent: true,
-      frame: true,
+      frame: process.platform == 'darwin' ? true : false,
     },
     createConfig: {
       showTitlebar: false,
