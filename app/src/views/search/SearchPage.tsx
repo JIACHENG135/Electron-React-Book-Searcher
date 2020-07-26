@@ -79,7 +79,7 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
 
   componentDidMount() {
     win.on('resize', this.throttle(this.onResize, 1000).bind(this, win))
-    $tools.setTheme(6)
+    $tools.setTheme(1)
   }
   setInputValue(e: any) {
     this.setState({
