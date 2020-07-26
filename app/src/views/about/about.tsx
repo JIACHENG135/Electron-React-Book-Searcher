@@ -23,9 +23,9 @@ export default class About extends React.Component<PageProps> {
     if (key) {
       win.webContents.removeInsertedCSS(key)
     }
-
+    const assets = $tools.ASSETS_PATH
     win.webContents.insertCSS(
-      `.app-content{background-image: url('${$tools.ASSETS_PATH}/themes/${theme}/Fluid-10s-3000px.svg')}`
+      `.app-content{background-image: url('${assets}/themes/${theme}/Fluid-10s-3000px.svg')}`
     )
   }
   render() {
