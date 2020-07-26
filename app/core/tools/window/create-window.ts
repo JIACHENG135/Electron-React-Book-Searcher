@@ -1,8 +1,9 @@
 import path from 'path'
-import { BrowserWindow, BrowserWindowConstructorOptions } from 'electron'
+import { BrowserWindow, BrowserWindowConstructorOptions, IpcRendererEvent, IpcMainEvent } from 'electron'
 import { log } from '../log'
 import routes from '@/src/auto-routes'
-
+import { store } from '@/core/store'
+import Store from 'electron-store'
 const { NODE_ENV, port, host } = process.env
 
 /** 创建新窗口相关选项 */
@@ -47,6 +48,8 @@ export function getWindowUrl(key: RouterKey, options: CreateWindowOptions = {}):
  * @param key
  * @param options
  */
+
+const mystore = new Store<any>()
 export function createWindow(key: RouterKey, options: CreateWindowOptions = {}): Promise<BrowserWindow> {
   return new Promise(resolve => {
     const routeConfig: RouteConfig | AnyObj = routes.get(key) || {}
@@ -112,7 +115,51 @@ export function createWindow(key: RouterKey, options: CreateWindowOptions = {}):
 
     win.once('show', () => {
       windowList.set(key, win)
-      log.info('test resizable', windowList)
+      // const { ipcMain } = require('electron')
+      // ipcMain.on('Apply for Speeding up', (event: IpcMainEvent, msg: string) => {
+      //   event.reply('Speed Up')
+      // })
+      // ipcMain.on('Apply for Slowing Down', (event: IpcMainEvent, msg: string) => {
+      //   event.reply('Slow Down')
+      // })
+
+      // switch (mystore.get('MyTheme')) {
+      //   case 1: {
+      //     win.webContents.insertCSS(
+      //       `.app-layout{ background-image : 'assets/themes/${1}/Fluid-10s-3000px.png'}`
+      //     )
+      //     break
+      //   }
+      //   case 2: {
+      //     win.webContents.insertCSS(
+      //       `.app-layout{ background-image : 'assets/themes/${1}/Fluid-10s-3000px.png'}`
+      //     )
+      //     break
+      //   }
+      //   case 3: {
+      //     win.webContents.insertCSS(
+      //       `.app-layout{ background-image : 'assets/themes/${1}/Fluid-10s-3000px.png'}`
+      //     )
+      //     break
+      //   }
+      //   case 4: {
+      //     win.webContents.insertCSS(
+      //       `.app-layout{ background-image : 'assets/themes/${1}/Fluid-10s-3000px.png'}`
+      //     )
+      //     break
+      //   }
+      //   case 5: {
+      //     win.webContents.insertCSS(
+      //       `.app-layout{ background-image : 'assets/themes/${1}/Fluid-10s-3000px.png'}`
+      //     )
+      //     break
+      //   }
+      //   default: {
+      //     win.webContents.insertCSS(
+      //       `.app-layout{ background-image : 'assets/themes/${6}/Fluid-10s-3000px.png'}`
+      //     )
+      //   }
+      // }
       log.info(`Window <${key}:${win.id}> url: ${url} is opened.`)
     })
 

@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 import './play-row.less'
 import Store from 'electron-store'
 import { PlayCircleOutlined } from '@ant-design/icons'
-import { BrowserWindow } from 'electron'
+import { BrowserWindow, ipcRenderer } from 'electron'
 const store = new Store<any>()
 interface PlayRowProps {
   cols: number
@@ -21,21 +21,25 @@ export default class PlayRow extends React.Component<PlayRowProps> {
     store.set('play-url', add)
 
     $tools.windowList.get('Details')?.webContents.send('Speed Up', 'You can speed up bgimage now')
-    $tools.createWindow('Trans', {
-      windowOptions: {
-        title: 'Translating results',
-        transparent: true,
-        minWidth: 200,
-        minHeight: 200,
-        width: 1500,
-        height: 843.75,
-        // titleBarStyle: 'customButtonsOnHover',
-        vibrancy: 'light',
-        resizable: true,
-        frame: false,
-        // maximizable: true,
-      },
-    })
+    $tools
+      .createWindow('Trans', {
+        windowOptions: {
+          title: 'Translating results',
+          transparent: true,
+          minWidth: 200,
+          minHeight: 200,
+          width: 1500,
+          height: 843.75,
+          // titleBarStyle: 'customButtonsOnHover',
+          vibrancy: 'light',
+          resizable: true,
+          frame: false,
+          // maximizable: true,
+        },
+      })
+      .finally(() => {
+        ipcRenderer.send('Apply Slow Down')
+      })
   }
   render() {
     const { cols, items, start } = this.props

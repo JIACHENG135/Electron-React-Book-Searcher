@@ -11,8 +11,8 @@ let tray: Tray
 let activeWin: BrowserWindow | boolean
 app.allowRendererProcessReuse = true
 
-ipcMain.on('Slow Down', (event: any, mes: any) => {
-  $tools.windowList.get('Details')?.webContents.send('CanSlowDown', mes)
+ipcMain.on('Apply Slow Down', (event: any, mes: any) => {
+  $tools.windowList.get('Details')?.webContents.send('Slow Down', mes)
 })
 
 app.on('ready', () => {

@@ -45,7 +45,7 @@ declare interface SearchState {
  * SearchState 是组件的 state 类型声明
  * props 和 state 的默认值需要单独声明
  */
-
+const theme = store.get('MyTheme')
 @withStore(['count', { countAlias: 'count' }])
 export default class SearchPage extends React.Component<SearchProps, SearchState> {
   // state 初始化
@@ -65,20 +65,22 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
     super(props)
   }
   // canva = document.createElement('CANVAS')
-
+  componentWillUnmount() {}
   componentDidMount() {
     // win.on('resize', this.throttle(this.onResize, 1000).bind(this, win))
     // $tools.setTheme(6)
-
+    win.webContents.insertCSS(
+      `.app-content{background-image: url('assets/themes/${theme}/Fluid-10s-3000px.png')}`
+    )
     ipcRenderer.on('Search Page Speed Up', (event: IpcRendererEvent, msg: any) => {
-      this.setState({
-        loading: true,
-      })
+      this.setState(msg => ({
+        createWindowLoading: true,
+      }))
     })
     ipcRenderer.on('Search Page Slow Down', (event: IpcRendererEvent, msg: any) => {
-      this.setState({
-        loading: false,
-      })
+      this.setState(msg => ({
+        createWindowLoading: false,
+      }))
     })
   }
   setInputValue(e: any) {
@@ -165,9 +167,9 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
   }
 
   render() {
-    const { resData, loading } = this.state
+    const { resData, loading, createWindowLoading } = this.state
     const results: Array<any> = resData.results
-    const theme = store.get('MyTheme')
+
     // let bookLen
     // let rows
     // let index
@@ -223,12 +225,12 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
       prevButton = ' '
     }
     // let bgimage
-    const bimage = loading ? '/Fluid-10s-3000px.svg' : '/Fluid-10s-3000px.png'
+    const bimage = createWindowLoading || loading ? '/Fluid-10s-3000px.svg' : '/Fluid-10s-3000px.png'
     return (
       <Layout
         className="demo-container"
         style={{
-          backgroundImage: 'url(' + $tools.asAssetsPath('themes/' + theme + bimage) + ')',
+          backgroundImage: 'url(assets/themes/' + theme + bimage + ')',
         }}
       >
         <PerfectScrollbar>
@@ -253,7 +255,7 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
               <Col span={12}>
                 <Search
                   placeholder="Search something!"
-                  loading={this.state.loading}
+                  loading={loading}
                   enterButton
                   allowClear
                   onSearch={(value: any) => this.handlesearch(value)}

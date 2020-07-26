@@ -3,7 +3,7 @@ import './item.less'
 import { Rate } from 'antd'
 import Store from 'electron-store'
 // import { Timeline, Tween } from 'react-gsap'
-import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem, IpcRendererEvent } from 'electron'
+import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem, IpcRendererEvent, IpcMain } from 'electron'
 
 interface CarouselItemProps {
   item: CarouselItem
@@ -16,6 +16,7 @@ declare global {
     require: (
       module: 'electron'
     ) => {
+      ipcMain: IpcMain
       ipcRenderer: IpcRenderer
       shell: Shell
       remote: Remote

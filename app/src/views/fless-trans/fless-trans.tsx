@@ -4,7 +4,7 @@ import './fless-trans.less'
 
 // import VideoPlayer from './player'
 import Store from 'electron-store'
-import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem } from 'electron'
+import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem, IpcMain } from 'electron'
 // import ReactLoading from 'react-loading'
 
 // import { Button, Input, Spin, Card } from 'antd'
@@ -17,6 +17,7 @@ declare global {
     require: (
       module: 'electron'
     ) => {
+      ipcMain: IpcMain
       ipcRenderer: IpcRenderer
       shell: Shell
       remote: Remote

@@ -129,7 +129,7 @@ import videojs, { VideoJsPlayer, VideoJsPlayerPluginOptions } from 'video.js'
 // Styles
 // import 'video.js/dist/video-js.css'
 import Store from 'electron-store'
-import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem } from 'electron'
+import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem, IpcMain } from 'electron'
 import './videoplayer.less'
 
 interface VideoPlayerPropsInferface {
@@ -168,6 +168,7 @@ declare global {
     require: (
       module: 'electron'
     ) => {
+      ipcMain: IpcMain
       ipcRenderer: IpcRenderer
       shell: Shell
       remote: Remote
@@ -238,8 +239,8 @@ export default class VideoPlayer extends React.Component<VideoPlayerPropsInferfa
       player = this
       win.on('resize', throttle(onresize, 200).bind(this, win, player))
       this.play()
-      const detailWin: BrowserWindow | undefined = $tools.windowList.get('Details')
-      detailWin?.webContents.send('Slow Down', 'You can slow down the bgimage now')
+      // const detailWin: BrowserWindow | undefined = $tools.windowList.get('Details')
+      // detailWin?.webContents.send('Slow Down', 'You can slow down the bgimage now')
     })
   }
 

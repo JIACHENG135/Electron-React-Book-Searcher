@@ -3,7 +3,7 @@ import * as React from 'react'
 import axios from 'axios'
 import { withStore } from '@/src/components'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem, IpcRendererEvent } from 'electron'
+import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem, IpcRendererEvent, IpcMain } from 'electron'
 import PlayList from './components/play-list'
 import Store from 'electron-store'
 import { Layout, Button, Row, Col } from 'antd'
@@ -31,6 +31,7 @@ declare global {
     require: (
       module: 'electron'
     ) => {
+      ipcMain: IpcMain
       ipcRenderer: IpcRenderer
       shell: Shell
       remote: Remote
@@ -49,6 +50,8 @@ const { ipcRenderer, shell, remote, downloadItem } = window.require('electron')
 const data = store.get('detail')
 const s4books = store.get('s4books')
 let win: BrowserWindow
+win = remote.getCurrentWindow()
+const theme = store.get('MyTheme')
 
 @withStore(['count', { countAlias: 'count' }])
 export default class Details extends React.Component<DetailsProps, DetailsState> {
@@ -74,17 +77,19 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
     return new Promise(resolve => setTimeout(resolve, ms))
   }
   componentDidMount() {
-    console.log(ipcRenderer)
+    win.webContents.insertCSS(
+      `.book-detail-container{background-image: url('assets/themes/${theme}/Valley-3.3s-2250px.png')}`
+    )
     ipcRenderer.on('Slow Down', (event: IpcRendererEvent, arg: any) => {
-      this.setState({
+      this.setState(msg => ({
         loading: false,
-      })
+      }))
       console.log(arg)
     })
     ipcRenderer.on('Speed Up', (event: IpcRendererEvent, arg: any) => {
-      this.setState({
+      this.setState(msg => ({
         loading: true,
-      })
+      }))
       console.log(arg)
     })
   }
@@ -284,13 +289,12 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
     const address = this.state.data.address
     const play = <PlayList adds={address} cols={6}></PlayList>
     store.set('play-list', this.state.data.address)
-    const theme = $tools.getTheme()
     const bgimage = loading ? '/Valley-3.3s-2255px.svg' : '/Valley-3.3s-2255px.png'
     return (
       <Layout
         className="book-detail-container"
         style={{
-          backgroundImage: 'url(' + $tools.asAssetsPath('themes//' + theme + '/' + bgimage + ')'),
+          backgroundImage: 'url(' + 'assets/themes/' + theme + bgimage + ')',
         }}
       >
         <Layout>
