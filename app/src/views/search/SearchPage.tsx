@@ -68,7 +68,7 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
 
   componentDidMount() {
     // win.on('resize', this.throttle(this.onResize, 1000).bind(this, win))
-    $tools.setTheme(3)
+    // $tools.setTheme(6)
 
     ipcRenderer.on('Search Page Speed Up', (event: IpcRendererEvent, msg: any) => {
       this.setState({

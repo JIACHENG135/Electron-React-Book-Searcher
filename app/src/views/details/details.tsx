@@ -285,14 +285,12 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
     const play = <PlayList adds={address} cols={6}></PlayList>
     store.set('play-list', this.state.data.address)
     const theme = $tools.getTheme()
-    const bgimage = loading
-      ? '../../../../assets/themes/' + theme + '/Valley-3.3s-2255px.svg'
-      : '../../../../assets/themes/' + theme + '/Valley-3.3s-2255px.png'
+    const bgimage = loading ? '/Valley-3.3s-2255px.svg' : '/Valley-3.3s-2255px.png'
     return (
       <Layout
         className="book-detail-container"
         style={{
-          backgroundImage: 'url(' + bgimage + ')',
+          backgroundImage: 'url(' + $tools.asAssetsPath('themes//' + theme + '/' + bgimage + ')'),
         }}
       >
         <Layout>

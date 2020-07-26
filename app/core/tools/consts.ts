@@ -48,6 +48,7 @@ export const DEFAULT_WINDOW_OPTIONS: BrowserWindowConstructorOptions = {
   resizable: true,
   // maximizable: true,
   webPreferences: {
+    webSecurity: false,
     nodeIntegration: true,
     scrollBounce: true,
   },

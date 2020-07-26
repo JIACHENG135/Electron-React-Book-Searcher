@@ -16,27 +16,36 @@ ipcMain.on('Slow Down', (event: any, mes: any) => {
 app.on('ready', () => {
   tray = creatAppTray()
 
-  globalShortcut.register('CommandOrControl+C+T', () => {
-    store.set('clipboard', clipboard.readText())
-    activeWin = $tools.activeWindow('Trans')
-    if (activeWin) {
-      activeWin.reload()
-    } else {
-      $tools.createWindow('Trans', {
-        windowOptions: {
-          title: 'Translating results',
-          transparent: true,
-          minWidth: 200,
-          minHeight: 200,
-          width: 500,
-          height: 200,
-          titleBarStyle: 'customButtonsOnHover',
-          vibrancy: 'light',
-          resizable: false,
-        },
-      })
-    }
+  globalShortcut.register('CommandOrControl+C+1', () => {
+    $tools.setTheme(1)
+    $tools.windowList.get('SearchPage')?.webContents.reload()
   })
+
+  globalShortcut.register('CommandOrControl+C+2', () => {
+    $tools.setTheme(2)
+    $tools.windowList.get('SearchPage')?.webContents.reload()
+  })
+
+  globalShortcut.register('CommandOrControl+C+3', () => {
+    $tools.setTheme(3)
+    $tools.windowList.get('SearchPage')?.webContents.reload()
+  })
+
+  globalShortcut.register('CommandOrControl+C+4', () => {
+    $tools.setTheme(4)
+    $tools.windowList.get('SearchPage')?.webContents.reload()
+  })
+
+  globalShortcut.register('CommandOrControl+C+5', () => {
+    $tools.setTheme(5)
+    $tools.windowList.get('SearchPage')?.webContents.reload()
+  })
+
+  globalShortcut.register('CommandOrControl+C+6', () => {
+    $tools.setTheme(6)
+    $tools.windowList.get('SearchPage')?.webContents.reload()
+  })
+
   $tools.createWindow('SearchPage')
 })
 
