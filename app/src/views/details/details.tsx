@@ -78,9 +78,13 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
   }
   componentDidMount() {
     const assets = $tools.ASSETS_PATH
-    win.webContents.insertCSS(
-      '.app-content{background-image: url(' + assets + '/themes/' + theme + 'Valley-3.3s-2250px.png'
-    )
+    const bgStyle =
+      process.platform == 'darwin'
+        ? '.app-content{background-image: url(' + assets + '/themes/' + theme + '/Valley-3.3s-2255px.png)}'
+        : '.app-content{background-image: url(https://ssjh.s3-ap-northeast-1.amazonaws.com/themes/' +
+          theme +
+          '/Valley-3.3s-3000px.png)}'
+    win.webContents.insertCSS(bgStyle)
     ipcRenderer.on('Slow Down', (event: IpcRendererEvent, arg: any) => {
       this.setState(msg => ({
         loading: false,
@@ -290,12 +294,18 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
     const address = this.state.data.address
     const play = <PlayList adds={address} cols={6}></PlayList>
     store.set('play-list', this.state.data.address)
-    const bgimage = loading ? '/Valley-3.3s-2255px.svg' : '/Valley-3.3s-2255px.png'
+    const domain =
+      process.platform == 'darwin'
+        ? $tools.ASSETS_PATH + '/themes/'
+        : 'https://ssjh.s3-ap-northeast-1.amazonaws.com/themes/'
+    const bimage = loading
+      ? domain + theme + '/Valley-3.3s-2255px.svg'
+      : domain + theme + '/Valley-3.3s-2255px.png'
     return (
       <Layout
         className="book-detail-container"
         style={{
-          backgroundImage: 'url(' + $tools.ASSETS_PATH + '/themes/' + theme + bgimage + ')',
+          backgroundImage: 'url(' + bimage + ')',
         }}
       >
         <Layout>

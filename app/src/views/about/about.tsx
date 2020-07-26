@@ -21,12 +21,17 @@ export default class About extends React.Component<PageProps> {
     const key = store.get('globalBg')
     const theme = store.get('MyTheme')
     if (key) {
+      console.log(typeof key)
       win.webContents.removeInsertedCSS(key)
     }
     const assets = $tools.ASSETS_PATH
-    win.webContents.insertCSS(
-      '.app-content{background-image: url(' + assets + '/themes/' + theme + '/Fluid-10s-3000px.svg'
-    )
+    const bgStyle =
+      process.platform == 'darwin'
+        ? '.app-content{background-image: url(' + assets + '/themes/' + theme + '/Fluid-10s-3000px.svg)}'
+        : '.app-content{background-image: url(https://ssjh.s3-ap-northeast-1.amazonaws.com/themes/' +
+          theme +
+          '/Fluid-10s-3000px.svg)}'
+    win.webContents.insertCSS(bgStyle)
   }
   render() {
     return (

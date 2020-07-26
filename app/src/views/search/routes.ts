@@ -7,7 +7,7 @@ const routes: RouteConfig[] = [
     },
     windowOptions: {
       resizable: true,
-      vibrancy: 'light',
+      vibrancy: process.platform == 'darwin' ? 'light' : 'sidebar',
     },
   },
   {
