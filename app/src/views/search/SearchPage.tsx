@@ -7,8 +7,8 @@ import { Layout, Input, Row, Col, Radio, Button } from 'antd'
 import BookRow from './components/book-row'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import './search.less'
-import './canvas.less'
-import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem } from 'electron'
+// import './canvas.less'
+import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem, IpcRendererEvent } from 'electron'
 
 // const themePath = $tools.asAssetsPath('/themes/')
 
@@ -24,18 +24,7 @@ interface SearchProps extends PageProps, StoreProps {
   count: StoreStates['count']
   countAlias: StoreStates['count']
 }
-declare global {
-  interface Window {
-    require: (
-      module: 'electron'
-    ) => {
-      ipcRenderer: IpcRenderer
-      shell: Shell
-      remote: Remote
-      downloadItem: DownloadItem
-    }
-  }
-}
+
 const { ipcRenderer, shell, remote, downloadItem } = window.require('electron')
 
 const win: BrowserWindow = remote.getCurrentWindow()
@@ -78,8 +67,19 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
   // canva = document.createElement('CANVAS')
 
   componentDidMount() {
-    win.on('resize', this.throttle(this.onResize, 1000).bind(this, win))
-    $tools.setTheme(1)
+    // win.on('resize', this.throttle(this.onResize, 1000).bind(this, win))
+    $tools.setTheme(3)
+
+    ipcRenderer.on('Search Page Speed Up', (event: IpcRendererEvent, msg: any) => {
+      this.setState({
+        loading: true,
+      })
+    })
+    ipcRenderer.on('Search Page Slow Down', (event: IpcRendererEvent, msg: any) => {
+      this.setState({
+        loading: false,
+      })
+    })
   }
   setInputValue(e: any) {
     this.setState({
@@ -103,22 +103,24 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
 
   onResize(win: BrowserWindow) {
     const bound = win.getBounds()
-    if (bound.width < 800) {
-      this.setState({
-        cols: 2,
-      })
-    } else if (bound.width < 1200) {
-      this.setState({
-        cols: 4,
-      })
-    } else if (bound.width < 1600) {
-      this.setState({
-        cols: 6,
-      })
-    } else {
-      this.setState({
-        cols: 8,
-      })
+    if (this.state.createWindowLoading) {
+      if (bound.width < 800 && this.state.cols != 2) {
+        this.setState({
+          cols: 2,
+        })
+      } else if (bound.width < 1200 && this.state.cols != 4) {
+        this.setState({
+          cols: 4,
+        })
+      } else if (bound.width < 1600 && this.state.cols != 6) {
+        this.setState({
+          cols: 6,
+        })
+      } else if (this.state.cols < 8) {
+        this.setState({
+          cols: 8,
+        })
+      }
     }
   }
   handlesearch(value: any) {
@@ -222,14 +224,20 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
     }
     // let bgimage
 
-    const bimage = loading
-      ? '../../../../assets/themes/' + theme + '/Fluid-10s-3000px.svg'
-      : '../../../../assets/themes/' + theme + '/Fluid-10s-3000px.png'
+    // const bimage = loading
+    // ? '../../../../assets/themes/' + theme + '/Fluid-10s-3000px.svg'
+    // : '../../../../assets/themes/' + theme + '/Fluid-10s-3000px.png'
+    const bimage = loading ? '/Fluid-10s-3000px.svg' : '/Fluid-10s-3000px.png'
+    // const bimage = loading
+    //   ? 'https://ssjh.s3-ap-northeast-1.amazonaws.com/' + theme + '/Fluid-10s-3000px.svg'
+    //   : 'https://ssjh.s3-ap-northeast-1.amazonaws.com/' + theme + '/Fluid-10s-3000px.png'
     return (
       <Layout
         className="demo-container"
         style={{
-          backgroundImage: 'url(' + bimage + ')',
+          // backgroundImage: 'url(' + bimage + ')',
+          backgroundImage: 'url(' + $tools.asAssetsPath('themes/' + theme + bimage) + ')',
+          // backgroundImage: 'url(' + bimage + ')',
         }}
       >
         <PerfectScrollbar>

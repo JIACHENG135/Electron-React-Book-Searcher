@@ -2,7 +2,8 @@ import React from 'react'
 import './item.less'
 import { Rate } from 'antd'
 import Store from 'electron-store'
-import { Timeline, Tween } from 'react-gsap'
+// import { Timeline, Tween } from 'react-gsap'
+import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem, IpcRendererEvent } from 'electron'
 
 interface CarouselItemProps {
   item: CarouselItem
@@ -10,6 +11,21 @@ interface CarouselItemProps {
 interface CarouselItemState {
   resData: Array<any> | any
 }
+declare global {
+  interface Window {
+    require: (
+      module: 'electron'
+    ) => {
+      ipcRenderer: IpcRenderer
+      shell: Shell
+      remote: Remote
+      downloadItem: DownloadItem
+      // browserWindow: BrowserWindow
+    }
+  }
+}
+const { ipcRenderer, shell, remote, downloadItem } = window.require('electron')
+
 const store = new Store<any>()
 export default class Item extends React.Component<CarouselItemProps, CarouselItemState> {
   constructor(props: CarouselItemProps) {
@@ -22,9 +38,17 @@ export default class Item extends React.Component<CarouselItemProps, CarouselIte
     // console.log(data)
     // store.set('pkvalue', pk)
     store.set('detail', data)
-    $tools.createWindow('Details', {
-      windowOptions: { title: 'Details', transparent: false },
-    })
+    // console.log(browserWindow)
+    const searchWin: BrowserWindow | undefined = $tools.windowList.get('SearchPage')
+    console.log(searchWin)
+    searchWin?.webContents.send('Search Page Speed Up')
+    $tools
+      .createWindow('Details', {
+        windowOptions: { title: 'Details', transparent: false },
+      })
+      .then(() => {
+        $tools.windowList.get('SearchPage')?.webContents.send('Search Page Slow Down')
+      })
   }
   render() {
     const carouselItem = {
@@ -56,18 +80,19 @@ export default class Item extends React.Component<CarouselItemProps, CarouselIte
 
     return (
       <div>
-        <Timeline
+        <div className="item-layer" onClick={this.handleDetail.bind(this, carouselItem)}>
+          <img src={carouselItem.cover} alt="" className="item-image" />
+          <p className="item-text">{carouselItem.name}</p>
+          <span className="rating-text">评分: </span>
+          <Rate disabled defaultValue={parseInt(carouselItem.rating)} className="rate" />
+        </div>
+        {/* <Timeline
           target={
-            <div className="item-layer" onClick={this.handleDetail.bind(this, carouselItem)}>
-              <img src={carouselItem.cover} alt="" className="item-image" />
-              <p className="item-text">{carouselItem.name}</p>
-              <span className="rating-text">评分: </span>
-              <Rate disabled defaultValue={parseInt(carouselItem.rating)} className="rate" />
-            </div>
+
           }
         >
           <Tween from={{ opacity: 0, x: '-100px' }} to={{ opacity: 1, x: '0' }} duration={0.8} />
-        </Timeline>
+        </Timeline> */}
       </div>
     )
   }

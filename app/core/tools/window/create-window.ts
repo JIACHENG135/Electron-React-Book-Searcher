@@ -50,7 +50,7 @@ export function getWindowUrl(key: RouterKey, options: CreateWindowOptions = {}):
 export function createWindow(key: RouterKey, options: CreateWindowOptions = {}): Promise<BrowserWindow> {
   return new Promise(resolve => {
     const routeConfig: RouteConfig | AnyObj = routes.get(key) || {}
-    $tools.log.debug('test resizable', routeConfig)
+
     const windowOptions: BrowserWindowConstructorOptions = {
       ...$tools.DEFAULT_WINDOW_OPTIONS, // 默认新窗口选项
 
@@ -66,20 +66,20 @@ export function createWindow(key: RouterKey, options: CreateWindowOptions = {}):
     }
 
     let activeWin: BrowserWindow | boolean
-    if (createConfig.single) {
-      activeWin = activeWindow(key)
-      if (activeWin) {
-        resolve(activeWin)
-        return activeWin
-      }
-    }
+    // if (createConfig.single) {
+    //   activeWin = activeWindow(key)
+    //   if (activeWin) {
+    //     resolve(activeWin)
+    //     return activeWin
+    //   }
+    // }
 
     const win = new BrowserWindow(windowOptions)
 
     $tools.log.info(windowOptions)
 
     const url = getWindowUrl(key, options)
-    windowList.set(key, win)
+
     win.loadURL(url)
 
     if (createConfig.saveWindowBounds) {
@@ -111,6 +111,8 @@ export function createWindow(key: RouterKey, options: CreateWindowOptions = {}):
     })
 
     win.once('show', () => {
+      windowList.set(key, win)
+      log.info('test resizable', windowList)
       log.info(`Window <${key}:${win.id}> url: ${url} is opened.`)
     })
 

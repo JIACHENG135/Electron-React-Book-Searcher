@@ -7,6 +7,7 @@ const routes: RouteConfig[] = [
     },
     windowOptions: {
       resizable: true,
+      vibrancy: 'light',
     },
   },
   {

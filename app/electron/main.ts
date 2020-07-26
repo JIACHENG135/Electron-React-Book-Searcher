@@ -37,12 +37,12 @@ app.on('ready', () => {
       })
     }
   })
-  $tools.createWindow('About')
+  $tools.createWindow('SearchPage')
 })
 
 app.on('activate', () => {
   if (process.platform == 'darwin') {
-    $tools.createWindow('About')
+    // $tools.createWindow('About')
   }
 })
 
