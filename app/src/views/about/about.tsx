@@ -20,10 +20,12 @@ export default class About extends React.Component<PageProps> {
     const win = remote.getCurrentWindow()
     const key = store.get('globalBg')
     const theme = store.get('MyTheme')
-    win.webContents.removeInsertedCSS(key)
+    if (key) {
+      win.webContents.removeInsertedCSS(key)
+    }
 
     win.webContents.insertCSS(
-      `.app-content{background-image: url('assets/themes/${theme}/Fluid-10s-3000px.svg')}`
+      `.app-content{background-image: url('${$tools.ASSETS_PATH}/themes/${theme}/Fluid-10s-3000px.svg')}`
     )
   }
   render() {

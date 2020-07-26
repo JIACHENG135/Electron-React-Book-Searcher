@@ -78,7 +78,7 @@ export default class Details extends React.Component<DetailsProps, DetailsState>
   }
   componentDidMount() {
     win.webContents.insertCSS(
-      `.book-detail-container{background-image: url('assets/themes/${theme}/Valley-3.3s-2250px.png')}`
+      `.app-content{background-image: url('${$tools.ASSETS_PATH}/themes/${theme}/Valley-3.3s-2250px.png')}`
     )
     ipcRenderer.on('Slow Down', (event: IpcRendererEvent, arg: any) => {
       this.setState(msg => ({
