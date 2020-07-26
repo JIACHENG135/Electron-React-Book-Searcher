@@ -6,6 +6,7 @@ import axios from 'axios'
 import { Layout, Input, Row, Col, Radio, Button } from 'antd'
 import BookRow from './components/book-row'
 import PerfectScrollbar from 'react-perfect-scrollbar'
+import path from 'path'
 import './search.less'
 // import './canvas.less'
 import { IpcRenderer, Shell, BrowserWindow, Remote, DownloadItem, IpcRendererEvent } from 'electron'
@@ -71,7 +72,7 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
     // $tools.setTheme(6)
     const assets = $tools.ASSETS_PATH
     const key = win.webContents.insertCSS(
-      `.app-content{background-image: url('${assets}/themes/${theme}/Fluid-10s-3000px.png')}`
+      '.app-content{background-image: url(' + assets + '/themes/' + theme + '/Fluid-10s-3000px.png'
     )
     store.set('globalBg', key)
     ipcRenderer.on('Search Page Speed Up', (event: IpcRendererEvent, msg: any) => {
@@ -232,7 +233,7 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
       <Layout
         className="demo-container"
         style={{
-          backgroundImage: 'url(assets/themes/' + theme + bimage + ')',
+          backgroundImage: 'url(' + $tools.ASSETS_PATH + '/themes/' + theme + bimage + ')',
         }}
       >
         <PerfectScrollbar>
