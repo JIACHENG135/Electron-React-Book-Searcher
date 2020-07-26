@@ -69,9 +69,10 @@ export default class SearchPage extends React.Component<SearchProps, SearchState
   componentDidMount() {
     // win.on('resize', this.throttle(this.onResize, 1000).bind(this, win))
     // $tools.setTheme(6)
-    win.webContents.insertCSS(
+    const key = win.webContents.insertCSS(
       `.app-content{background-image: url('assets/themes/${theme}/Fluid-10s-3000px.png')}`
     )
+    store.set('globalBg', key)
     ipcRenderer.on('Search Page Speed Up', (event: IpcRendererEvent, msg: any) => {
       this.setState(msg => ({
         createWindowLoading: true,

@@ -1,6 +1,6 @@
 import React from 'react'
 import { shell } from 'electron'
-
+import Store from 'electron-store'
 import './about.less'
 
 export default class About extends React.Component<PageProps> {
@@ -14,7 +14,18 @@ export default class About extends React.Component<PageProps> {
     // document.body.appendChild(script2)
     // document.body.appendChild(script1)
   }
+  componentDidMount() {
+    const store = new Store<any>()
+    const { remote } = window.require('electron')
+    const win = remote.getCurrentWindow()
+    const key = store.get('globalBg')
+    const theme = store.get('MyTheme')
+    win.webContents.removeInsertedCSS(key)
 
+    win.webContents.insertCSS(
+      `.app-content{background-image: url('assets/themes/${theme}/Fluid-10s-3000px.svg')}`
+    )
+  }
   render() {
     return (
       <div className="about flex column center" style={{ height: '100%' }}>
