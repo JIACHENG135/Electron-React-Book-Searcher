@@ -18,7 +18,7 @@ Finished:
 - Get ratings from www.douban.com
 - Download books
 - Translating any languages to Chinese with one click
-- Access to the translateing tookit anywhere even if you are using browser
+- Access to the translateing toolkit anywhere even if you are using browser
 - Preview PDF
 - Preview EPUB
 
@@ -26,8 +26,6 @@ Incoming
 - User social system
 - User can collect books
 - Push to kindle(Developing stage)
-- Reading tools which support mouse hover translate
-- Download quota for non-registered user
 
 ## Stacks
 ### Frontend
