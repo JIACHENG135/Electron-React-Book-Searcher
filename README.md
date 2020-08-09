@@ -1,7 +1,7 @@
 # LibGen
-
+<span><a href="https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/README.zh-cn.md">中文</a></span>
 <div align="center">
-  <span><a href="https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/README.zh-cn.md">中文</a></span>
+  
   <img width='80px;' height="80px;" src='https://github.com/JIACHENG135/Electron-React-Book-Searcher/blob/master/assets/app-icon/app-icon%40128.png'>
   
 </div>
