@@ -17,7 +17,10 @@ Finished:
 - Search books
 - Get ratings from www.douban.com
 - Download books
-- User register and login
+- Translating any languages to Chinese with one click
+- Access to the translateing tookit anywhere even if you are using browser
+- Preview PDF
+- Preview EPUB
 
 Incoming
 - User social system
