@@ -7,9 +7,9 @@ const routes: RouteConfig[] = [
       height: 380,
       frame: false,
       title: 'Details',
-      titleBarStyle: 'customButtonsOnHover',
-      transparent: true,
-      resizable: true,
+      // titleBarStyle: 'customButtonsOnHover',
+      transparent: process.platform == 'darwin' ? true : false,
+      resizable: false,
       maximizable: false,
     },
     createConfig: {

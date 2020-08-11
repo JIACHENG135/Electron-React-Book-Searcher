@@ -5,7 +5,7 @@ const routes: RouteConfig[] = [
     windowOptions: {
       title: 'About',
       resizable: true,
-      vibrancy: 'light',
+      vibrancy: process.platform == 'darwin' ? 'light' : undefined,
     },
     createConfig: {
       showTitlebar: false,
