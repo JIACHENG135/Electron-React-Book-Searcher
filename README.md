@@ -27,7 +27,7 @@ Incoming
 - User can collect books
 - Push to kindle(Developing stage)
 
-## Stacks
+## Technologies
 ### Frontend
 - webpack
 - electron
